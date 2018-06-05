@@ -1,0 +1,16 @@
+{
+  "classifica":[
+    { "nome" : "Zulio",
+      "punti" : "12",
+      "vincente"  : "Italia"
+    },
+    { "nome" : "Bussu",
+      "punti" : "11",
+      "vincente"  : "Italia"
+    },
+    { "nome" : "Prof",
+      "punti" : "10",
+      "vincente"  : "Italia"
+    }
+  ]
+}

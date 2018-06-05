@@ -1,0 +1,17 @@
+{
+  "partita" : {....},
+  "pronostici" : [
+    {
+      "nome": "bussu",
+      "risultato" : "1-0"
+    },
+    {
+      "nome": "pintori",
+      "risultato" : "1-1"
+    },
+    {
+      "nome": "prof",
+      "risultato" : "3-0"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "pronostici" : [
+    {
+      "nome": "bussu",
+      "link" : "http://URLDRIVE",
+      "vincente" : "Italia"
+    },
+    {
+      "nome": "pintori",
+      "link" : "http://URLDRIVE",
+      "vincente" : "Italia"
+    },
+    {
+      "nome": "prof",
+      "link" : "http://URLDRIVE",
+      "vincente" : "Italia"
+    }
+  ]
+}
