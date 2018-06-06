@@ -1,0 +1,194 @@
+[
+	{
+		"nome": "Egypt",
+		"id": "EGY",
+		"bandiera": "/images/Egypt.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "England",
+		"id": "ENG",
+		"bandiera": "/images/England.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Portugal",
+		"id": "POR",
+		"bandiera": "/images/Portugal.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Iceland",
+		"id": "ICE",
+		"bandiera": "/images/Iceland.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Russia",
+		"id": "RUS",
+		"bandiera": "/images/Russia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Costa Rica",
+		"id": "COS",
+		"bandiera": "/images/Costa Rica.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Saudi Arabia",
+		"id": "SAU",
+		"bandiera": "/images/Saudi Arabia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Sweden",
+		"id": "SWE",
+		"bandiera": "/images/Sweden.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "South Korea",
+		"id": "SOU",
+		"bandiera": "/images/South Korea.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Morocco",
+		"id": "MOR",
+		"bandiera": "/images/Morocco.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Iran",
+		"id": "IRA",
+		"bandiera": "/images/Iran.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Panama",
+		"id": "PAN",
+		"bandiera": "/images/Panama.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Brazil",
+		"id": "BRA",
+		"bandiera": "/images/Brazil.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Poland",
+		"id": "POL",
+		"bandiera": "/images/Poland.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "France",
+		"id": "FRA",
+		"bandiera": "/images/France.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Nigeria",
+		"id": "NIG",
+		"bandiera": "/images/Nigeria.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Serbia",
+		"id": "SER",
+		"bandiera": "/images/Serbia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Tunisia",
+		"id": "TUN",
+		"bandiera": "/images/Tunisia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Croatia",
+		"id": "CRO",
+		"bandiera": "/images/Croatia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Colombia",
+		"id": "COL",
+		"bandiera": "/images/Colombia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Argentina",
+		"id": "ARG",
+		"bandiera": "/images/Argentina.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Uruguay",
+		"id": "URU",
+		"bandiera": "/images/Uruguay.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Japan",
+		"id": "JAP",
+		"bandiera": "/images/Japan.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Switzerland",
+		"id": "SWI",
+		"bandiera": "/images/Switzerland.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Spain",
+		"id": "SPA",
+		"bandiera": "/images/Spain.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Belgium",
+		"id": "BEL",
+		"bandiera": "/images/Belgium.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Senegal",
+		"id": "SEN",
+		"bandiera": "/images/Senegal.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Denmark",
+		"id": "DEN",
+		"bandiera": "/images/Denmark.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Mexico",
+		"id": "MEX",
+		"bandiera": "/images/Mexico.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Australia",
+		"id": "AUS",
+		"bandiera": "/images/Australia.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Peru",
+		"id": "PER",
+		"bandiera": "/images/Peru.png",
+		"fairPlay": 0
+	},
+	{
+		"nome": "Germany",
+		"id": "GER",
+		"bandiera": "/images/Germany.png",
+		"fairPlay": 0
+	}
+]
