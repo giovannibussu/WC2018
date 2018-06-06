@@ -12,13 +12,13 @@ public class Match extends JsonSerializable {
 	private boolean played;
 	private AbstractSubTorneo torneo;
 	private Date dataMatch;
-	private String stadium;
+	private int stadium;
 	
-	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, String stadium) {
+	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
 		this.init(a, b, torneo, dataMatch, stadium);
 	}
 
-	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, String stadium) {
+	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
 		Team a = null;
 		Team b = null;
 		if(torneoA.isPlayed())
@@ -32,7 +32,7 @@ public class Match extends JsonSerializable {
 		
 		this.init(a, b, torneo, dataMatch, stadium);
 	}
-	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, String stadium) {
+	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
 		this.stadium = stadium;
 		this.dataMatch = dataMatch;
 		this.home = a;
@@ -191,7 +191,7 @@ public class Match extends JsonSerializable {
 		return sb.toString();
 	}
 
-	public String getStadium() {
+	public int getStadium() {
 		return stadium;
 	}
 }

@@ -47,7 +47,7 @@ public class App
 //pronosticoB.play("1", 2, 0);
 		risultatoUfficiale.play("1", 2, 0);
 		//stampa tutto il pronostico (verboso)
-//		System.out.println(pronostico.toString());
+//		System.out.println(pronosticoA.toString());
 
 		//stampa il pronostico di un girone identificato come da file gironi.txt
 		System.out.println(pronosticoA.getAbstractSubTorneo("A").toString());
@@ -56,7 +56,7 @@ public class App
 		System.out.println(pronosticoA.getAbstractSubTorneo("D").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("E").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("F").toString());
-		System.out.println(pronosticoA.getAbstractSubTorneo("GG").toString());
+		System.out.println(pronosticoA.getAbstractSubTorneo("G").toString());
 		
 		// stampa il pronostico di una partita
 		System.out.println("Pronostico partita 1: " +pronosticoA.getMatch("1").toString());

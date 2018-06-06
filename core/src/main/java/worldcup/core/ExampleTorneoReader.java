@@ -61,7 +61,7 @@ public class ExampleTorneoReader
 				String idMatch = split[0];
 				String girone = split[1];
 				String date = split[2];
-				String stadium = split[5];
+				int stadium = Integer.parseInt(split[5]);
 				
 				if(!teams.containsKey(home)) {
 					throw new RuntimeException("Squadra ["+home+"] non censita");
@@ -97,6 +97,7 @@ public class ExampleTorneoReader
 			for(String line: lines) {
 				String[] split = line.trim().split(";");
 				Date date = sdf.parse(split[0].trim());
+				int stadium = Integer.parseInt(split[4]);
 				String knockoutPhase = split[1];
 
 				String[] game = split[2].split("-");
@@ -135,7 +136,7 @@ public class ExampleTorneoReader
 					prevoiusAwayP = gironi.get(previousAway);
 				}
 
-				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, ""));
+				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, stadium));
 			}
 
 			

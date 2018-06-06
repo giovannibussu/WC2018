@@ -11,12 +11,12 @@ import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class Torneo extends JsonSerializable {
 
-	private Map<String, Match> map;
+	private Map<String, Match> matches;
 	private Map<String, AbstractSubTorneo> subTorneoLst;
 	private Map<TYPE, PositionableReport> reports;
 	public Torneo(Map<String, Match> map) {
 		
-		this.map=map;
+		this.matches=map;
 		this.subTorneoLst = new HashMap<>();
 
 		for(Match match: map.values()) {
@@ -26,7 +26,7 @@ public class Torneo extends JsonSerializable {
 	}
 	
 	public void play(String match, int home, int away) {
-		this.map.get(match).play(home, away);
+		this.matches.get(match).play(home, away);
 	}
 
 	public int getPoints(Torneo official) {
@@ -63,7 +63,7 @@ public class Torneo extends JsonSerializable {
 	}
 
 	public Match getMatch(String name) {
-		return this.map.get(name);
+		return this.matches.get(name);
 	}
 
 	public AbstractSubTorneo getAbstractSubTorneo(String name) {

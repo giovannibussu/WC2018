@@ -44,32 +44,33 @@ public abstract class AbstractSubTorneo {
 	
 	public void addMatch(Match match) {
 		this.matches.add(match);
-		if(!this.teamPerformances.containsKey(match.getHome())) {
-			this.registerTeam(match.getHome());
-		} 
-		if(!this.teamPerformances.containsKey(match.getAway())) {
-			this.registerTeam(match.getAway());
-		} 
-
+		if(match.isPlayable()) {
+			if(!this.teamPerformances.containsKey(match.getHome())) {
+				this.registerTeam(match.getHome());
+			} 
+			if(!this.teamPerformances.containsKey(match.getAway())) {
+				this.registerTeam(match.getAway());
+			} 
+		}
 	}
 	
 	public void play(Match match, int homeGoals, int awayGoals) {
 		if(match.isPlayable()) {
-			
+
+			if(!this.teamPerformances.containsKey(match.getHome())) {
+				this.registerTeam(match.getHome());
+			} 
+			if(!this.teamPerformances.containsKey(match.getAway())) {
+				this.registerTeam(match.getAway());
+			} 
+
 			if(!this.isDrawable() && homeGoals == awayGoals) {
 				throw new RuntimeException("Pareggio non ammesso per la gara ["+this.getName()+"]");
 			}
 			this.matches.add(match);
 			Team home = match.getHome();
 			Team away = match.getAway();
-			if(!this.teamPerformances.containsKey(home)) {
-				this.registerTeam(home);
-			} 
 			IPerformance homeP = this.teamPerformances.get(home);
-			
-			if(!this.teamPerformances.containsKey(away)) {
-				this.registerTeam(away);
-			} 
 			IPerformance awayP = this.teamPerformances.get(away);
 	
 			homeP.update(match, awayP);
