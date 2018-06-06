@@ -28,8 +28,8 @@ public class App
 		
 
 		// stampa i punti presi rispetto al pronostico ufficiale, valevoli per la classifica
-		System.out.println("Punti A:" +pronosticoA.getPoints(risultatoUfficiale));
-		System.out.println("Punti B:" +pronosticoB.getPoints(risultatoUfficiale));
+		System.out.println("Punti A:" +risultatoUfficiale.getPoints(pronosticoA));
+		System.out.println("Punti B:" +risultatoUfficiale.getPoints(pronosticoB));
 	}
 	
 }
