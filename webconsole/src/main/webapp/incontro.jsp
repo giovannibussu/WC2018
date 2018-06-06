@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/favicon.ico">
 
-    <title>WorldCup 2018 | Home</title>
+    <title>WorldCup 2018</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
     <link href="css/custom.css" rel="stylesheet">
     
     <%
-    String context = request.getContextPath();
+    
     ProssimiIncontri pi = new ProssimiIncontri();
     List<Partita> listaPartite = pi.getListProssimiIncontri(); 
     
@@ -58,15 +58,12 @@
 		          		Squadra s2 = p.getSquadra2();
 		          	%>
                         <li>
+                            <div class="ec-cell"><span><%=p.getData() %>&nbsp;&nbsp;<%=p.getOra() %></span></div>
+                            <div class="ec-cell"><span><a href="<%=s.getLink() %>"><%=s.getNome() %></a></span></div>
                             <div class="ec-cell">
-                            	<span><%=p.getData() %>&nbsp;&nbsp;ore&nbsp;<%=p.getOra() %></span>
-                            	<br/>
-                             	<span><a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
-                            </div>
-                            <div class="ec-cell">
-                               	<span class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></span>
-                                <a href="<%=context %>/incontro.jsp?id=<%=p.getId() %>" class="ec-fixture-vs" title="Vedi Pronostici"><small>vs</small></a>
-                                <span class="ec-fixture-flag ec-next-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></span>
+                                <a href="#" class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></a>
+                                <span class="ec-fixture-vs"><small>vs</small></span>
+                                <a href="#" class="ec-fixture-flag ec-next-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></a>
                             </div>
                         </li>
                     <% } %>       
@@ -74,6 +71,24 @@
                   </div>
               </div>
           </div>
+<!--             <div class="col-md-4"> -->
+<!--               <div class="card mb-4 box-shadow"> -->
+<!--                 <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"> -->
+<!--                 <div class="card-body"> -->
+<%--                 <p class="card-text"><%=p.getData() %></p> --%>
+<%--                   <p class="card-text"><%=s.getCitta() %></p> --%>
+<%--                   <p class="card-text"><a href="<%=s.getLink() %>"><%=s.getNome() %></a></p> --%>
+<%--                   <p class="card-text"><%=s1.getNome() %> - <%=s2.getNome() %></p> --%>
+<!--                   <div class="d-flex justify-content-between align-items-center"> -->
+<!--                     <div class="btn-group"> -->
+<!--                       <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza Pronostici">Vedi</button> -->
+<!--                     </div> -->
+<%--                     <small class="text-muted"><%=p.getOra() %></small> --%>
+<!--                   </div> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </div> -->
+           
        </div>
      </div>
 
