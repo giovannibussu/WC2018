@@ -14,6 +14,7 @@ public class Knockout extends AbstractSubTorneo {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
+		sb.append(this.getType()).append("\n");
 		if(this.getMatches().size() > 0) {
 			for(Match match: this.getMatches()) {
 				sb.append(match.toString()).append("\n");

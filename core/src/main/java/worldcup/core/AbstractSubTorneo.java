@@ -44,6 +44,13 @@ public abstract class AbstractSubTorneo {
 	
 	public void addMatch(Match match) {
 		this.matches.add(match);
+		if(!this.teamPerformances.containsKey(match.getHome())) {
+			this.registerTeam(match.getHome());
+		} 
+		if(!this.teamPerformances.containsKey(match.getAway())) {
+			this.registerTeam(match.getAway());
+		} 
+
 	}
 	
 	public void play(Match match, int homeGoals, int awayGoals) {
@@ -154,4 +161,11 @@ public abstract class AbstractSubTorneo {
 		this.type = type;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!(obj instanceof AbstractSubTorneo)) return false;
+		
+		return ((AbstractSubTorneo)obj).getName().equals(this.name);
+	}
 }

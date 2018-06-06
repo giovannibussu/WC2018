@@ -1,6 +1,7 @@
 package worldcup.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,17 @@ import worldcup.core.AbstractSubTorneo.TYPE;
 public class Torneo extends JsonSerializable {
 
 	private Map<String, Match> map;
-	private List<AbstractSubTorneo> subTorneoLst;
+	private Map<String, AbstractSubTorneo> subTorneoLst;
 	private Map<TYPE, PositionableReport> reports;
 	public Torneo(Map<String, Match> map) {
 		
 		this.map=map;
-		this.subTorneoLst=map.values().stream().map(a-> a.getTorneo()).collect(Collectors.toList());
+		this.subTorneoLst = new HashMap<>();
+
+		for(Match match: map.values()) {
+			this.subTorneoLst.put(match.getTorneo().getName(), match.getTorneo());
+		}
+		
 	}
 	
 	public void play(String match, int home, int away) {
@@ -38,7 +44,7 @@ public class Torneo extends JsonSerializable {
 
 	private void refreshReports() {
 		if(this.reports == null ) {
-			Map<TYPE, List<AbstractSubTorneo>> positionables = this.subTorneoLst.stream().collect(Collectors.groupingBy(AbstractSubTorneo::getType));
+			Map<TYPE, List<AbstractSubTorneo>> positionables = this.subTorneoLst.values().stream().collect(Collectors.groupingBy(AbstractSubTorneo::getType));
 	
 			List<PositionableGroup> groups = new ArrayList<PositionableGroup>();
 			
@@ -55,8 +61,16 @@ public class Torneo extends JsonSerializable {
 		}
 		
 	}
-	public List<AbstractSubTorneo> getSubTorneoLst() {
-		return this.subTorneoLst;
+
+	public Match getMatch(String name) {
+		return this.map.get(name);
+	}
+
+	public AbstractSubTorneo getAbstractSubTorneo(String name) {
+		return this.subTorneoLst.get(name);
+	}
+	public Collection<AbstractSubTorneo> getSubTorneoLst() {
+		return this.subTorneoLst.values();
 	}
 
 	public Map<TYPE, PositionableReport> getReports() {
@@ -67,7 +81,7 @@ public class Torneo extends JsonSerializable {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		for(AbstractSubTorneo p: this.subTorneoLst) {
+		for(AbstractSubTorneo p: this.subTorneoLst.values()) {
 			sb.append(p).append("\n");
 		}
 		return sb.toString();

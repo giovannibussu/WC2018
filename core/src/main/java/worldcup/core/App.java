@@ -1,27 +1,5 @@
 package worldcup.core;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import org.openspcoop2.utils.UtilsException;
-import org.openspcoop2.utils.resources.FileSystemUtilities;
-import org.openspcoop2.utils.serialization.SerializationConfig;
-
-import worldcup.core.AbstractSubTorneo.TYPE;
-
 /**
  * Hello world!
  *
@@ -30,140 +8,28 @@ public class App
 {
 	public static void main( String[] args ) throws Exception
 	{
-		Torneo torneo = getTorneo();
+		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
+		Torneo pronosticoA = ExampleTorneoReader.getTorneo();
+		Torneo pronosticoB = ExampleTorneoReader.getTorneo();
+		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
+		
+		//metodo play, inserisce il pronostico (o il risultato ufficiale) per una partita. Per gli ID delle partite vedere l'excel o i file gironi.txt e knockout.txt 
+		pronosticoA.play("1", 1, 0);
+		pronosticoB.play("1", 2, 0);
+		risultatoUfficiale.play("1", 2, 0);
+		//stampa tutto il pronostico (verboso)
+//		System.out.println(pronostico.toString());
 
-		SerializationConfig config = new SerializationConfig();
-		config.setExcludes(Arrays.asList("torneo"));
+		//stampa il pronostico di un girone identificato come da file gironi.txt
+		System.out.println(pronosticoA.getAbstractSubTorneo("A").toString());
+		
+		// stampa il pronostico di una partita
+		System.out.println("Pronostico partita 1: " +pronosticoA.getMatch("1").toString());
 		
 
-		for(AbstractSubTorneo subTorneo: torneo.getSubTorneoLst()) {
-			for(Match match: subTorneo.getMatches()) {
-				System.out.println(match.serializeToString(config));
-			}
-		}
-
+		// stampa i punti presi rispetto al pronostico ufficiale, valevoli per la classifica
+		System.out.println("Punti A:" +pronosticoA.getPoints(risultatoUfficiale));
+		System.out.println("Punti B:" +pronosticoB.getPoints(risultatoUfficiale));
 	}
-	
-
-	public static Torneo getTorneo() {
-
-		int nTeamGirone = 4;
-		int nTeamPassaggioTurnoGirone = 2;
-
-		Map<String, Team> teams = new HashMap<String, Team>();
-		Map<String, Girone> gironi = new HashMap<String, Girone>();
-		Map<String, Match> matches = new HashMap<String, Match>();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
-
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			FileSystemUtilities.copy(Torneo.class.getResourceAsStream("/teams.json"), baos);
-			
-			Collection<Team> teamsColl= Deserializer.deserialize(new String(baos.toByteArray()), Team.class);
-			
-			teams = teamsColl.stream().collect(Collectors.toMap(Team::getNome, Function.identity()));			
-			InputStream isGironi=Torneo.class.getResourceAsStream("/gironi.txt");
-			BufferedReader breader = new BufferedReader(new InputStreamReader(isGironi));
-			
-			List<String> lines = breader.lines().collect(Collectors.toList());
-			
-			breader.close();
-
-			for(String line: lines) {
-				String[] split = line.trim().split(";");
-				String home = split[3];
-				String away = split[4];
-				String idMatch = split[0];
-				String girone = split[1];
-				String date = split[2];
-				String stadium = split[5];
-				
-				if(!teams.containsKey(home)) {
-					throw new RuntimeException("Squadra ["+home+"] non censita");
-				}
-				Team homeTeam = teams.get(home);
-				
-				if(!teams.containsKey(away)) {
-					throw new RuntimeException("Squadra ["+away+"] non censita");
-				}
-				Team awayTeam = teams.get(away);
-				
-				if(!gironi.containsKey(girone)) {
-					gironi.put(girone, new Girone(girone, nTeamGirone, nTeamPassaggioTurnoGirone));
-				}
-				
-				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium));
-			}
-
-			
-		} catch (ParseException | IOException | UtilsException | org.openspcoop2.utils.serialization.IOException e) {
-			System.err.println(e);
-		}
-		try {
-			InputStream isKnockout=Torneo.class.getResourceAsStream("/knockout.txt");
-			BufferedReader breader = new BufferedReader(new InputStreamReader(isKnockout));
-			
-			List<String> lines = breader.lines().collect(Collectors.toList());
-			
-			breader.close();
-
-			Map<String, Knockout> knockouts = new HashMap<String, Knockout>();
-
-			for(String line: lines) {
-				String[] split = line.trim().split(";");
-				Date date = sdf.parse(split[0].trim());
-				String knockoutPhase = split[1];
-
-				String[] game = split[2].split("-");
-				String[] home = game[0].split("_");
-				
-				int posHome = Integer.parseInt(home[0]);
-				String previousHome = home[1];
-				String[] away = game[1].split("_");
-				int posAway = Integer.parseInt(away[0]);
-				String previousAway = away[1];
-
-				String gameNumber = split[3].trim();
-				
-				if(knockoutPhase.equals("OTT")) {
-					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.OTTAVI));
-				} else if (knockoutPhase.equals("QUA")) {
-					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.QUARTI));
-				} else if (knockoutPhase.equals("SEM")) {
-					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.SEMIFINALI));
-				} else if (knockoutPhase.equals("FIN")) {
-					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.FINALE));
-				}
-				AbstractSubTorneo prevoiusHomeP = null;				
-				try {
-					Integer.parseInt(previousHome);
-					prevoiusHomeP = knockouts.get(previousHome);
-				} catch(Exception e) {
-					prevoiusHomeP = gironi.get(previousHome);
-				}
-
-				AbstractSubTorneo prevoiusAwayP = null;				
-				try {
-					Integer.parseInt(previousAway);
-					prevoiusAwayP = knockouts.get(previousAway);
-				} catch(Exception e) {
-					prevoiusAwayP = gironi.get(previousAway);
-				}
-
-				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, ""));
-			}
-
-			
-		} catch (ParseException | IOException e) {
-			System.err.println(e);
-		}
-		
-		
-//		for(String s: matches.keySet()) {
-//			System.out.println("Match ["+s+"]: ["+matches.get(s)+"]");
-//		}
-		return new Torneo(matches);
-	}
-
 	
 }

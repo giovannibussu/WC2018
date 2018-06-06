@@ -168,17 +168,15 @@ public class Match extends JsonSerializable {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(stadium).append(":");
-		sb.append(dataMatch).append(":");
 		if(this.getHome()!=null) {
-			sb.append(this.getHome().getNome());
+			sb.append(this.getHome().getId());
 		} else {
 			sb.append("--");
 		}
 		sb.append(" VS ");
 		
 		if(this.getAway()!=null) {
-			sb.append(this.getAway().getNome());
+			sb.append(this.getAway().getId());
 		} else {
 			sb.append("--");
 		}

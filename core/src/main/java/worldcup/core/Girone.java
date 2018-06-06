@@ -3,6 +3,7 @@ package worldcup.core;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Girone extends AbstractSubTorneo {
 
@@ -28,9 +29,27 @@ public class Girone extends AbstractSubTorneo {
 		List<GironePerformance> values = Arrays.asList(this.getTeamPerformances().values().toArray(new GironePerformance[]{}));
 		Collections.sort(values);
 		StringBuffer sb = new StringBuffer();
+		sb.append("Girone " + this.getName()).append("\n");
+		sb.append("Classifica:\n");
 		sb.append("Name\tgp\tpts\tgd\tgf\tga\n");
 		for(GironePerformance team: values) {
-			sb.append(team.getTeam().getNome()+ "\t" + team.getPlayed()+ "\t" + team.getPoints()+ "\t" + team.getGoalsDifference()+ "\t" + team.getGoalsDone()+ "\t" + team.getGoalsTaken() + "\n");
+			sb.append(team.getTeam().getId()+ "\t" + team.getPlayed()+ "\t" + team.getPoints()+ "\t" + team.getGoalsDifference()+ "\t" + team.getGoalsDone()+ "\t" + team.getGoalsTaken() + "\n");
+		}
+
+		List<Match> daGiocare = this.getMatches().stream().filter(a -> !a.isPlayed()).collect(Collectors.toList());
+		List<Match> giocate = this.getMatches().stream().filter(a -> a.isPlayed()).collect(Collectors.toList());
+		if(daGiocare.size() > 0) {
+			sb.append("Partite da giocare:\n");
+			for(Match match: daGiocare) {
+				sb.append(match).append("\n");
+			}
+		}
+		
+		if(giocate.size()>0) {
+			sb.append("Partite giocate:\n");
+			for(Match match: giocate) {
+				sb.append(match).append("\n");
+			}
 		}
 		return sb.toString();
 	}
