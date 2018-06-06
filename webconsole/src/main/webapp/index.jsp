@@ -65,7 +65,7 @@
                             </div>
                             <div class="ec-cell">
                                	<span class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></span>
-                                <a href="<%=context %>/incontro.jsp?id=<%=p.getId() %>" class="ec-fixture-vs" title="Vedi Pronostici"><small>vs</small></a>
+                                <a href="<%=context %>/incontro.jsp?idMatch=<%=p.getId() %>" class="ec-fixture-vs" title="Vedi Pronostici"><small>vs</small></a>
                                 <span class="ec-fixture-flag ec-next-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></span>
                             </div>
                         </li>
