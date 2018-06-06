@@ -1,48 +1,48 @@
-1;A;14-06-2018.18:00;Russia;Saudi Arabia;Luzhniki Stadium, Moscow
-2;A;15-06-2018.17:00;Egypt;Uruguay;Ekaterinburg Arena
-3;B;15-06-2018.21:00;Portugal;Spain;Fisht Stadium, Sochi
-4;B;15-06-2018.18:00;Morocco;Iran;Saint Petersburg Stadium
-5;C;16-06-2018.13:00;France;Australia;Kazan Arena, Kazan
-6;C;16-06-2018.19:00;Peru;Denmark;Mordovia Arena, Saransk
-7;D;16-06-2018.16:00;Argentina;Iceland;Spartak Stadium, Moscow
-8;D;16-06-2018.21:00;Croatia;Nigeria;Kaliningrad Stadium
-9;E;17-06-2018.21:00;Brazil;Switzerland;Rostov Arena
+1;A;14-06-2018.18:00;Russia;Arabia Saudita;Luzhniki Stadium, Moscow
+2;A;15-06-2018.17:00;Egitto;Uruguay;Ekaterinburg Arena
+3;B;15-06-2018.21:00;Portogallo;Spagna;Fisht Stadium, Sochi
+4;B;15-06-2018.18:00;Marocco;Iran;Saint Petersburg Stadium
+5;C;16-06-2018.13:00;Francia;Australia;Kazan Arena, Kazan
+6;C;16-06-2018.19:00;Peru;Danimarca;Mordovia Arena, Saransk
+7;D;16-06-2018.16:00;Argentina;Islanda;Spartak Stadium, Moscow
+8;D;16-06-2018.21:00;Croazia;Nigeria;Kaliningrad Stadium
+9;E;17-06-2018.21:00;Brasile;Svizzera;Rostov Arena
 10;E;17-06-2018.16:00;Costa Rica;Serbia;Samara Arena, Samara
-11;F;17-06-2018.18:00;Germany;Mexico;Luzhniki Stadium, Moscow
-12;F;18-06-2018.15:00;Sweden;South Korea;Nizhny Novgorod Stadium
-13;G;18-06-2018.18:00;Belgium;Panama;Fisht Stadium, Sochi
-14;G;18-06-2018.21:00;Tunisia;England;Volgograd Arena
-15;H;19-06-2018.15:00;Poland;Senegal;Spartak Stadium, Moscow
-16;H;19-06-2018.18:00;Colombia;Japan;Mordovia Arena, Saransk
-17;A;19-06-2018.21:00;Russia;Egypt;Saint Petersburg Stadium
-18;A;20-06-2018.18:00;Uruguay;Saudi Arabia;Rostov Arena
-19;B;20-06-2018.15:00;Portugal;Morocco;Luzhniki Stadium, Moscow
-20;B;20-06-2018.21:00;Iran;Spain;Kazan Arena, Kazan
-21;C;21-06-2018.17:00;France;Peru;Ekaterinburg Arena
-22;C;21-06-2018.19:00;Denmark;Australia;Samara Arena, Samara
-23;D;21-06-2018.21:00;Argentina;Croatia;Nizhny Novgorod Stadium
-24;D;22-06-2018.18:00;Nigeria;Iceland;Volgograd Arena
-25;E;22-06-2018.15:00;Brazil;Costa Rica;Saint Petersburg Stadium
-26;E;22-06-2018.20:00;Serbia;Switzerland;Kaliningrad Stadium
-27;F;23-06-2018.18:00;Germany;Sweden;Fisht Stadium, Sochi
-28;F;23-06-2018.21:00;South Korea;Mexico;Rostov Arena
-29;G;23-06-2018.15:00;Belgium;Tunisia;Spartak Stadium, Moscow
-30;G;24-06-2018.15:00;England;Panama;Nizhny Novgorod Stadium
-31;H;24-06-2018.21:00;Poland;Colombia;Kazan Arena, Kazan
-32;H;24-06-2018.20:00;Japan;Senegal;Ekaterinburg Arena
+11;F;17-06-2018.18:00;Germania;Messico;Luzhniki Stadium, Moscow
+12;F;18-06-2018.15:00;Svezia;Corea del Sud;Nizhny Novgorod Stadium
+13;G;18-06-2018.18:00;Belgio;Panama;Fisht Stadium, Sochi
+14;G;18-06-2018.21:00;Tunisia;Inghilterra;Volgograd Arena
+15;H;19-06-2018.15:00;Polonia;Senegal;Spartak Stadium, Moscow
+16;H;19-06-2018.18:00;Colombia;Giappone;Mordovia Arena, Saransk
+17;A;19-06-2018.21:00;Russia;Egitto;Saint Petersburg Stadium
+18;A;20-06-2018.18:00;Uruguay;Arabia Saudita;Rostov Arena
+19;B;20-06-2018.15:00;Portogallo;Marocco;Luzhniki Stadium, Moscow
+20;B;20-06-2018.21:00;Iran;Spagna;Kazan Arena, Kazan
+21;C;21-06-2018.17:00;Francia;Peru;Ekaterinburg Arena
+22;C;21-06-2018.19:00;Danimarca;Australia;Samara Arena, Samara
+23;D;21-06-2018.21:00;Argentina;Croazia;Nizhny Novgorod Stadium
+24;D;22-06-2018.18:00;Nigeria;Islanda;Volgograd Arena
+25;E;22-06-2018.15:00;Brasile;Costa Rica;Saint Petersburg Stadium
+26;E;22-06-2018.20:00;Serbia;Svizzera;Kaliningrad Stadium
+27;F;23-06-2018.18:00;Germania;Svezia;Fisht Stadium, Sochi
+28;F;23-06-2018.21:00;Corea del Sud;Messico;Rostov Arena
+29;G;23-06-2018.15:00;Belgio;Tunisia;Spartak Stadium, Moscow
+30;G;24-06-2018.15:00;Inghilterra;Panama;Nizhny Novgorod Stadium
+31;H;24-06-2018.21:00;Polonia;Colombia;Kazan Arena, Kazan
+32;H;24-06-2018.20:00;Giappone;Senegal;Ekaterinburg Arena
 33;A;25-06-2018.18:00;Uruguay;Russia;Samara Arena, Samara
-34;A;25-06-2018.17:00;Saudi Arabia;Egypt;Volgograd Arena
-35;B;25-06-2018.21:00;Iran;Portugal;Mordovia Arena, Saransk
-36;B;25-06-2018.20:00;Spain;Morocco;Kaliningrad Stadium
-37;C;26-06-2018.17:00;Denmark;France;Luzhniki Stadium, Moscow
+34;A;25-06-2018.17:00;Arabia Saudita;Egitto;Volgograd Arena
+35;B;25-06-2018.21:00;Iran;Portogallo;Mordovia Arena, Saransk
+36;B;25-06-2018.20:00;Spagna;Marocco;Kaliningrad Stadium
+37;C;26-06-2018.17:00;Danimarca;Francia;Luzhniki Stadium, Moscow
 38;C;26-06-2018.17:00;Australia;Peru;Fisht Stadium, Sochi
 39;D;26-06-2018.21:00;Nigeria;Argentina;Saint Petersburg Stadium
-40;D;26-06-2018.21:00;Iceland;Croatia;Rostov Arena
-41;E;27-06-2018.21:00;Serbia;Brazil;Spartak Stadium, Moscow
-42;E;27-06-2018.21:00;Switzerland;Costa Rica;Nizhny Novgorod Stadium
-43;F;27-06-2018.17:00;South Korea;Germany;Kazan Arena, Kazan
-44;F;27-06-2018.19:00;Mexico;Sweden;Ekaterinburg Arena
-45;G;28-06-2018.20:00;England;Belgium;Kaliningrad Stadium
+40;D;26-06-2018.21:00;Islanda;Croazia;Rostov Arena
+41;E;27-06-2018.21:00;Serbia;Brasile;Spartak Stadium, Moscow
+42;E;27-06-2018.21:00;Svizzera;Costa Rica;Nizhny Novgorod Stadium
+43;F;27-06-2018.17:00;Corea del Sud;Germania;Kazan Arena, Kazan
+44;F;27-06-2018.19:00;Messico;Svezia;Ekaterinburg Arena
+45;G;28-06-2018.20:00;Inghilterra;Belgio;Kaliningrad Stadium
 46;G;28-06-2018.21:00;Panama;Tunisia;Mordovia Arena, Saransk
-47;H;28-06-2018.17:00;Japan;Poland;Volgograd Arena
+47;H;28-06-2018.17:00;Giappone;Polonia;Volgograd Arena
 48;H;28-06-2018.18:00;Senegal;Colombia;Samara Arena, Samara
