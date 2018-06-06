@@ -22,7 +22,7 @@ public class ProssimiIncontri {
 		Squadra squadra2 = new Squadra();
 		squadra2.setId("ARS");
 		squadra2.setNome("Arabia Saudita");
-		squadra2.setBandiera("images/arabia_suadita.png");
+		squadra2.setBandiera("images/arabia_saudita.png");
 		p1.setSquadra2(squadra2 );
 		Stadio stadio = new Stadio();
 		stadio.setCitta("Mosca");

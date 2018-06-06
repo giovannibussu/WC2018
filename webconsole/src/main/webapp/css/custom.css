@@ -1,0 +1,104 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	background-color: #f7f7f7;
+}
+
+a {
+	color: #000000;
+	text-decoration: none;
+ }
+
+a:hover, a:focus, a:active {
+		outline: none;
+		text-decoration: none;
+	 }
+
+ul {margin-bottom: 0px;}
+
+
+/* FancyTitle */
+.ec-fancy-title {
+	float: left;
+	width: 100%;
+/* 	background: url(images/transparent-pattren.png); */
+	background-color: #343a40;
+	position: relative;
+}
+.ec-fancy-title h2 {
+	color: #fff;
+	margin: 0px;
+	padding: 7px 15px 9px 15px;
+	float: left;
+}
+.ec-fancy-title span {
+	float: right;
+	font-size: 18px;
+	color: #fff;
+	font-weight: 500;
+	padding: 12px 17px 0px 0px;
+}
+/* Fixture List */
+.ec-fixture-list {
+	float: left;
+	width: 100%;
+	margin-bottom: 60px;
+}
+.ec-fixture-list ul {
+	display: table;
+	width: 100%;
+	border-right: 1px solid #f3f3f3;
+}
+.ec-fixture-list ul li {
+	list-style: none;
+	display: table-row;
+	width: 100%;
+	background-color: #ffffff;
+}
+.ec-fixture-list ul li:nth-child(odd) { background-color: #fcfcfc; }
+.ec-fixture-list ul li .ec-cell {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 14px 20px;
+	border-left: 1px solid #f3f3f3;
+	border-bottom: 1px solid #f3f3f3;
+	text-align: left;
+}
+.ec-fixture-flag.ec-next-flag { float: right; }
+.ec-fixture-list ul li span {
+	color: #555555;
+}
+.ec-fixture-flag {
+	color: #555555;
+	display: inline-block;
+	width: 130px;
+}
+.ec-fixture-flag img { margin-right: 4px; }
+.ec-fixture-vs {
+	display: inline-block;
+	margin: 0px 18px;
+	position: relative;
+	padding: 2px;
+}
+.ec-fixture-vs small {
+	display: inline-block;
+	position: relative;
+	z-index: 1;
+	font-size: 18px;
+	width: 34px;
+	height: 34px;
+	background-color: #ebebeb;
+	color: #333333;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 100%;
+	padding: 2px 0px 0px 0px;
+}
+.ec-matches-list .ec-fixture-flag {
+	width: 30%;
+	text-align: left;
+}
+.ec-fixture-list.ec-matches-list { margin-bottom: 40px; }
