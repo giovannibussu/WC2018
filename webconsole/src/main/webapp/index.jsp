@@ -62,7 +62,7 @@
 		          	%>
                         <li class="<%=liStyleClass %>">
                             <div class="ec-cell text-centered">
-                            	<span><%=match.getDataMatchAsString() %>&nbsp;&nbsp;&nbsp;<a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
+                            	<span><%=match.getDataMatchAsString() %>&nbsp;&nbsp;&nbsp;<a title="<%=s.getNome() %>" href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
                             </div>
                             <div class="ec-cell">
                                	<span class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></span>
@@ -81,5 +81,25 @@
     </main><!-- /.container -->
    
     <jsp:include page="includes/footer.jsp" flush="true"></jsp:include>
+    
+    <script type="text/javascript">
+    $('[title]')
+    .each(function() {
+        $(this).data('title', $(this).attr('title'));
+        $(this).removeAttr('title');
+    })
+    .hover(function(e) {
+        window.tooltipID = 't' + (Math.random() + '').replace('0.', '');
+        $('<div />', {
+            id: tooltipID,
+            class: 'tooltip-content',
+            html: $(this).data('title'),
+            style: 'position: absolute;
+            top: ' + e.pageY + '; left: ' + e.pageX
+        }).appendTo('body');
+    }, function() {
+        $('#' + window.tooltipID).remove();
+    });
+    </script>
   </body>
 </html>
