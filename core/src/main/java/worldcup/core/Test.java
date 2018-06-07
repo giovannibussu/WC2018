@@ -96,9 +96,25 @@ public class Test
 		// stampa il pronostico di una partita
 		
 
-		// stampa i punti presi rispetto al pronostico ufficiale, valevoli per la classifica
-		//System.out.println("Punti A:" +pronosticoA.getPoints(risultatoUfficiale));
-		//System.out.println("Punti B:" +pronosticoB.getPoints(risultatoUfficiale));
+
+                        System.out.println("Risulati ufficiali");
+                        //stampa il pronostico di un girone identificato come da file gironi.txt
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("A").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("B").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("C").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("D").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("E").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("F").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("G").toString());
+                        System.out.println(risultatoUfficiale.getAbstractSubTorneo("H").toString());
+
+                        for (int i=49; i<=64; i++) {
+                                if (i== 63) continue;
+                                System.out.println(risultatoUfficiale.getAbstractSubTorneo(""+i).toString());
+                        }
+
+                        System.out.println("Pronostico vincitore: " +risultatoUfficiale.getWinner().getNome());
+
 	}
 	
 }
