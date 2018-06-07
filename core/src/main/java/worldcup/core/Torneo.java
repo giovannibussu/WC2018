@@ -14,8 +14,10 @@ public class Torneo extends JsonSerializable {
 	private Map<String, Match> matches;
 	private Map<String, AbstractSubTorneo> subTorneoLst;
 	private Map<TYPE, PositionableReport> reports;
-	public Torneo(Map<String, Match> map) {
+	private String idFinale;
+	public Torneo(Map<String, Match> map, String idFinale) {
 		
+		this.idFinale=idFinale;
 		this.matches=map;
 		this.subTorneoLst = new HashMap<>();
 
@@ -62,6 +64,13 @@ public class Torneo extends JsonSerializable {
 		
 	}
 
+	public Team getWinner() {
+		Match finale = this.matches.get(this.idFinale);
+		if(finale.isPlayed())
+			return finale.getWinner();
+		else return null;
+	}
+
 	public Match getMatch(String name) {
 		return this.matches.get(name);
 	}
@@ -85,5 +94,9 @@ public class Torneo extends JsonSerializable {
 			sb.append(p).append("\n");
 		}
 		return sb.toString();
+	}
+
+	public Map<String, Match> getMatches() {
+		return matches;
 	}
 }

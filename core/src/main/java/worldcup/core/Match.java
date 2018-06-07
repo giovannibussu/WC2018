@@ -148,6 +148,10 @@ public class Match extends JsonSerializable {
 		if(other.getAway() == null)
 			return false;
 		
+		if(!(this.getTorneo().getType().equals(other.getTorneo().getType()))) {
+			return false;
+		}
+		
 		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
 			return true;
 		}

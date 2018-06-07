@@ -144,7 +144,7 @@ public class ExampleTorneoReader
 			System.err.println(e);
 		}
 		
-		return new Torneo(matches);
+		return new Torneo(matches, "63");
 	}
 
 	

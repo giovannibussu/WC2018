@@ -57,9 +57,10 @@ public class App
 		System.out.println(pronosticoA.getAbstractSubTorneo("E").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("F").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("G").toString());
+		System.out.println(pronosticoA.getAbstractSubTorneo("H").toString());
 		
 		// stampa il pronostico di una partita
-		System.out.println("Pronostico partita 1: " +pronosticoA.getMatch("1").toString());
+		System.out.println("Pronostico vincitore: " +pronosticoA.getWinner().getNome());
 		
 
 		// stampa i punti presi rispetto al pronostico ufficiale, valevoli per la classifica

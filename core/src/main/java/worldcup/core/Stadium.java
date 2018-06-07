@@ -54,7 +54,7 @@ public class Stadium extends JsonSerializable{
 
 	private static Map<Integer, Stadium> readStadiums(String resource) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(Torneo.class.getResourceAsStream(resource), baos);
+		FileSystemUtilities.copy(Stadium.class.getResourceAsStream(resource), baos);
 		
 		Collection<Stadium> teamsColl= Deserializer.deserialize(new String(baos.toByteArray()), Stadium.class);
 		
