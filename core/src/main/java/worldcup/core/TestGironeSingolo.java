@@ -1,16 +1,20 @@
 package worldcup.core;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.OutputStreamWriter;
+import java.io.FileNotFoundException;
 import java.util.Random;
+import java.io.IOException;
 /**
  * Hello world!
  *
  */
-public class Test 
+public class TestGironeSingolo 
 {
-	private static final int N_PLAYERS = 1;
-	
+	private static final  String[] spreadsheetId = { "player1"  };
+
 	public static final void PronosticoWriter(String pronosticoId) {
 		Random rand = new Random();
 		FileOutputStream fos = null;
@@ -39,12 +43,11 @@ public class Test
 	public static void main( String[] args ) throws Exception
 	{
 
-		Torneo[] Tornei = new Torneo[N_PLAYERS];
+		Torneo[] Tornei = new Torneo[spreadsheetId.length];
 		PronosticoReader reader ;
 		int j=0;
-		for (int nPlayer =0; nPlayer<N_PLAYERS;nPlayer++) {
-			String id = "player"+nPlayer;
-			PronosticoWriter(id);
+		for (String id : spreadsheetId) {
+			//PronosticoWriter(id);
                         System.out.println("Cerco versione cache per "+id);
                         reader = new FileSystemPronosticoReader(id);
 
@@ -60,17 +63,16 @@ public class Test
 		System.out.println("Pronostici recuperati");
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
-		PronosticoWriter(Costanti.PRONOSTICO_UFFICIALE_ID);
+		//PronosticoWriter("master");
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
-		reader = new FileSystemPronosticoReader(Costanti.PRONOSTICO_UFFICIALE_ID);
+		reader = new FileSystemPronosticoReader("master");
                 for (PronosticoInput pronostico : reader.readResults()) {
 	                System.out.println(pronostico);
                         risultatoUfficiale.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 }
 
 		j=0;	
-		for (int nPlayer =0; nPlayer<N_PLAYERS;nPlayer++) {
-			String id = "player"+nPlayer;
+		for (String id : spreadsheetId) {
 			System.out.println("Pronostico giocatore: " +id);
 			//stampa il pronostico di un girone identificato come da file gironi.txt
 			System.out.println(Tornei[j].getAbstractSubTorneo("A").toString());
@@ -88,7 +90,8 @@ public class Test
 			}
 
 			System.out.println("Pronostico vincitore: " +Tornei[j].getWinner().getNome());
-			System.out.println("Punti "+id+": "+Tornei[j].getPoints(risultatoUfficiale));
+			//System.out.println("Punti "+id+": "+Tornei[j].getPoints(risultatoUfficiale));
+			System.out.println("Punti "+id+": "+risultatoUfficiale.getPoints(Tornei[j]));
 			j++;
 		}
 		// stampa il pronostico di una partita
