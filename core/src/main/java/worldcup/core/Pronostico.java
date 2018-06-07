@@ -1,21 +1,26 @@
 package worldcup.core;
 
+import java.util.List;
+
 public class Pronostico {
 
-	private String nome;
-	private String id;
+	private Player player;
 	private Torneo torneo;
-	public String getNome() {
-		return nome;
+	
+	public Pronostico(Player player) {
+		this.player = player;
+		this.torneo = ExampleTorneoReader.getTorneo();
+		List<PronosticoInput> leggiPronostico = PronosticiReader.leggiPronostico(player.getId());
+		for(PronosticoInput input: leggiPronostico) {
+			this.torneo.play(input.getId(), input.getHome(), input.getAway());
+		}
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	
+	public Player getPlayer() {
+		return player;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	public Torneo getTorneo() {
 		return torneo;

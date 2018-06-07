@@ -4,27 +4,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PronosticiReader {
 
-	private Map<String, List<PronosticoInput>> pronostici;
-	
-	public PronosticiReader() {
+	public static Map<String, Pronostico> leggiPronostici() {
+		Map<String, Pronostico> pronostici = new HashMap<String, Pronostico>();
 		
-	}
-	
-	private void init(List<String> pronosticiId) {
-		this.pronostici = new HashMap<String, List<PronosticoInput>>();
-		for(String pronosticoId: pronosticiId) {
-//		String pronosticoId = "1QHIq-ZmhoC3mSlBlAmXjhndZb7Ea33SIcZ3W4olHH2I";
-		this.pronostici.put(pronosticoId, leggiPronostico(pronosticoId));
+		Collection<Player> players = Player.getPlayers().values();
+		for(Player player: players) {
+			pronostici.put(player.getNome(), new Pronostico(player));
 		}
+		
+		return pronostici;
 	}
 	
-	public List<PronosticoInput> leggiPronostico(String pronosticoId) {
+	public static List<PronosticoInput> leggiPronostico(String pronosticoId) {
 		
 			PronosticoReader reader = null;
 			List<PronosticoInput> readResults = null;

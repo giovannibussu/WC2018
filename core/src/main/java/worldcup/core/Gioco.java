@@ -1,7 +1,6 @@
 package worldcup.core;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,54 +13,75 @@ public class Gioco {
 	private Pronostico ufficiale;
 
 	public Gioco() {
-		this.pronostici = new HashMap<>();
-		this.ufficiale= new Pronostico();
+		this.pronostici = PronosticiReader.leggiPronostici();
+		Player playerUfficiale = new Player();
+		playerUfficiale.setId(Costanti.PRONOSTICO_UFFICIALE_ID);
+		this.ufficiale= new Pronostico(playerUfficiale);
 	}
-
-	//	public List<Match> matchPerData(Date dataInizio, Date dataFine) {
-	//		return ufficiale.getTorneo().getMatches().values().stream().filter(a-> 
-	//			a.getDataMatch().before(dataFine) && a.getDataMatch().after(dataInizio)
-	//		).collect(Collectors.toList());
-	//	}
 
 	public List<Match> matchPerData(Date dataInizio, Date dataFine) {
-
-		List<Match> list = new ArrayList<>();
-
-		Team squadra1 = new Team();
-		squadra1.setId("RUS");
-		squadra1.setNome("Russia");
-		squadra1.setBandiera("images/russia.png");
-		Team squadra2 = new Team();
-		squadra2.setId("ARS");
-		squadra2.setNome("Arabia Saudita");
-		squadra2.setBandiera("images/arabia_saudita.png");
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
-		Torneo torneo = ExampleTorneoReader.getTorneo();
-		Date date = new Date();
-		try {
-			date = sdf.parse("14-06-2018 18:00");
-		} catch(Exception e) {
-
-		} 
-		Match p1 = new Match(squadra1, squadra2,torneo.getAbstractSubTorneo("A"), date, 1,"a");
-		list.add(p1);
-		return list;
-
+		return ufficiale.getTorneo().getMatches().values().stream().filter(a-> 
+			a.getDataMatch().before(dataFine) && a.getDataMatch().after(dataInizio)
+		).collect(Collectors.toList());
 	}
+
+//	public List<Match> matchPerData(Date dataInizio, Date dataFine) {
+//
+//		List<Match> list = new ArrayList<>();
+//
+//		Team squadra1 = new Team();
+//		squadra1.setId("RUS");
+//		squadra1.setNome("Russia");
+//		squadra1.setBandiera("images/russia.png");
+//		Team squadra2 = new Team();
+//		squadra2.setId("ARS");
+//		squadra2.setNome("Arabia Saudita");
+//		squadra2.setBandiera("images/arabia_saudita.png");
+//
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+//
+//		Torneo torneo = ExampleTorneoReader.getTorneo();
+//		Date date = new Date();
+//		try {
+//			date = sdf.parse("14-06-2018 18:00");
+//		} catch(Exception e) {
+//
+//		} 
+//		Match p1 = new Match(squadra1, squadra2,torneo.getAbstractSubTorneo("A"), date, 1,"a");
+//		list.add(p1);
+//		return list;
+//
+//	}
 	
 	public Match getMatch(String idMatch) {
-		return matchPerData(null, null).get(0);
+		return ufficiale.getTorneo().getMatches().get(idMatch);
 	}
 
-	public List<Match> pronosticiPerMatch(Match match) {
-		return pronostici.values().stream().map(a-> 
-		a.getTorneo().getMatches().values().stream().filter(b-> b.equi(match)).collect(Collectors.toList()).get(0)
-				).collect(Collectors.toList());
+	public Map<Player, Match> pronosticiPerMatch(Match match) {
+		
+		Map<Player, Match> map = new HashMap<>();
+		
+		for(String k: pronostici.keySet()) {
+			for(Match matchCorrispondente: pronostici.get(k).getTorneo().getMatches().values()) {
+				if(matchCorrispondente.equi(match)) {
+					map.put(pronostici.get(k).getPlayer(), matchCorrispondente);
+				}
+			}
+			
+		}
+		
+		return map;
 	}
 
+	public Collection<Match> getMatchList() {
+		return this.ufficiale.getTorneo().getMatches().values();
+	}
+
+	public void setResult(Match match, int goalHome, int goalAway) {
+		match.play(goalHome, goalAway);
+		// TODO salvare nel file csv
+	}
+	
 	public Map<Pronostico, Integer> getClassifica() {
 		Map<Pronostico, Integer> classifica = new HashMap<Pronostico, Integer>();
 
