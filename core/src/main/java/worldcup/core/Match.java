@@ -168,7 +168,7 @@ public class Match extends JsonSerializable {
 	}
 	
 	public String getDataMatchAsString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 		return sdf.format(dataMatch);
 	}
 
