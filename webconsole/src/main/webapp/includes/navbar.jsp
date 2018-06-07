@@ -2,6 +2,8 @@
   <%
   String context = request.getContextPath();
   
+  String active = "home";
+  String activeClass = "active";
   %>
   
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -12,11 +14,11 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item <%= activeClass%>">
             <a class="nav-link" href="<%=context %>/index.jsp">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<%=context %>/classificaGenerale.jsp">Classifica</a>
+            <a class="nav-link" href="<%=context %>/classificaGenerale.jsp">Classifica Generale</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<%=context %>/pronostici.jsp">Pronostici</a>

@@ -52,6 +52,7 @@
                 <div class="ec-fixture-list">
                     <ul>
                     <% for(int i = 0; i < listaPartite.size() ; i++){ 
+                    	String liStyleClass= i % 2 == 0 ? "" : "";
                     	Match match = listaPartite.get(i);
                     	int id = match.getStadium();
                     	Stadium s = Stadium.getStadiums().get(id);
@@ -59,7 +60,7 @@
 		          		Team s2 = match.getAway();
 		          		
 		          	%>
-                        <li>
+                        <li class="<%=liStyleClass %>">
                             <div class="ec-cell text-centered">
                             	<span><%=match.getDataMatchAsString() %>&nbsp;&nbsp;&nbsp;<a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
                             </div>

@@ -23,6 +23,14 @@ public class ProssimiIncontri {
 		
 		return new ArrayList<>();
 	}
+	
+	public Match getMatch(String idMatch) {
+		return this.gioco.getMatch(idMatch);
+	}
+	
+	public List<Match> getPronosticiPerMatch(Match match) {
+		return this.gioco.pronosticiPerMatch(match);
+	}
 
 //	public List<Partita> getListProssimiIncontri(){
 //		List<Partita> list = new ArrayList<>();

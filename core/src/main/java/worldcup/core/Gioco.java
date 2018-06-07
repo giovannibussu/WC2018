@@ -51,6 +51,10 @@ public class Gioco {
 		return list;
 
 	}
+	
+	public Match getMatch(String idMatch) {
+		return matchPerData(null, null).get(0);
+	}
 
 	public List<Match> pronosticiPerMatch(Match match) {
 		return pronostici.values().stream().map(a-> 

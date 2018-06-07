@@ -1,3 +1,5 @@
+<%@page import="worldcup.core.Team"%>
+<%@page import="worldcup.core.Stadium"%>
 <%@page import="worldcup.core.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
@@ -25,7 +27,8 @@
     <%
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListProssimiIncontri(); 
+    Match match = pi.getMatch(idMatch);
+    List<Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
     
     %>
   </head>
@@ -41,19 +44,47 @@
      </div>
 	<div class="album py-5">
         <div class="container">
+        	<div class="row">
+          		<div class="col-md-12">
+          			<div class="ec-fixture-list">
+                    <ul>
+                    <%  
+                    	int id = match.getStadium();
+                    	Stadium s = Stadium.getStadiums().get(id);
+		          		Team s1 = match.getHome();
+		          		Team s2 = match.getAway();
+		          		
+		          	%>
+                        <li>
+                            <div class="ec-cell text-centered">
+                            	<span><%=match.getDataMatchAsString() %>&nbsp;&nbsp;&nbsp;<a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
+                            </div>
+                            <div class="ec-cell">
+                               	<span class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></span>
+                                <span class="ec-fixture-vs"><small>vs</small></span>
+                                <span class="ec-fixture-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></span>
+                            </div>
+                        </li>
+                    <%  %>       
+                      </ul>
+                  </div>
+          		</div>
+       		</div>
 
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h2>Dettaglio Match blabla</h2>
+	               <h2>Pronostici per il match</h2>
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
-                    <% for(int i = 0; i < listaPartite.size() ; i++){ 
+                    <% for(int i = 0; i < listaPronosticiMatch.size() ; i++){ 
+                    	String liStyleClass= i % 2 == 0 ? "" : "";
+                    	Match m = listaPronosticiMatch.get(i);
 		          	%>
-                        <li>
-                            <div class="ec-cell"><span>Giocatore</span></div>
-                            <div class="ec-cell"><span>1-0</span></div>
+                        <li class="<%=liStyleClass %>">
+                            <div class="ec-cell"><span><%=m.getHome().getNome() %></span></div>
+                            <div class="ec-cell"><span><%=m.getResult() %></span></div>
                         </li>
                     <% } %>       
                       </ul>
