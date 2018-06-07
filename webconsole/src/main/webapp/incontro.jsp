@@ -1,3 +1,5 @@
+<%@page import="worldcup.core.Player"%>
+<%@page import="java.util.Map"%>
 <%@page import="worldcup.core.Team"%>
 <%@page import="worldcup.core.Stadium"%>
 <%@page import="worldcup.core.Match"%>
@@ -28,7 +30,7 @@
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
     Match match = pi.getMatch(idMatch);
-    List<Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
+    Map<Player, Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
     
     %>
   </head>
@@ -78,13 +80,17 @@
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
-                    <% for(int i = 0; i < listaPronosticiMatch.size() ; i++){ 
+<%--                     <% for(int i = 0; i < listaPronosticiMatch.size() ; i++){  --%>
+                      <%
+                      int i = 0;
+                      for(Player p: listaPronosticiMatch.keySet()){
                     	String liStyleClass= i % 2 == 0 ? "" : "";
-                    	Match m = listaPronosticiMatch.get(i);
+                    	i++;
+                    	Match m = listaPronosticiMatch.get(p);
 		          	%>
                         <li class="<%=liStyleClass %>">
-                            <div class="ec-cell"><span><%=m.getHome().getNome() %></span></div>
-                            <div class="ec-cell"><span><%=m.getResult() %></span></div>
+                            <div class="ec-cell"><span><%=p.getNome()%></span></div>
+                            <div class="ec-cell"><span><%=m.getResult().getRisultatoEsatto() %></span></div>
                         </li>
                     <% } %>       
                       </ul>

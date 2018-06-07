@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProssimiIncontri {
 	
@@ -28,7 +29,7 @@ public class ProssimiIncontri {
 		return this.gioco.getMatch(idMatch);
 	}
 	
-	public List<Match> getPronosticiPerMatch(Match match) {
+	public Map<Player, Match> getPronosticiPerMatch(Match match) {
 		return this.gioco.pronosticiPerMatch(match);
 	}
 

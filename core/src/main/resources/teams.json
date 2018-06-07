@@ -2,193 +2,193 @@
 	{
 		"nome": "Egitto",
 		"id": "EGY",
-		"bandiera": "/images/egitto.png",
+		"bandiera": "images/egitto.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Inghilterra",
 		"id": "ENG",
-		"bandiera": "/images/inghilterra.png",
+		"bandiera": "images/inghilterra.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Portogallo",
 		"id": "POR",
-		"bandiera": "/images/portogallo.png",
+		"bandiera": "images/portogallo.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Islanda",
 		"id": "ISL",
-		"bandiera": "/images/islanda.png",
+		"bandiera": "images/islanda.png",
 		"fairPlay": 1
 	},
 	{
 		"nome": "Russia",
 		"id": "RUS",
-		"bandiera": "/images/russia.png",
+		"bandiera": "images/russia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Costa Rica",
 		"id": "CRC",
-		"bandiera": "/images/costa_rica.png",
+		"bandiera": "images/costa_rica.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Arabia Saudita",
 		"id": "KSA",
-		"bandiera": "/images/arabia_saudita.png",
+		"bandiera": "images/arabia_saudita.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Svezia",
 		"id": "SWE",
-		"bandiera": "/images/svezia.png",
+		"bandiera": "images/svezia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Corea del Sud",
 		"id": "KOR",
-		"bandiera": "/images/corea_del_sud.png",
+		"bandiera": "images/corea_del_sud.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Marocco",
 		"id": "MAR",
-		"bandiera": "/images/marocco.png",
+		"bandiera": "images/marocco.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Iran",
 		"id": "IRN",
-		"bandiera": "/images/iran.png",
+		"bandiera": "images/iran.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Panama",
 		"id": "PAN",
-		"bandiera": "/images/panama.png",
+		"bandiera": "images/panama.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Brasile",
 		"id": "BRA",
-		"bandiera": "/images/brazil.png",
+		"bandiera": "images/brazil.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Polonia",
 		"id": "POL",
-		"bandiera": "/images/polonia.png",
+		"bandiera": "images/polonia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Francia",
 		"id": "FRA",
-		"bandiera": "/images/francia.png",
+		"bandiera": "images/francia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Nigeria",
 		"id": "NGA",
-		"bandiera": "/images/nigeria.png",
+		"bandiera": "images/nigeria.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Serbia",
 		"id": "SRB",
-		"bandiera": "/images/serbia.png",
+		"bandiera": "images/serbia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Tunisia",
 		"id": "TUN",
-		"bandiera": "/images/tunisia.png",
+		"bandiera": "images/tunisia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Croazia",
 		"id": "CRO",
-		"bandiera": "/images/croatia.png",
+		"bandiera": "images/croatia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Colombia",
 		"id": "COL",
-		"bandiera": "/images/colombia.png",
+		"bandiera": "images/colombia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Argentina",
 		"id": "ARG",
-		"bandiera": "/images/argentina.png",
+		"bandiera": "images/argentina.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Uruguay",
 		"id": "URU",
-		"bandiera": "/images/uruguay.png",
+		"bandiera": "images/uruguay.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Giappone",
 		"id": "JPN",
-		"bandiera": "/images/giappone.png",
+		"bandiera": "images/giappone.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Svizzera",
 		"id": "SUI",
-		"bandiera": "/images/svizzera.png",
+		"bandiera": "images/svizzera.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Spagna",
 		"id": "ESP",
-		"bandiera": "/images/spagna.png",
+		"bandiera": "images/spagna.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Belgio",
 		"id": "BEL",
-		"bandiera": "/images/belgio.png",
+		"bandiera": "images/belgio.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Senegal",
 		"id": "SEN",
-		"bandiera": "/images/senegal.png",
+		"bandiera": "images/senegal.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Danimarca",
 		"id": "DEN",
-		"bandiera": "/images/danimarca.png",
+		"bandiera": "images/danimarca.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Messico",
 		"id": "MEX",
-		"bandiera": "/images/messico.png",
+		"bandiera": "images/messico.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Australia",
 		"id": "AUS",
-		"bandiera": "/images/australia.png",
+		"bandiera": "images/australia.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Peru",
 		"id": "PER",
-		"bandiera": "/images/peru.png",
+		"bandiera": "images/peru.png",
 		"fairPlay": 0
 	},
 	{
 		"nome": "Germania",
 		"id": "GER",
-		"bandiera": "/images/germania.png",
+		"bandiera": "images/germania.png",
 		"fairPlay": 0
 	}
 ]
