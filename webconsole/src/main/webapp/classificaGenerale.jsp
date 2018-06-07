@@ -1,3 +1,5 @@
+<%@page import="worldcup.core.Pronostico"%>
+<%@page import="worldcup.core.ClassificaGenerale"%>
 <%@page import="worldcup.core.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
@@ -24,8 +26,7 @@
     
     <%
     
-    ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListProssimiIncontri(); 
+    ClassificaGenerale classifica = new ClassificaGenerale();
     
     %>
   </head>
@@ -49,14 +50,26 @@
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
-                    <% for(int i = 0; i < listaPartite.size() ; i++){ 
-		          	%>
-                        <li>
+                    	<li>
                             <div class="ec-cell"><span>Giocatore</span></div>
                             <div class="ec-cell"><span>Punti</span></div>
-                            <div class="ec-cell"><span>Germania</span></div>
+                            <div class="ec-cell"><span>Squadra Vincente</span></div>
                         </li>
-                    <% } %>       
+	                    <% 
+	                    	int i = 1;
+	                    	for(Pronostico pronostico: classifica.getClassificaGenerale().keySet()){
+	                    		String liStyleClass= i % 2 == 0 ? "" : "";
+	                    		Integer punteggioGiocatore = classifica.getClassificaGenerale().get(pronostico);
+			          	%>
+	                        <li class="<%=liStyleClass %>">
+	                            <div class="ec-cell"><span><%=pronostico.getNome() %></span></div>
+	                            <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
+	                            <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
+	                        </li>
+	                    <% 
+	                    	i++;
+	                    	} 
+	                    %>       
                       </ul>
                   </div>
               </div>
