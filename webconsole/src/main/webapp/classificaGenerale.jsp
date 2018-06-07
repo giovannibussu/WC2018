@@ -1,8 +1,5 @@
 <%@page import="worldcup.core.Match"%>
-<%@page import="worldcup.bean.Squadra"%>
-<%@page import="worldcup.bean.Stadio"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
-<%@page import="worldcup.bean.Partita"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>

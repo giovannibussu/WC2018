@@ -5,10 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import worldcup.bean.Partita;
-import worldcup.bean.Squadra;
-import worldcup.bean.Stadio;
-
 public class ProssimiIncontri {
 	
 	private Gioco gioco = null;
