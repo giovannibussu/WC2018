@@ -1,8 +1,10 @@
 package worldcup.core;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -90,6 +92,14 @@ public class Gioco {
 			classifica.put(pronostico, ufficiale.getTorneo().getPoints(pronostico.getTorneo()));
 		}
 
-		return classifica;
+		LinkedHashMap<Pronostico, Integer> reverseSortedMap = new LinkedHashMap<>();
+		
+		//Use Comparator.reverseOrder() for reverse ordering
+		classifica.entrySet()
+		    .stream()
+		    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+		    .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+		
+		return reverseSortedMap;
 	}
 }
