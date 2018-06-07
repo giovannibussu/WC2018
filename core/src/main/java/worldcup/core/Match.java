@@ -1,5 +1,6 @@
 package worldcup.core;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import worldcup.core.MatchResult.RISULTATO;
@@ -13,12 +14,12 @@ public class Match extends JsonSerializable {
 	private AbstractSubTorneo torneo;
 	private Date dataMatch;
 	private int stadium;
-	
-	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
-		this.init(a, b, torneo, dataMatch, stadium);
+	private String matchId;
+	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
+		this.init(a, b, torneo, dataMatch, stadium, matchId);
 	}
 
-	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
+	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
 		Team a = null;
 		Team b = null;
 		if(torneoA.isPlayed())
@@ -30,9 +31,10 @@ public class Match extends JsonSerializable {
 		else
 			torneoB.registerMatch(this, false, indexB);
 		
-		this.init(a, b, torneo, dataMatch, stadium);
+		this.init(a, b, torneo, dataMatch, stadium, matchId);
 	}
-	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium) {
+	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
+		this.matchId = matchId;
 		this.stadium = stadium;
 		this.dataMatch = dataMatch;
 		this.home = a;
@@ -164,6 +166,11 @@ public class Match extends JsonSerializable {
 	public Date getDataMatch() {
 		return dataMatch;
 	}
+	
+	public String getDataMatchAsString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+		return sdf.format(dataMatch);
+	}
 
 	public AbstractSubTorneo getTorneo() {
 		return torneo;
@@ -197,5 +204,9 @@ public class Match extends JsonSerializable {
 
 	public int getStadium() {
 		return stadium;
+	}
+
+	public String getMatchId() {
+		return matchId;
 	}
 }

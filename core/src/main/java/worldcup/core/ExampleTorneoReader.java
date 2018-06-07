@@ -77,7 +77,7 @@ public class ExampleTorneoReader
 					gironi.put(girone, new Girone(girone, nTeamGirone, nTeamPassaggioTurnoGirone));
 				}
 				
-				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium));
+				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium, idMatch));
 			}
 
 			
@@ -136,7 +136,7 @@ public class ExampleTorneoReader
 					prevoiusAwayP = gironi.get(previousAway);
 				}
 
-				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, stadium));
+				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, stadium, gameNumber));
 			}
 
 			

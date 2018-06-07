@@ -1,7 +1,7 @@
-<%@page import="worldcup.bean.Squadra"%>
-<%@page import="worldcup.bean.Stadio"%>
+<%@page import="worldcup.core.Team"%>
+<%@page import="worldcup.core.Stadium"%>
+<%@page import="worldcup.core.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
-<%@page import="worldcup.bean.Partita"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
@@ -27,7 +27,7 @@
     <%
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Partita> listaPartite = pi.getListProssimiIncontri(); 
+    List<Match> listaPartite = pi.getListProssimiIncontri(); 
     
     %>
   </head>
@@ -52,21 +52,21 @@
                 <div class="ec-fixture-list">
                     <ul>
                     <% for(int i = 0; i < listaPartite.size() ; i++){ 
-		          		Partita p = listaPartite.get(i);
-		          		Stadio s = p.getStadio();
-		          		Squadra s1 = p.getSquadra1();
-		          		Squadra s2 = p.getSquadra2();
+                    	Match match = listaPartite.get(i);
+                    	int id = match.getStadium();
+                    	Stadium s = Stadium.getStadiums().get(id);
+		          		Team s1 = match.getHome();
+		          		Team s2 = match.getAway();
+		          		
 		          	%>
                         <li>
-                            <div class="ec-cell">
-                            	<span><%=p.getData() %>&nbsp;&nbsp;ore&nbsp;<%=p.getOra() %></span>
-                            	<br/>
-                             	<span><a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
+                            <div class="ec-cell text-centered">
+                            	<span><%=match.getDataMatchAsString() %>&nbsp;&nbsp;&nbsp;<a href="<%=s.getLink() %>"><%=s.getNome() %></a></span>
                             </div>
                             <div class="ec-cell">
                                	<span class="ec-fixture-flag"><img src="<%=s1.getBandiera() %>" alt=""> <%=s1.getNome() %></span>
-                                <a href="<%=context %>/incontro.jsp?idMatch=<%=p.getId() %>" class="ec-fixture-vs" title="Vedi Pronostici"><small>vs</small></a>
-                                <span class="ec-fixture-flag ec-next-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></span>
+                                <a href="<%=context %>/incontro.jsp?idMatch=<%=match.getMatchId() %>" class="ec-fixture-vs" title="Vedi Pronostici"><small>vs</small></a>
+                                <span class="ec-fixture-flag"><img src="<%=s2.getBandiera() %>" alt=""> <%=s2.getNome() %></span>
                             </div>
                         </li>
                     <% } %>       

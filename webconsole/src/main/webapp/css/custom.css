@@ -74,14 +74,14 @@ ul {margin-bottom: 0px;}
 .ec-fixture-flag {
 	color: #555555;
 	display: inline-block;
-	width: 130px;
+/* 	width: 130px; */
 }
 .ec-fixture-flag img { margin-right: 4px; }
 .ec-fixture-vs {
 	display: inline-block;
-	margin: 0px 18px;
+	margin: 0px 24px;
 	position: relative;
-	padding: 2px;
+	padding: 4px;
 }
 .ec-fixture-vs small {
 	display: inline-block;
@@ -95,7 +95,7 @@ ul {margin-bottom: 0px;}
 	font-weight: bold;
 	text-align: center;
 	border-radius: 100%;
-	padding: 2px 0px 0px 0px;
+	padding: 4px 0px 0px 0px;
 }
 .ec-matches-list .ec-fixture-flag {
 	width: 30%;

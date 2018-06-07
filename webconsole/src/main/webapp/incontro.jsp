@@ -1,3 +1,4 @@
+<%@page import="worldcup.core.Match"%>
 <%@page import="worldcup.bean.Squadra"%>
 <%@page import="worldcup.bean.Stadio"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
@@ -27,7 +28,7 @@
     <%
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Partita> listaPartite = pi.getListProssimiIncontri(); 
+    List<Match> listaPartite = pi.getListProssimiIncontri(); 
     
     %>
   </head>
