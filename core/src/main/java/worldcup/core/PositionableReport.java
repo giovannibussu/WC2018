@@ -80,8 +80,14 @@ public class PositionableReport {
 		
 		if(posizioni!=null)
 			for(String k: posizioni.keySet()) {
-				if(original.getPosizioni() !=null && original.getPosizioni().get(k).equals(this.getPosizioni().get(k)))
-					result.addPosizioneTabellone();
+				if(original.getPosizioni() !=null )
+				{
+					
+					Team t1 =original.getPosizioni().get(k);
+					Team t2= this.getPosizioni().get(k);
+					if (t1 != null && t2 != null && t1.equals(t2))
+					  result.addPosizioneTabellone();
+				}
 			}
 		
 		return result;
