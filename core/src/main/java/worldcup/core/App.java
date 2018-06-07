@@ -16,8 +16,10 @@ public class App
 	{
 		PronosticoReader reader ;
 		try { 
+			System.out.println("Cerco versione cache per "+spreadsheetId);
 	 		reader = new FileSystemPronosticoReader(spreadsheetId);
 		} catch (FileNotFoundException fnfe) {
+			System.out.println("Non Trovata. Recupero versione OnLine per "+spreadsheetId);
 			reader = new GoogleApiPronosticoReader(spreadsheetId);
                         File file = new File(Costanti.PRONOSTICO_FOLDER, spreadsheetId + ".csv");
                         FileOutputStream fos = new FileOutputStream(file);
@@ -26,12 +28,15 @@ public class App
  
                         for (PronosticoInput pronostico : reader.readResults()) {
                   	      System.out.println(pronostico);
-                        	osw.write(pronostico.getId()+","+pronostico.getHome()+","+pronostico.getAway());
+                        	osw.write(pronostico.toString());
+                        	osw.write('\n');
                         }
 
  
 			osw.close();
+			reader = new FileSystemPronosticoReader(spreadsheetId);
 		}
+		System.out.println("Pronostici recuperati");
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
 		Torneo pronosticoA = ExampleTorneoReader.getTorneo();
@@ -45,7 +50,7 @@ public class App
 		}
 //pronosticoA.play("1", 1, 0);
 //pronosticoB.play("1", 2, 0);
-		risultatoUfficiale.play("1", 2, 0);
+//		risultatoUfficiale.play("1", 2, 0);
 		//stampa tutto il pronostico (verboso)
 //		System.out.println(pronosticoA.toString());
 
@@ -58,7 +63,13 @@ public class App
 		System.out.println(pronosticoA.getAbstractSubTorneo("F").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("G").toString());
 		System.out.println(pronosticoA.getAbstractSubTorneo("H").toString());
-		
+	
+		for (int i=49; i<=64; i++) {
+			if (i== 63) continue;
+			System.out.println(pronosticoA.getAbstractSubTorneo(""+i).toString());
+		}
+
+	
 		// stampa il pronostico di una partita
 		System.out.println("Pronostico vincitore: " +pronosticoA.getWinner().getNome());
 		
