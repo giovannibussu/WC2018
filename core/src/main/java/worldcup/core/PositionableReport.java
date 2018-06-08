@@ -59,37 +59,75 @@ public class PositionableReport {
 	private PositionableResult getResult(PositionableReport original) {
 		PositionableResult result = new PositionableResult();
 		
+		System.out.println("*** Calcolo Risultati ***");
 		for(Match match: matches.keySet()) {
+			System.out.println(" Match : "+match);
 			Match other = getEqui(original.getMatches(), match);
-			
 			if(other!=null) {
 				if(match.isPlayed() && other.isPlayed()) {
-					if(match.getResult().getRisultato().equals(other.getResult().getRisultato()))
+					System.out.println("  Risultato  :"+(match.getResult().getRisultato()));
+					System.out.println("  Pronostico :"+(other.getResult().getRisultato()));
+					if(match.getResult().getRisultato().equals(other.getResult().getRisultato())) {
+						    System.out.println("   Risultato Indovinato");
 						result.addRisultato();
-					if(match.getResult().getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto()))
+					} else {						
+					    System.out.println("   Risultato NON indovinato");
+					}
+					if(match.getResult().getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto())) {
+						System.out.println("   Risultato Esatto Indovinato");
 						result.addRisultatoEsatto();
+					} else {
+						System.out.println("   Risultato Esatto NON Indovinato");
+					}
+				} else {
+					System.out.println("  Match non giocato o non pronosticao");
+				}
+		
+			} else {
+				System.out.println("  Match non Equi");
+			}
+		}
+		 System.out.println("************************");
+		 System.out.println("");
+
+		System.out.println("*** Calcolo Passaggi ***");
+		if(passaggioTurno!=null) {
+			for(Team team: passaggioTurno) {
+				System.out.println("  Risultato  :"+team.getNome());
+				System.out.println("  Pronostico :"+((original.getPassaggioTurno()!= null) ? original.getPassaggioTurno().toString() : "NULL"));
+				if(original.getPassaggioTurno()!= null && original.getPassaggioTurno().contains(team)) {
+					System.out.println("   Passaggio Indovinato");
+					result.addPassaggioTurno();
+				} else {
+					System.out.println("   Passaggio NON Indovinato");
 				}
 			}
 		}
-		
-		if(passaggioTurno!=null)
-			for(Team team: passaggioTurno) {
-				if(original.getPassaggioTurno()!= null && original.getPassaggioTurno().contains(team))
-					result.addPassaggioTurno();
-			}
-		
-		if(posizioni!=null)
+		System.out.println("************************");
+		 System.out.println("");
+				
+		System.out.println("*** Calcolo Posizioni ***");
+		if(posizioni!=null) {
 			for(String k: posizioni.keySet()) {
 				if(original.getPosizioni() !=null )
 				{
-					
+					System.out.println("Posizione : "+k);
 					Team t1 =original.getPosizioni().get(k);
+						System.out.println("  Risultato  :"+((t1 != null) ? t1.getNome() : "NULL" ));
+						
 					Team t2= this.getPosizioni().get(k);
-					if (t1 != null && t2 != null && t1.equals(t2))
+						System.out.println("  Pronostico :"+((t2 != null) ? t2.getNome() : "NULL" ));
+					if (t1 != null && t2 != null && t1.equals(t2)) {
+					    System.out.println("   Posizione Indovinata");
 					  result.addPosizioneTabellone();
+					} else {
+					    System.out.println("   Posizione NON indovinata");
+					}
 				}
 			}
-		
+		}
+		System.out.println("*************************");
+		 System.out.println("");
 		return result;
 	}
 	private Match getEqui(Map<Match, MatchResult> matches, Match orig) {
