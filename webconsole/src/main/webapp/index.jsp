@@ -94,7 +94,7 @@
             id: tooltipID,
             class: 'tooltip-content',
             html: $(this).data('title'),
-            style: 'position: absolute;
+            style: 'position: absolute,
             top: ' + e.pageY + '; left: ' + e.pageX
         }).appendTo('body');
     }, function() {

@@ -6,6 +6,7 @@ public class Team extends JsonSerializable {
 	private String id;
 	private String bandiera;
 	private int fairPlay;
+	private String link;
 
 	public int getFairPlay() {
 		return fairPlay;
@@ -41,5 +42,10 @@ public class Team extends JsonSerializable {
 	public void setBandiera(String bandiera) {
 		this.bandiera = bandiera;
 	}
-	
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
 }

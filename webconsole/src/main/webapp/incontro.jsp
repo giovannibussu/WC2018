@@ -87,10 +87,11 @@
                     	String liStyleClass= i % 2 == 0 ? "" : "";
                     	i++;
                     	Match m = listaPronosticiMatch.get(p);
+                    	String risultato = (m.getResult() != null && m.getResult().getRisultatoEsatto() != null) ? m.getResult().getRisultatoEsatto() : "";
 		          	%>
                         <li class="<%=liStyleClass %>">
                             <div class="ec-cell"><span><%=p.getNome()%></span></div>
-                            <div class="ec-cell"><span><%=m.getResult().getRisultatoEsatto() %></span></div>
+                            <div class="ec-cell"><span><%=risultato %></span></div>
                         </li>
                     <% } %>       
                       </ul>

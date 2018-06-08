@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="worldcup.core.Pronostico"%>
 <%@page import="worldcup.core.ClassificaGenerale"%>
 <%@page import="worldcup.core.Match"%>
@@ -25,9 +26,9 @@
     <link href="css/custom.css" rel="stylesheet">
     
     <%
-    
-    ClassificaGenerale classifica = new ClassificaGenerale();
-    
+    String categoria = request.getParameter("cat");
+    ClassificaGenerale classificaGenerale = new ClassificaGenerale();
+    Map<Pronostico,Integer> classifica = classificaGenerale.getClassificaGenerale(categoria);
     %>
   </head>
 
@@ -57,9 +58,9 @@
                         </li>
 	                    <% 
 	                    	int i = 1;
-	                    	for(Pronostico pronostico: classifica.getClassificaGenerale().keySet()){
+	                    	for(Pronostico pronostico: classifica.keySet()){
 	                    		String liStyleClass= i % 2 == 0 ? "" : "";
-	                    		Integer punteggioGiocatore = classifica.getClassificaGenerale().get(pronostico);
+	                    		Integer punteggioGiocatore = classifica.get(pronostico);
 			          	%>
 	                        <li class="<%=liStyleClass %>">
 	                            <div class="ec-cell"><span><%=pronostico.getPlayer().getNome() %></span></div>

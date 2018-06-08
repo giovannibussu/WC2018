@@ -13,6 +13,7 @@ public class Player extends JsonSerializable {
 
 	private String nome;
 	private String id;
+	private String categoria;
 	
 	public String getNome() {
 		return nome;
@@ -27,7 +28,13 @@ public class Player extends JsonSerializable {
 		this.id = id;
 	}
 	
-	
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
 	private static Map<String, Player> players;
 	
 	public static Map<String, Player> getPlayers() {
