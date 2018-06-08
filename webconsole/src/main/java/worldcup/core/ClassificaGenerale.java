@@ -27,5 +27,7 @@ public class ClassificaGenerale {
 		return classifica;
 	}
 	
-	
+	public List<Pronostico> getPronostici() {
+		return this.gioco.getListaPronostici();
+	}
 }

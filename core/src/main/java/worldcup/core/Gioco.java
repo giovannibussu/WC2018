@@ -1,6 +1,8 @@
 package worldcup.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -101,5 +103,18 @@ public class Gioco {
 		    .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 		
 		return reverseSortedMap;
+	}
+	
+	public List<Pronostico> getListaPronostici(){
+		List<String> listaKey = new ArrayList<>();
+		listaKey.addAll(this.pronostici.keySet());
+		Collections.sort(listaKey);
+		
+		List<Pronostico> lstRet = new ArrayList<>();
+		for (String key : listaKey) {
+			lstRet.add(this.pronostici.get(key));
+		}
+		
+		return lstRet;
 	}
 }
