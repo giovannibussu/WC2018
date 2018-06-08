@@ -62,7 +62,7 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 				
 			}
 		} catch(Exception e) {
-			System.err.println("Errore durante la lettura da google API:" + e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		}
 		return inputLst;
 	}
@@ -78,6 +78,10 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 			con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			responseCode = con.getResponseCode();
+			
+			if(responseCode == 404) {
+				throw new Exception("GoogleDocs non trovato: ["+url+"]");
+			}			
 			if(responseCode > 300) {
 				System.out.println("ResponseCode: " +responseCode);
 				Thread.sleep(30000);

@@ -1,10 +1,8 @@
 package worldcup.core;
-import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
-import java.io.FileNotFoundException;
 /**
  * Hello world!
  *
@@ -21,7 +19,7 @@ public class App
 		} catch (FileNotFoundException fnfe) {
 			System.out.println("Non Trovata. Recupero versione OnLine per "+spreadsheetId);
 			reader = new GoogleApiPronosticoReader(spreadsheetId);
-                        File file = new File(Costanti.PRONOSTICO_FOLDER, spreadsheetId + ".csv");
+                        File file = new File(WorldCupProperties.getInstance().getPronosticiFolder(), spreadsheetId + ".csv");
                         FileOutputStream fos = new FileOutputStream(file);
  
                         OutputStreamWriter osw = new OutputStreamWriter(fos);

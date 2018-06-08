@@ -17,7 +17,7 @@ public class Gioco {
 	public Gioco() {
 		this.pronostici = PronosticiReader.leggiPronostici();
 		Player playerUfficiale = new Player();
-		playerUfficiale.setId(Costanti.PRONOSTICO_UFFICIALE_ID);
+		playerUfficiale.setId(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
 		this.ufficiale= new Pronostico(playerUfficiale);
 	}
 

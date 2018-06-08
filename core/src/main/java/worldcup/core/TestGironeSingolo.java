@@ -1,12 +1,8 @@
 package worldcup.core;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.io.FileNotFoundException;
-import java.util.Random;
 import java.io.IOException;
+import java.util.Random;
 /**
  * Hello world!
  *
@@ -19,7 +15,7 @@ public class TestGironeSingolo
 		Random rand = new Random();
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(new File(Costanti.PRONOSTICO_FOLDER, pronosticoId+".csv"));
+			fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), pronosticoId+".csv"));
 			for (int i=1; i<=64; i++) {
 				if (i==63) continue;
 				PronosticoInput p = new PronosticoInput();

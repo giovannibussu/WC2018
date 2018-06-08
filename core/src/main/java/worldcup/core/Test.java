@@ -9,13 +9,13 @@ import java.util.Random;
  */
 public class Test 
 {
-	private static final int N_PLAYERS = 1;
+	private static final int N_PLAYERS = 10;
 	
 	public static final void PronosticoWriter(String pronosticoId) {
 		Random rand = new Random();
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(new File(Costanti.PRONOSTICO_FOLDER, pronosticoId+".csv"));
+			fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), pronosticoId+".csv"));
 			for (int i=1; i<=64; i++) {
 				if (i==63) continue;
 				PronosticoInput p = new PronosticoInput();
@@ -60,9 +60,9 @@ public class Test
 		System.out.println("Pronostici recuperati");
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
-		PronosticoWriter(Costanti.PRONOSTICO_UFFICIALE_ID);
+		PronosticoWriter(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
-		reader = new FileSystemPronosticoReader(Costanti.PRONOSTICO_UFFICIALE_ID);
+		reader = new FileSystemPronosticoReader(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
                 for (PronosticoInput pronostico : reader.readResults()) {
 	                System.out.println(pronostico);
                         risultatoUfficiale.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());

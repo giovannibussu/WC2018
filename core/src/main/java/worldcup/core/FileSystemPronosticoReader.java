@@ -13,7 +13,7 @@ public class FileSystemPronosticoReader implements PronosticoReader {
 	private FileInputStream fis;
 	public FileSystemPronosticoReader(String spreadsheetId) throws FileNotFoundException {
 		
-		File file = new File(Costanti.PRONOSTICO_FOLDER, spreadsheetId + ".csv");
+		File file = new File(WorldCupProperties.getInstance().getPronosticiFolder(), spreadsheetId + ".csv");
 		this.fis = new FileInputStream(file);
 	}
 	

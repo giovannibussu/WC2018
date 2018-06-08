@@ -34,7 +34,7 @@ public class PronosticiReader {
 				readResults = reader.readResults();
 				FileOutputStream fos = null;
 				try {
-					fos = new FileOutputStream(new File(Costanti.PRONOSTICO_FOLDER, pronosticoId+".csv"));
+					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getIdPronosticoUfficiale(), pronosticoId+".csv"));
 					for(PronosticoInput p: readResults) {
 						fos.write(p.toString().getBytes());
 						fos.write("\n".getBytes());
