@@ -17,7 +17,7 @@ public class ProssimiIncontri {
 	public List<Match> getListProssimiIncontri(){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		try {
-			return this.gioco.matchPerData(sdf.parse("14-06-2018"), sdf.parse("15-06-2018"));
+			return this.gioco.matchPerData(sdf.parse("14-06-2018"), sdf.parse("16-06-2018"));
 		} catch (ParseException e) {
 			System.out.println(e.getMessage()); 
 		}

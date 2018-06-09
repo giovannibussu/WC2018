@@ -168,7 +168,12 @@ public class Match extends JsonSerializable {
 	}
 	
 	public String getDataMatchAsString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE dd/MM");
+		return sdf.format(dataMatch);
+	}
+	
+	public String getOraMatchAsString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		return sdf.format(dataMatch);
 	}
 

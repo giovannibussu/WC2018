@@ -39,13 +39,13 @@
   	<div class="starter-template">
         <h1>&nbsp;&nbsp;</h1>
      </div>
-	<div class="album py-5">
+	<div class="album">
         <div class="container">
 
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h2>Regolamento</h2>
+	               <h3>Regolamento</h3>
                 </div>
                 <div class="ec-fixture-list">
                     <ul>

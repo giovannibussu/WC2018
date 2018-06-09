@@ -41,13 +41,13 @@
   	<div class="starter-template">
         <h1>&nbsp;&nbsp;</h1>
      </div>
-	<div class="album py-5">
+	<div class="album">
         <div class="container">
 
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h2>Classifica Generale</h2>
+	               <h3>Classifica Generale</h3>
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
@@ -59,7 +59,7 @@
 	                    <% 
 	                    	int i = 1;
 	                    	for(Pronostico pronostico: classifica.keySet()){
-	                    		String liStyleClass= i % 2 == 0 ? "" : "";
+	                    		String liStyleClass= i % 2 == 0 ? "even" : "odd";
 	                    		Integer punteggioGiocatore = classifica.get(pronostico);
 			          	%>
 	                        <li class="<%=liStyleClass %>">

@@ -40,21 +40,21 @@
   	<div class="starter-template">
         <h1>&nbsp;&nbsp;</h1>
      </div>
-	<div class="album py-5">
+	<div class="album">
         <div class="container">
 
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h2>Pronostici</h2>
+	               <h3>Pronostici</h3>
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
                     <% for(int i = 0; i < listaPronostici.size() ; i++){ 
                     	Pronostico pronostico = listaPronostici.get(i);
-                    	
+                    	String liStyleClass= i % 2 == 0 ? "even" : "odd";
 		          	%>
-                        <li>
+                        <li class="<%=liStyleClass %>">
                             <div class="ec-cell"><span><a href="#"><%=pronostico.getPlayer().getNome() %></a></span></div>
                             <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
                         </li>
