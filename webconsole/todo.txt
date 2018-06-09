@@ -1,0 +1,7 @@
+1. sistemare footer;
+
+2. agganciare dettaglio partita (fase a gironi blablabla..)
+
+3. form per inserire i risultati.
+
+
