@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class PronosticiReader {
 				readResults = reader.readResults();
 				FileOutputStream fos = null;
 				try {
-					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getIdPronosticoUfficiale(), pronosticoId+".csv"));
+					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), pronosticoId+".csv"));
 					for(PronosticoInput p: readResults) {
 						fos.write(p.toString().getBytes());
 						fos.write("\n".getBytes());
@@ -44,6 +45,15 @@ public class PronosticiReader {
 				}finally {
 					try {if(fos!=null) fos.close();} catch(IOException exx) {}
 				}
+				try {
+					reader = new FileSystemPronosticoReader(pronosticoId);	
+				} catch (FileNotFoundException fnfe) {
+					System.err.println("Errore durante la lettura del file:"+fnfe.getMessage());
+					System.err.println("Utente non registrato?");
+					readResults = new ArrayList<PronosticoInput>();
+				}
+				
+				
 			}
 			
 

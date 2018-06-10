@@ -1,7 +1,9 @@
 package worldcup.core;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 /**
  * Hello world!
@@ -9,7 +11,7 @@ import java.util.Random;
  */
 public class TestGironeSingolo 
 {
-	private static final  String[] spreadsheetId = { "player1"  };
+	private static final  String[] spreadsheetId = { "11MRXVKQDj4PhrJI_cWkl9yzrePLo1cKS-aKQBjcm3xw" , "1nHYfpodMY-DmPgK4wnAj42tzGrQ9NH9Qz8DtjpBuPMk"  };
 
 	public static final void PronosticoWriter(String pronosticoId) {
 		Random rand = new Random();
@@ -43,9 +45,35 @@ public class TestGironeSingolo
 		PronosticoReader reader ;
 		int j=0;
 		for (String id : spreadsheetId) {
+			
+			List<PronosticoInput> readResults = null;
 			//PronosticoWriter(id);
-                        System.out.println("Cerco versione cache per "+id);
-                        reader = new FileSystemPronosticoReader(id);
+            System.out.println("Cerco versione cache per "+id);
+			try {
+				reader = new FileSystemPronosticoReader(id);
+				readResults = reader.readResults();
+			} catch(FileNotFoundException e) {
+				reader = new GoogleApiPronosticoReader(id);
+				readResults = reader.readResults();
+				FileOutputStream fos = null;
+				try {
+					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), id+".csv"));
+					for(PronosticoInput p: readResults) {
+						fos.write(p.toString().getBytes());
+						fos.write("\n".getBytes());
+					}
+				} catch(IOException ex) {
+					System.err.println("Errore durante la scrittura del file:"+ex.getMessage());
+				}finally {
+					try {if(fos!=null) fos.close();} catch(IOException exx) {}
+				}
+				reader = new FileSystemPronosticoReader(id);
+			}
+			
+			
+			
+
+                        
 
 			Tornei[j] = ExampleTorneoReader.getTorneo();
 	                for (PronosticoInput pronostico : reader.readResults()) {

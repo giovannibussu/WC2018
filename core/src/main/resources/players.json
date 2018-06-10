@@ -1,52 +1,13 @@
 [
-	{
-		"nome": "player0",
-		"id": "player0",
-      	"categoria" : "link"
-	},
-	{
-		"nome": "player1",
-		"id": "player1",
+		{
+		"nome": "andreamancia",
+		"id": "11MRXVKQDj4PhrJI_cWkl9yzrePLo1cKS-aKQBjcm3xw",
       	"categoria" : ""
 	},
 	{
-		"nome": "player2",
-		"id": "player2",
-      	"categoria" : ""
-	},
-	{
-		"nome": "player3",
-		"id": "player3",
-      	"categoria" : ""
-	},
-	{
-		"nome": "player4",
-		"id": "player4",
-      	"categoria" : "link"
-	},
-	{
-		"nome": "player5",
-		"id": "player5",
-      	"categoria" : ""
-	},
-	{
-		"nome": "player6",
-		"id": "player6",
-      	"categoria" : ""
-	},
-	{
-		"nome": "player7",
-		"id": "player7",
-      	"categoria" : ""
-	},
-	{
-		"nome": "player8",
-		"id": "player8",
-      	"categoria" : "link"
-	},
-	{
-		"nome": "player9",
-		"id": "player9",
+		"nome": "gabri.preto74",
+		"id": "1nHYfpodMY-DmPgK4wnAj42tzGrQ9NH9Qz8DtjpBuPMk",
       	"categoria" : ""
 	}
+	
 ]
