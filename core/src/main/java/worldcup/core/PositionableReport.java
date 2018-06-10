@@ -7,17 +7,26 @@ import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class PositionableReport {
 
+	private TYPE type;
+	
 	public List<Team> getPassaggioTurno() {
 		return passaggioTurno;
 	}
 	public void setPassaggioTurno(List<Team> passaggioTurno) {
-		this.passaggioTurno = passaggioTurno;
+		if(this.passaggioTurno == null)
+			this.passaggioTurno = passaggioTurno;
+		else
+			this.passaggioTurno.addAll(passaggioTurno);
+			
 	}
 	public Map<String, Team> getPosizioni() {
 		return posizioni;
 	}
 	public void setPosizioni(Map<String, Team> posizioni) {
-		this.posizioni = posizioni;
+		if (this.posizioni == null)
+			this.posizioni = posizioni;
+		else
+			this.posizioni.putAll(posizioni);
 	}
 	public Map<Match, MatchResult> getMatches() {
 		return matches;
@@ -31,6 +40,7 @@ public class PositionableReport {
 	private PositionableConfiguration conf;
 
 	public PositionableReport(TYPE type) {
+		this.type =type;
 		switch(type) {
 		case FINALE: conf = PositionableConfigurationFactory.getFinaleConfiguration();
 			break;
@@ -58,7 +68,7 @@ public class PositionableReport {
 	
 	private PositionableResult getResult(PositionableReport original) {
 		PositionableResult result = new PositionableResult();
-		
+		System.out.println("--- Report "+this.type);
 		System.out.println("*** Calcolo Risultati ***");
 		for(Match match: matches.keySet()) {
 			System.out.println(" Match : "+match);
@@ -73,6 +83,8 @@ public class PositionableReport {
 					} else {						
 					    System.out.println("   Risultato NON indovinato");
 					}
+					System.out.println("  Risultato esatto  :"+(match.getResult().getRisultatoEsatto()));
+					System.out.println("  Pronostico risutato esatto :"+(other.getResult().getRisultatoEsatto()));
 					if(match.getResult().getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto())) {
 						System.out.println("   Risultato Esatto Indovinato");
 						result.addRisultatoEsatto();
@@ -92,9 +104,17 @@ public class PositionableReport {
 
 		System.out.println("*** Calcolo Passaggi ***");
 		if(passaggioTurno!=null) {
+			System.out.print("  Risultato : ");
+			if(original.getPassaggioTurno()!= null) {
+				for (Team t : original.getPassaggioTurno()) {
+					System.out.print(t.getNome()+" ");
+				}
+				System.out.println();
+			}
 			for(Team team: passaggioTurno) {
-				System.out.println("  Risultato  :"+team.getNome());
-				System.out.println("  Pronostico :"+((original.getPassaggioTurno()!= null) ? original.getPassaggioTurno().toString() : "NULL"));
+				
+				System.out.println("  Pronostico  : "+team.getNome());
+				
 				if(original.getPassaggioTurno()!= null && original.getPassaggioTurno().contains(team)) {
 					System.out.println("   Passaggio Indovinato");
 					result.addPassaggioTurno();

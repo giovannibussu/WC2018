@@ -38,6 +38,31 @@ public class TestGironeSingolo
 	}
 	
 
+	public static final void PronosticoWriter(String pronosticoId,int limite) {
+		Random rand = new Random();
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), pronosticoId+".csv"));
+			for (int i=1; i<=64; i++) {
+				if (i==63) continue;
+				if (i> limite) break;
+				PronosticoInput p = new PronosticoInput();
+				p.setId(""+i);
+				do {
+					p.setHome(rand.nextInt(6));
+					p.setAway(rand.nextInt(6));
+				} while( i>=49 && i<= 64 && p.getHome()==p.getAway());
+
+				fos.write(p.toString().getBytes());
+				fos.write("\n".getBytes());
+			}
+		} catch(IOException ex) {
+			System.err.println("Errore durante la scrittura del file:"+ex.getMessage());
+		}finally {
+			try {if(fos!=null) fos.close();} catch(IOException exx) {}
+		}
+	}
+	
 	public static void main( String[] args ) throws Exception
 	{
 
@@ -68,6 +93,7 @@ public class TestGironeSingolo
 					try {if(fos!=null) fos.close();} catch(IOException exx) {}
 				}
 				reader = new FileSystemPronosticoReader(id);
+				readResults = reader.readResults();
 			}
 			
 			
@@ -76,7 +102,7 @@ public class TestGironeSingolo
                         
 
 			Tornei[j] = ExampleTorneoReader.getTorneo();
-	                for (PronosticoInput pronostico : reader.readResults()) {
+	                for (PronosticoInput pronostico : readResults) {
 	                        System.out.println(pronostico);
         	                Tornei[j].play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 	}
@@ -87,7 +113,7 @@ public class TestGironeSingolo
 		System.out.println("Pronostici recuperati");
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
-		//PronosticoWriter("master");
+		PronosticoWriter("master",49);
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
 		reader = new FileSystemPronosticoReader("master");
                 for (PronosticoInput pronostico : reader.readResults()) {
@@ -113,9 +139,9 @@ public class TestGironeSingolo
 				System.out.println(Tornei[j].getAbstractSubTorneo(""+i).toString());
 			}
 
-			System.out.println("Pronostico vincitore: " +Tornei[j].getWinner().getNome());
+			System.out.println("Pronostico vincitore: " +((Tornei[j].getWinner() != null) ? Tornei[j].getWinner().getNome() : "Non indicato"));
 			//System.out.println("Punti "+id+": "+Tornei[j].getPoints(risultatoUfficiale));
-			System.out.println("Punti "+id+": "+risultatoUfficiale.getPoints(Tornei[j]));
+			System.out.println("Punti "+id+": "+Tornei[j].getPoints(risultatoUfficiale));
 			j++;
 		}
 		// stampa il pronostico di una partita
@@ -138,7 +164,7 @@ public class TestGironeSingolo
                                 System.out.println(risultatoUfficiale.getAbstractSubTorneo(""+i).toString());
                         }
 
-                        System.out.println("Pronostico vincitore: " +risultatoUfficiale.getWinner().getNome());
+                        System.out.println("Pronostico vincitore: " +((risultatoUfficiale.getWinner() != null ) ? risultatoUfficiale.getWinner().getNome() : "Non indicato"));
 
 	}
 	

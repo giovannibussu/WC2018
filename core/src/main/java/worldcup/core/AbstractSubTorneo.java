@@ -169,4 +169,6 @@ public abstract class AbstractSubTorneo {
 		
 		return ((AbstractSubTorneo)obj).getName().equals(this.name);
 	}
+
+
 }

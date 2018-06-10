@@ -5,7 +5,7 @@ import java.util.Date;
 
 import worldcup.core.MatchResult.RISULTATO;
 
-public class Match extends JsonSerializable {
+public  class Match extends JsonSerializable implements Comparable<Match> {
 
 	private Team home;
 	private Team away;
@@ -214,4 +214,12 @@ public class Match extends JsonSerializable {
 	public String getMatchId() {
 		return matchId;
 	}
+
+	@Override
+	public int compareTo(Match o) {
+    	if ( o != null )
+    		return Integer.parseInt(getMatchId()) - Integer.parseInt(o.getMatchId());
+    	return Integer.MIN_VALUE;
+	}
+
 }

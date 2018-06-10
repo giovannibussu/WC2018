@@ -2,9 +2,11 @@ package worldcup.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import worldcup.core.AbstractSubTorneo.TYPE;
@@ -19,7 +21,7 @@ public class Torneo extends JsonSerializable {
 		
 		this.idFinale=idFinale;
 		this.matches=map;
-		this.subTorneoLst = new HashMap<>();
+		this.subTorneoLst = new TreeMap<>();
 
 		for(Match match: map.values()) {
 			this.subTorneoLst.put(match.getTorneo().getName(), match.getTorneo());
@@ -35,11 +37,31 @@ public class Torneo extends JsonSerializable {
 		refreshReports();
 		
 		int points = 0;
-		for(TYPE k: this.reports.keySet()) {
-			PositionableReport thisReport = this.reports.get(k);
-			PositionableReport officialReport = official.getReports().get(k);
-			points += thisReport.getPoints(officialReport);
-		}
+		PositionableReport thisReport = this.reports.get(TYPE.GIRONE);
+		PositionableReport officialReport = official.getReports().get(TYPE.GIRONE);
+		points += thisReport.getPoints(officialReport);	
+		
+		 thisReport = this.reports.get(TYPE.OTTAVI);
+		 officialReport = official.getReports().get(TYPE.OTTAVI);
+		points += thisReport.getPoints(officialReport);	
+		
+		 thisReport = this.reports.get(TYPE.QUARTI);
+		 officialReport = official.getReports().get(TYPE.QUARTI);
+		points += thisReport.getPoints(officialReport);	
+		
+		 thisReport = this.reports.get(TYPE.SEMIFINALI);
+		 officialReport = official.getReports().get(TYPE.SEMIFINALI);
+		points += thisReport.getPoints(officialReport);	
+		
+		 thisReport = this.reports.get(TYPE.FINALE);
+		 officialReport = official.getReports().get(TYPE.FINALE);
+		points += thisReport.getPoints(officialReport);	
+		
+//		for(TYPE k: this.reports.keySet()) {
+//			PositionableReport thisReport = this.reports.get(k);
+//			PositionableReport officialReport = official.getReports().get(k);
+//			points += thisReport.getPoints(officialReport);
+//		}
 		
 		return points;
 	}
@@ -57,6 +79,7 @@ public class Torneo extends JsonSerializable {
 	
 			this.reports = new HashMap<>();
 			
+			Collections.sort(groups);
 			for(PositionableGroup group: groups) {
 				this.reports.put(group.getType(), group.getReport());
 			}

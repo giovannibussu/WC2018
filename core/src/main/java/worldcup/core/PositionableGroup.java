@@ -7,7 +7,7 @@ import java.util.Map;
 
 import worldcup.core.AbstractSubTorneo.TYPE;
 
-public class PositionableGroup {
+public class PositionableGroup implements Comparable<PositionableGroup> {
 
 	private List<AbstractSubTorneo> lstPos;
 	private TYPE type;
@@ -18,6 +18,7 @@ public class PositionableGroup {
 	
 	public PositionableReport getReport() {
 		PositionableReport positionableReport = new PositionableReport(this.type);
+		
 		Map<Match, MatchResult> matches = new HashMap<Match, MatchResult>();
 		for(AbstractSubTorneo p: lstPos) {
 			for(Match match: p.getMatches()) {
@@ -43,5 +44,32 @@ public class PositionableGroup {
 
 	public void setType(TYPE type) {
 		this.type = type;
+	}
+	
+	
+	public int compareTo(PositionableGroup o) {
+		if(o.getType() == getType())
+			return 0;
+		
+		if ( getType() == AbstractSubTorneo.TYPE.OTTAVI) {
+			if ( o.getType() == AbstractSubTorneo.TYPE.QUARTI || o.getType() == AbstractSubTorneo.TYPE.SEMIFINALI || o.getType() == AbstractSubTorneo.TYPE.FINALE) {
+				return -1;
+			}
+
+		}
+		else if ( getType() == AbstractSubTorneo.TYPE.QUARTI) {
+			if (  o.getType() == AbstractSubTorneo.TYPE.SEMIFINALI || o.getType() == AbstractSubTorneo.TYPE.FINALE) {
+				return -1;
+			}
+
+		}
+		else if ( getType() == AbstractSubTorneo.TYPE.SEMIFINALI) {
+			if ( o.getType() == AbstractSubTorneo.TYPE.FINALE) {
+				return -1;
+			}
+
+		} 
+		
+		return 1;
 	}
 }

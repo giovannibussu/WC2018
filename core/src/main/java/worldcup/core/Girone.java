@@ -40,13 +40,16 @@ public class Girone extends AbstractSubTorneo {
 		List<Match> giocate = this.getMatches().stream().filter(a -> a.isPlayed()).collect(Collectors.toList());
 		if(daGiocare.size() > 0) {
 			sb.append("Partite da giocare:\n");
-			for(Match match: daGiocare) {
+			
+		Collections.sort(daGiocare);
+		for(Match match: daGiocare) {
 				sb.append(match).append("\n");
 			}
 		}
 		
 		if(giocate.size()>0) {
 			sb.append("Partite giocate:\n");
+			Collections.sort(giocate);
 			for(Match match: giocate) {
 				sb.append(match).append("\n");
 			}
@@ -57,5 +60,8 @@ public class Girone extends AbstractSubTorneo {
 	public boolean isDrawable() {
 		return true;
 	}
+
+	
+	 
 
 }
