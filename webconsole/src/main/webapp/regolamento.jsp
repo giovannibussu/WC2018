@@ -51,19 +51,6 @@
                     <ul>
                         <li>
                             <div class="ec-cell">
-                            	<span><b>Quote e premi</b></span>
-                            	<br/>
-                            	<p>
-									La quota di partecipazione è fissata in 10 Euro. 
-									<br/>Il totale raccolto sarà suddiviso come segue:
-									<br/>- 80% a chi vince la classifica a punti
-									<br/>- 20% a chi indovina il vincitore dell'europeo
-									<br/><br/>Eventuali ex-equo divideranno i premi.
-								</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ec-cell">
                             	<span><b>Metodo di Calcolo dei punteggi</b></span>
                             	<br/>
                             	<p>
