@@ -13,8 +13,10 @@ import org.openspcoop2.utils.resources.FileSystemUtilities;
 
 public class Player extends JsonSerializable {
 
+	private static final String TEMPLATE_LINK = "https://docs.google.com/spreadsheets/d/SPREADSHEET";
 	private String nome;
 	private String id;
+	private String link;
 	private String categoria;
 	
 	public String getNome() {
@@ -28,6 +30,7 @@ public class Player extends JsonSerializable {
 	}
 	public void setId(String id) {
 		this.id = id;
+		this.link = TEMPLATE_LINK.replace("SPREADSHEET", this.id);
 	}
 	
 	public String getCategoria() {
@@ -58,6 +61,9 @@ public class Player extends JsonSerializable {
 		
 		return playerColl.stream().collect(Collectors.toMap(Player::getId, Function.identity()));
 		
+	}
+	public String getLink() {
+		return link;
 	}
 
 }

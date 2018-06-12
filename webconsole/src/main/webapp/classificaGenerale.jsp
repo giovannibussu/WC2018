@@ -61,7 +61,7 @@
                   		Integer punteggioGiocatore = classifica.get(pronostico);
           	%>
                       <li class="<%=liStyleClass %>">
-                          <div class="ec-cell"><span><a href="#"><%=pronostico.getPlayer().getNome() %></a></span></div>
+                          <div class="ec-cell"><span><a target="_blank" href="<%=pronostico.getPlayer().getLink() %>"><%=pronostico.getPlayer().getNome() %></a></span></div>
                           <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
                           <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
                       </li>
