@@ -16,6 +16,9 @@ public class Pronostico {
 		}
 	}
 	
+	public Pronostico() {
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}

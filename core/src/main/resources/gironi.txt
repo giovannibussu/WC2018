@@ -1,48 +1,48 @@
-1;A;14-06-2018.18:00;Russia;Arabia Saudita;1
-2;A;15-06-2018.17:00;Egitto;Uruguay;12
-3;B;15-06-2018.21:00;Portogallo;Spagna;11
-4;B;15-06-2018.18:00;Marocco;Iran;3
-5;C;16-06-2018.13:00;Francia;Australia;5
-6;C;16-06-2018.19:00;Peru;Danimarca;9
-7;D;16-06-2018.16:00;Argentina;Islanda;2
-8;D;16-06-2018.21:00;Croazia;Nigeria;4
-9;E;17-06-2018.21:00;Brasile;Svizzera;10
-10;E;17-06-2018.16:00;Costa Rica;Serbia;7
-11;F;17-06-2018.18:00;Germania;Messico;1
-12;F;18-06-2018.15:00;Svezia;Corea del Sud;6
-13;G;18-06-2018.18:00;Belgio;Panama;11
-14;G;18-06-2018.21:00;Tunisia;Inghilterra;8
-15;H;19-06-2018.15:00;Polonia;Senegal;2
-16;H;19-06-2018.18:00;Colombia;Giappone;9
-17;A;19-06-2018.21:00;Russia;Egitto;3
-18;A;20-06-2018.18:00;Uruguay;Arabia Saudita;10
-19;B;20-06-2018.15:00;Portogallo;Marocco;1
-20;B;20-06-2018.21:00;Iran;Spagna;5
-21;C;21-06-2018.17:00;Francia;Peru;12
-22;C;21-06-2018.19:00;Danimarca;Australia;7
-23;D;21-06-2018.21:00;Argentina;Croazia;6
-24;D;22-06-2018.18:00;Nigeria;Islanda;8
-25;E;22-06-2018.15:00;Brasile;Costa Rica;3
-26;E;22-06-2018.20:00;Serbia;Svizzera;4
-27;F;23-06-2018.18:00;Germania;Svezia;11
-28;F;23-06-2018.21:00;Corea del Sud;Messico;10
-29;G;23-06-2018.15:00;Belgio;Tunisia;2
-30;G;24-06-2018.15:00;Inghilterra;Panama;6
-31;H;24-06-2018.21:00;Polonia;Colombia;5
-32;H;24-06-2018.20:00;Giappone;Senegal;12
-33;A;25-06-2018.18:00;Uruguay;Russia;7
-34;A;25-06-2018.17:00;Arabia Saudita;Egitto;8
-35;B;25-06-2018.21:00;Iran;Portogallo;9
-36;B;25-06-2018.20:00;Spagna;Marocco;4
-37;C;26-06-2018.17:00;Danimarca;Francia;1
-38;C;26-06-2018.17:00;Australia;Peru;11
-39;D;26-06-2018.21:00;Nigeria;Argentina;3
-40;D;26-06-2018.21:00;Islanda;Croazia;10
-41;E;27-06-2018.21:00;Serbia;Brasile;2
-42;E;27-06-2018.21:00;Svizzera;Costa Rica;6
-43;F;27-06-2018.17:00;Corea del Sud;Germania;5
-44;F;27-06-2018.19:00;Messico;Svezia;12
-45;G;28-06-2018.20:00;Inghilterra;Belgio;4
-46;G;28-06-2018.21:00;Panama;Tunisia;9
-47;H;28-06-2018.17:00;Giappone;Polonia;8
-48;H;28-06-2018.18:00;Senegal;Colombia;7
+1;A;14-06-2018.18:00;Russia;Arabia Saudita;1;1
+2;A;15-06-2018.17:00;Egitto;Uruguay;12;1
+3;B;15-06-2018.21:00;Portogallo;Spagna;11;1
+4;B;15-06-2018.18:00;Marocco;Iran;3;1
+5;C;16-06-2018.13:00;Francia;Australia;5;1
+6;C;16-06-2018.19:00;Peru;Danimarca;9;1
+7;D;16-06-2018.16:00;Argentina;Islanda;2;1
+8;D;16-06-2018.21:00;Croazia;Nigeria;4;1
+9;E;17-06-2018.21:00;Brasile;Svizzera;10;1
+10;E;17-06-2018.16:00;Costa Rica;Serbia;7;1
+11;F;17-06-2018.18:00;Germania;Messico;1;1
+12;F;18-06-2018.15:00;Svezia;Corea del Sud;6;1
+13;G;18-06-2018.18:00;Belgio;Panama;11;1
+14;G;18-06-2018.21:00;Tunisia;Inghilterra;8;1
+15;H;19-06-2018.15:00;Polonia;Senegal;2;1
+16;H;19-06-2018.18:00;Colombia;Giappone;9;1
+17;A;19-06-2018.21:00;Russia;Egitto;3;1
+18;A;20-06-2018.18:00;Uruguay;Arabia Saudita;10;1
+19;B;20-06-2018.15:00;Portogallo;Marocco;1;1
+20;B;20-06-2018.21:00;Iran;Spagna;5;1
+21;C;21-06-2018.17:00;Francia;Peru;12;1
+22;C;21-06-2018.19:00;Danimarca;Australia;7;1
+23;D;21-06-2018.21:00;Argentina;Croazia;6;1
+24;D;22-06-2018.18:00;Nigeria;Islanda;8;1
+25;E;22-06-2018.15:00;Brasile;Costa Rica;3;1
+26;E;22-06-2018.20:00;Serbia;Svizzera;4;1
+27;F;23-06-2018.18:00;Germania;Svezia;11;1
+28;F;23-06-2018.21:00;Corea del Sud;Messico;10;1
+29;G;23-06-2018.15:00;Belgio;Tunisia;2;1
+30;G;24-06-2018.15:00;Inghilterra;Panama;6;1
+31;H;24-06-2018.21:00;Polonia;Colombia;5;1
+32;H;24-06-2018.20:00;Giappone;Senegal;12;1
+33;A;25-06-2018.18:00;Uruguay;Russia;7;1
+34;A;25-06-2018.17:00;Arabia Saudita;Egitto;8;1
+35;B;25-06-2018.21:00;Iran;Portogallo;9;1
+36;B;25-06-2018.20:00;Spagna;Marocco;4;1
+37;C;26-06-2018.17:00;Danimarca;Francia;1;1
+38;C;26-06-2018.17:00;Australia;Peru;11;1
+39;D;26-06-2018.21:00;Nigeria;Argentina;3;1
+40;D;26-06-2018.21:00;Islanda;Croazia;10;1
+41;E;27-06-2018.21:00;Serbia;Brasile;2;1
+42;E;27-06-2018.21:00;Svizzera;Costa Rica;6;1
+43;F;27-06-2018.17:00;Corea del Sud;Germania;5;1
+44;F;27-06-2018.19:00;Messico;Svezia;12;1
+45;G;28-06-2018.20:00;Inghilterra;Belgio;4;1
+46;G;28-06-2018.21:00;Panama;Tunisia;9;1
+47;H;28-06-2018.17:00;Giappone;Polonia;8;1
+48;H;28-06-2018.18:00;Senegal;Colombia;7;1

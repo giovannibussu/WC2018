@@ -57,7 +57,7 @@
                     	Stadium s = Stadium.getStadiums().get(id);
 		          		Team s1 = match.getHome();
 		          		Team s2 = match.getAway();
-		          		String descrizioneMatch = "Fase a gironi · Giornata 1/3";
+		          		String descrizioneMatch = match.getDescrizione();
 		          	%>
                         <li>
 							<div class="imspo_mt__mtc-no" id="div_match_<%=match.getMatchId() %>">

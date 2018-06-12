@@ -62,6 +62,8 @@ public class ExampleTorneoReader
 				String girone = split[1];
 				String date = split[2];
 				int stadium = Integer.parseInt(split[5]);
+				int giornata = Integer.parseInt(split[6]);
+				
 				
 				if(!teams.containsKey(home)) {
 					throw new RuntimeException("Squadra ["+home+"] non censita");
@@ -77,7 +79,7 @@ public class ExampleTorneoReader
 					gironi.put(girone, new Girone(girone, nTeamGirone, nTeamPassaggioTurnoGirone));
 				}
 				
-				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium, idMatch));
+				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium, idMatch, "Girone " + girone + ", giornata "+giornata));
 			}
 
 			
@@ -111,14 +113,19 @@ public class ExampleTorneoReader
 
 				String gameNumber = split[3].trim();
 				
+				String descrizione = null;
 				if(knockoutPhase.equals("OTT")) {
 					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.OTTAVI));
+					descrizione = "Ottavi di finale";
 				} else if (knockoutPhase.equals("QUA")) {
 					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.QUARTI));
+					descrizione = "Quarti di finale";
 				} else if (knockoutPhase.equals("SEM")) {
 					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.SEMIFINALI));
+					descrizione = "Semifinali";
 				} else if (knockoutPhase.equals("FIN")) {
 					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.FINALE));
+					descrizione = "Finale";
 				}
 				AbstractSubTorneo prevoiusHomeP = null;				
 				try {
@@ -136,7 +143,7 @@ public class ExampleTorneoReader
 					prevoiusAwayP = gironi.get(previousAway);
 				}
 
-				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, stadium, gameNumber));
+				matches.put(gameNumber, new Match(prevoiusHomeP, posHome-1, prevoiusAwayP, posAway-1, knockouts.get(gameNumber), date, stadium, gameNumber, descrizione));
 			}
 
 			

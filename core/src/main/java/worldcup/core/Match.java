@@ -15,11 +15,13 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	private Date dataMatch;
 	private int stadium;
 	private String matchId;
-	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
-		this.init(a, b, torneo, dataMatch, stadium, matchId);
+	private String descrizione;
+	
+	public Match(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId, String descrizione) {
+		this.init(a, b, torneo, dataMatch, stadium, matchId,descrizione);
 	}
 
-	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
+	public Match(AbstractSubTorneo torneoA, int indexA, AbstractSubTorneo torneoB, int indexB, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId, String descrizione) {
 		Team a = null;
 		Team b = null;
 		if(torneoA.isPlayed())
@@ -31,9 +33,10 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 		else
 			torneoB.registerMatch(this, false, indexB);
 		
-		this.init(a, b, torneo, dataMatch, stadium, matchId);
+		this.init(a, b, torneo, dataMatch, stadium, matchId,descrizione);
 	}
-	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId) {
+	public void init(Team a, Team b, AbstractSubTorneo torneo, Date dataMatch, int stadium, String matchId, String descrizione) {
+		this.descrizione = descrizione;
 		this.matchId = matchId;
 		this.stadium = stadium;
 		this.dataMatch = dataMatch;
@@ -222,4 +225,11 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
     	return Integer.MIN_VALUE;
 	}
 
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
 }
