@@ -1,21 +1,18 @@
 package worldcup.core;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.openspcoop2.utils.resources.FileSystemUtilities;
 
 import worldcup.core.AbstractSubTorneo.TYPE;
 
@@ -25,16 +22,6 @@ import worldcup.core.AbstractSubTorneo.TYPE;
  */
 public class ExampleTorneoReader 
 {
-	public static Map<String, Team> readTeams(String resource) throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(Torneo.class.getResourceAsStream(resource), baos);
-		
-		Collection<Team> teamsColl= Deserializer.deserialize(new String(baos.toByteArray()), Team.class);
-		
-		return teamsColl.stream().collect(Collectors.toMap(Team::getNome, Function.identity()));
-		
-	}
-	
 	public static Torneo getTorneo() {
 
 		int nTeamGirone = 4;
@@ -45,9 +32,9 @@ public class ExampleTorneoReader
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
 
 		try {
-			Map<String, Team> teams = readTeams("/teams.json");
+			Map<String, Team> teams = Team.readTeams();
 
-			InputStream isGironi=Torneo.class.getResourceAsStream("/gironi.txt");
+			InputStream isGironi=new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), "/gironi.txt"));
 			BufferedReader breader = new BufferedReader(new InputStreamReader(isGironi));
 			
 			List<String> lines = breader.lines().collect(Collectors.toList());
@@ -87,7 +74,7 @@ public class ExampleTorneoReader
 			System.err.println(e);
 		}
 		try {
-			InputStream isKnockout=Torneo.class.getResourceAsStream("/knockout.txt");
+			InputStream isKnockout=new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), "/knockout.txt"));
 			BufferedReader breader = new BufferedReader(new InputStreamReader(isKnockout));
 			
 			List<String> lines = breader.lines().collect(Collectors.toList());

@@ -1,0 +1,17 @@
+Installazione:
+
+1) editare il file
+- core/src/main/resources/worldCup.properties
+e impostare il folder di configurazione esterna
+
+2) copiare tutto il contenuto della cartella
+- src/main/resources 
+nel folder impostato al passo 1, creandolo coi diritti opportuni se necessario
+
+3) editare il file 
+- src/main/resources/worldCup.properties
+e impostare il folder contenente i pronostici e il nome del pronostico ufficiale
+
+4) eseguire dalla cartella corrente il comando
+- mvn clean install
+e copiare il war prodotto sull'application server

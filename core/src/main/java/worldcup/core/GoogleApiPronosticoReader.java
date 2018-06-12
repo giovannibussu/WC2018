@@ -41,7 +41,7 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader("11MRXVKQDj4PhrJI_cWkl9yzrePLo1cKS-aKQBjcm3xw");
+		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader("");
 		System.out.println(reader.readResults());
 	}
 	

@@ -1,6 +1,8 @@
 package worldcup.core;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class Player extends JsonSerializable {
 
 	private static Map<String, Player> readPlayers(String resource) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(Player.class.getResourceAsStream(resource), baos);
+		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
 		
 		Collection<Player> playerColl= Deserializer.deserialize(new String(baos.toByteArray()), Player.class);
 		
