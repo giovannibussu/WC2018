@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <artifactId>worldcup</artifactId>
+	<groupId>worldcup</groupId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>worldcup</name>
+
+	<modules>
+		<module>core</module>
+		<module>webconsole</module>
+	</modules>
+
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!env</name>
+				</property>
+			</activation>
+			<properties>
+				<env>template</env>
+			</properties>
+		</profile>
+	</profiles>
+
+	<properties>
+		<rel-to-parent>.</rel-to-parent>
+		<javaVersion>1.8</javaVersion>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<openspcoop2.version>3.0.2</openspcoop2.version>
+		    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+</project>
+
