@@ -2,6 +2,7 @@ package worldcup.core;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import worldcup.core.MatchResult.RISULTATO;
 
@@ -171,12 +172,12 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	}
 	
 	public String getDataMatchAsString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("EEE dd/MM");
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE dd/MM",Locale.ITALY);
 		return sdf.format(dataMatch);
 	}
 	
 	public String getOraMatchAsString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",Locale.ITALY);
 		return sdf.format(dataMatch);
 	}
 

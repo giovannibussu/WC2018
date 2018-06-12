@@ -41,13 +41,14 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader("1QHIq-ZmhoC3mSlBlAmXjhndZb7Ea33SIcZ3W4olHH2I");
+		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader("11MRXVKQDj4PhrJI_cWkl9yzrePLo1cKS-aKQBjcm3xw");
 		System.out.println(reader.readResults());
 	}
 	
 	public List<PronosticoInput> readResults() {
 		List<PronosticoInput> inputLst = new ArrayList<>();
 		try {
+			System.out.println("Lettura Remota ["+this.url+"]..");
 			for(GoogleApiReaderInput reader: this.lst) {
 				System.out.println("Lettura risultato gara["+reader.id+"]");
 				int home = readResult(reader.cellHome);
@@ -62,7 +63,7 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 				
 			}
 		} catch(Exception e) {
-			throw new RuntimeException(e.getMessage());
+			throw new RuntimeException(e.getMessage(),e);
 		}
 		return inputLst;
 	}
