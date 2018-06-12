@@ -118,3 +118,26 @@ ul {margin-bottom: 0px;}
 	cursor: pointer; 
 	border-bottom: 2px solid #f2f2f2;
 }
+
+
+.btn-backtotop {
+    color: #fff;
+    background-color: #0B5F91;
+    border-color: #007bff;
+}
+
+.btn-backtotop:not(:disabled):not(.disabled):active, .show>.btn-backtotop.dropdown-toggle {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+
+.btn-backtotop.focus, .btn-backtotop:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}
+
+.btn-backtotop:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}

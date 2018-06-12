@@ -21,9 +21,6 @@
             <a class="nav-link" href="<%=context %>/classificaGenerale.jsp">Classifica Generale</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<%=context %>/pronostici.jsp">Pronostici</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="<%=context %>/regolamento.jsp">Regolamento</a>
           </li>
         </ul>

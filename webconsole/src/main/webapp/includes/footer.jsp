@@ -1,11 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
     <footer class="text-muted">
-      <div class="container">
+      <div class="container" style="text-align: center;">
         <p class="float-right">
-          <a href="#">Back to top</a>
+          <a class="btn btn-backtotop" role="button" href="#">Back to top</a>
         </p>
-        <p>&copy; Zulio84 2018</p>
+        <p>&copy; Busta Chillin' 2018</p>
       </div>
     </footer>
     

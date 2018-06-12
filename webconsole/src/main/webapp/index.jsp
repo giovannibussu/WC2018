@@ -44,8 +44,6 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
-        <div class="container">
-
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
@@ -149,7 +147,6 @@
                   </div>
               </div>
           </div>
-       </div>
      </div>
 
     </main><!-- /.container -->

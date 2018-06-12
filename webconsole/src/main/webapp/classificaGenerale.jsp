@@ -42,39 +42,36 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
-        <div class="container">
-
-          <div class="row">
-          	<div class="col-md-12">
-	            <div class="ec-fancy-title">
-	               <h3>Classifica Generale</h3>
-                </div>
-                <div class="ec-fixture-list">
-                    <ul>
-                    	<li>
-                            <div class="ec-cell"><span>Giocatore</span></div>
-                            <div class="ec-cell"><span>Punti</span></div>
-                            <div class="ec-cell"><span>Squadra Vincente</span></div>
-                        </li>
-	                    <% 
-	                    	int i = 1;
-	                    	for(Pronostico pronostico: classifica.keySet()){
-	                    		String liStyleClass= i % 2 == 0 ? "even" : "odd";
-	                    		Integer punteggioGiocatore = classifica.get(pronostico);
-			          	%>
-	                        <li class="<%=liStyleClass %>">
-	                            <div class="ec-cell"><span><%=pronostico.getPlayer().getNome() %></span></div>
-	                            <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
-	                            <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
-	                        </li>
-	                    <% 
-	                    	i++;
-	                    	} 
-	                    %>       
-                      </ul>
-                  </div>
-              </div>
-          </div>
+       <div class="row">
+       	<div class="col-md-12">
+          <div class="ec-fancy-title">
+             <h3>Classifica Generale</h3>
+             </div>
+             <div class="ec-fixture-list">
+                 <ul>
+                 	<li>
+                         <div class="ec-cell"><span>Giocatore</span></div>
+                         <div class="ec-cell"><span>Punti</span></div>
+                         <div class="ec-cell"><span>Squadra Vincente</span></div>
+                     </li>
+                  <% 
+                  	int i = 1;
+                  	for(Pronostico pronostico: classifica.keySet()){
+                  		String liStyleClass= i % 2 == 0 ? "even" : "odd";
+                  		Integer punteggioGiocatore = classifica.get(pronostico);
+          	%>
+                      <li class="<%=liStyleClass %>">
+                          <div class="ec-cell"><span><a href="#"><%=pronostico.getPlayer().getNome() %></a></span></div>
+                          <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
+                          <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
+                      </li>
+                  <% 
+                  	i++;
+                  	} 
+                  %>       
+                   </ul>
+               </div>
+           </div>
        </div>
      </div>
 
