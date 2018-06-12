@@ -66,7 +66,8 @@ public class ExampleTorneoReader
 					gironi.put(girone, new Girone(girone, nTeamGirone, nTeamPassaggioTurnoGirone));
 				}
 				
-				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium, idMatch, "Girone " + girone + ", giornata "+giornata));
+				
+				matches.put(idMatch, new Match(homeTeam, awayTeam, gironi.get(girone), sdf.parse(date), stadium, idMatch, "Fase a gironi - Gruppo " + girone + " - Giornata "+giornata+"/"+(nTeamGirone-1)));
 			}
 
 			
