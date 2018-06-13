@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FileSystemPronosticoReader implements PronosticoReader {
@@ -22,9 +23,9 @@ public class FileSystemPronosticoReader implements PronosticoReader {
 		System.out.println(reader.readResults());
 	}
 	
-	public List<PronosticoInput> readResults() {
+	public Map<String, PronosticoInput> readResults() {
 		BufferedReader breader = new BufferedReader(new InputStreamReader(fis));
-		return breader.lines().	collect(Collectors.toList()).stream().map(a-> readPronostico(a)).collect(Collectors.toList());
+		return breader.lines().	collect(Collectors.toList()).stream().map(a-> readPronostico(a)).collect(Collectors.toMap(PronosticoInput::getId, Function.identity()));
 	}
 	
 	private PronosticoInput readPronostico(String line) {

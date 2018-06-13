@@ -29,34 +29,6 @@ public class Gioco {
 		).collect(Collectors.toList());
 	}
 
-//	public List<Match> matchPerData(Date dataInizio, Date dataFine) {
-//
-//		List<Match> list = new ArrayList<>();
-//
-//		Team squadra1 = new Team();
-//		squadra1.setId("RUS");
-//		squadra1.setNome("Russia");
-//		squadra1.setBandiera("images/russia.png");
-//		Team squadra2 = new Team();
-//		squadra2.setId("ARS");
-//		squadra2.setNome("Arabia Saudita");
-//		squadra2.setBandiera("images/arabia_saudita.png");
-//
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-//
-//		Torneo torneo = ExampleTorneoReader.getTorneo();
-//		Date date = new Date();
-//		try {
-//			date = sdf.parse("14-06-2018 18:00");
-//		} catch(Exception e) {
-//
-//		} 
-//		Match p1 = new Match(squadra1, squadra2,torneo.getAbstractSubTorneo("A"), date, 1,"a");
-//		list.add(p1);
-//		return list;
-//
-//	}
-	
 	public Match getMatch(String idMatch) {
 		return ufficiale.getTorneo().getMatches().get(idMatch);
 	}
@@ -82,8 +54,7 @@ public class Gioco {
 	}
 
 	public void setResult(Match match, int goalHome, int goalAway) {
-		match.play(goalHome, goalAway);
-		// TODO salvare nel file csv
+		this.ufficiale.inserisciPronostico(match.getMatchId(), goalHome, goalAway);
 	}
 	
 	public Map<Pronostico, Integer> getClassifica() {

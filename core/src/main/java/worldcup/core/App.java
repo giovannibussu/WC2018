@@ -24,7 +24,7 @@ public class App
  
                         OutputStreamWriter osw = new OutputStreamWriter(fos);
  
-                        for (PronosticoInput pronostico : reader.readResults()) {
+                        for (PronosticoInput pronostico : reader.readResults().values()) {
                   	      System.out.println(pronostico);
                         	osw.write(pronostico.toString());
                         	osw.write('\n');
@@ -42,7 +42,7 @@ public class App
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
 		
 		//metodo play, inserisce il pronostico (o il risultato ufficiale) per una partita. Per gli ID delle partite vedere l'excel o i file gironi.txt e knockout.txt 
-		for (PronosticoInput pronostico : reader.readResults()) {
+		for (PronosticoInput pronostico : reader.readResults().values()) {
 			System.out.println(pronostico);
 			pronosticoA.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
 		}

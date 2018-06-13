@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 /**
  * Hello world!
@@ -71,15 +71,15 @@ public class TestGironeSingolo
 		int j=0;
 		for (String id : spreadsheetId) {
 			
-			List<PronosticoInput> readResults = null;
+			Collection<PronosticoInput> readResults = null;
 			//PronosticoWriter(id);
             System.out.println("Cerco versione cache per "+id);
 			try {
 				reader = new FileSystemPronosticoReader(id);
-				readResults = reader.readResults();
+				readResults = reader.readResults().values();
 			} catch(FileNotFoundException e) {
 				reader = new GoogleApiPronosticoReader(id);
-				readResults = reader.readResults();
+				readResults = reader.readResults().values();
 				FileOutputStream fos = null;
 				try {
 					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), id+".csv"));
@@ -93,7 +93,7 @@ public class TestGironeSingolo
 					try {if(fos!=null) fos.close();} catch(IOException exx) {}
 				}
 				reader = new FileSystemPronosticoReader(id);
-				readResults = reader.readResults();
+				readResults = reader.readResults().values();
 			}
 			
 			
@@ -116,7 +116,7 @@ public class TestGironeSingolo
 		PronosticoWriter("master",49);
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
 		reader = new FileSystemPronosticoReader("master");
-                for (PronosticoInput pronostico : reader.readResults()) {
+                for (PronosticoInput pronostico : reader.readResults().values()) {
 	                System.out.println(pronostico);
                         risultatoUfficiale.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 }

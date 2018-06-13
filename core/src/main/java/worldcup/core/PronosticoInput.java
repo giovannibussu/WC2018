@@ -1,6 +1,6 @@
 package worldcup.core;
 
-public class PronosticoInput {
+public class PronosticoInput implements Comparable<PronosticoInput> {
 
 	private String id;
 	private int home;
@@ -27,5 +27,14 @@ public class PronosticoInput {
 	@Override
 	public String toString() {
 		return id+","+home+","+away;
+	}
+
+	@Override
+	public int compareTo(PronosticoInput o) {
+		try {
+			return 	Integer.parseInt(this.id) - Integer.parseInt(o.getId());
+		} catch(Exception e) {
+			return this.id.compareTo(o.getId());
+		}
 	}
 }

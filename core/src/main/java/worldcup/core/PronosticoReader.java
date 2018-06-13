@@ -1,8 +1,8 @@
 package worldcup.core;
 
-import java.util.List;
+import java.util.Map;
 
 public interface PronosticoReader {
 
-	public List<PronosticoInput> readResults();
+	public Map<String, PronosticoInput> readResults();
 }

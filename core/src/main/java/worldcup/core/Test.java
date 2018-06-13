@@ -49,7 +49,7 @@ public class Test
                         reader = new FileSystemPronosticoReader(id);
 
 			Tornei[j] = ExampleTorneoReader.getTorneo();
-	                for (PronosticoInput pronostico : reader.readResults()) {
+	                for (PronosticoInput pronostico : reader.readResults().values()) {
 	                        System.out.println(pronostico);
         	                Tornei[j].play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 	}
@@ -63,7 +63,7 @@ public class Test
 		PronosticoWriter(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
 		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
 		reader = new FileSystemPronosticoReader(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
-                for (PronosticoInput pronostico : reader.readResults()) {
+                for (PronosticoInput pronostico : reader.readResults().values()) {
 	                System.out.println(pronostico);
                         risultatoUfficiale.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 }

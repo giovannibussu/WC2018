@@ -1,17 +1,44 @@
 package worldcup.core;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Pronostico {
 
 	private Player player;
 	private Torneo torneo;
-	
+	private Map<String, PronosticoInput> pronostico;
 	public Pronostico(Player player) {
 		this.player = player;
 		this.torneo = ExampleTorneoReader.getTorneo();
-		List<PronosticoInput> leggiPronostico = PronosticiReader.leggiPronostico(player.getId());
-		for(PronosticoInput input: leggiPronostico) {
+		this.aggiornaPronostico();
+	}
+
+	public void inserisciPronostico(String id, int home, int away) {
+		this.torneo.getMatch(id).play(home, away);
+		this.salvaPronostico();
+		this.aggiornaPronostico();
+
+		PronosticoInput input = new PronosticoInput();
+		input.setId(id);
+		input.setHome(home);
+		input.setAway(away);
+		
+		this.pronostico.put(id, input);
+	}
+	
+	private void salvaPronostico() {
+		PronosticoWriter writer = new PronosticoWriter(this.player.getId());
+		List<PronosticoInput> values = this.pronostico.values().stream().collect(Collectors.toList());
+		Collections.sort(values);
+		writer.write(values);
+	}
+
+	private void aggiornaPronostico() {
+		this.pronostico = PronosticiReader.leggiPronostico(this.player.getId());
+		for(PronosticoInput input: this.pronostico.values()) {
 			this.torneo.play(input.getId(), input.getHome(), input.getAway());
 		}
 	}

@@ -15,8 +15,6 @@ public class KnockoutPerformance implements IPerformance{
 	}
 	
 	public int _compareTo(KnockoutPerformance o) {
-		if(this.goalsDone == o.getGoalsDone())
-			throw new RuntimeException("Il pareggio non e' ammesso");
 		return this.goalsDone - o.getGoalsDone();
 	}
 	
