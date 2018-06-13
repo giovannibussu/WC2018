@@ -1,13 +1,8 @@
 package worldcup.core;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PronosticiReader {
@@ -23,34 +18,26 @@ public class PronosticiReader {
 		return pronostici;
 	}
 	
-	public static List<PronosticoInput> leggiPronostico(String pronosticoId) {
+	public static Map<String, PronosticoInput> leggiPronostico(String pronosticoId) {
 		
 			PronosticoReader reader = null;
-			List<PronosticoInput> readResults = null;
+			Map<String, PronosticoInput> readResults = null;
 			try {
 				reader = new FileSystemPronosticoReader(pronosticoId);
 				readResults = reader.readResults();
 			} catch(FileNotFoundException e) {
 				reader = new GoogleApiPronosticoReader(pronosticoId);
+				
+				PronosticoWriter writer = new PronosticoWriter(pronosticoId);
 				readResults = reader.readResults();
-				FileOutputStream fos = null;
-				try {
-					fos = new FileOutputStream(new File(WorldCupProperties.getInstance().getPronosticiFolder(), pronosticoId+".csv"));
-					for(PronosticoInput p: readResults) {
-						fos.write(p.toString().getBytes());
-						fos.write("\n".getBytes());
-					}
-				} catch(IOException ex) {
-					System.err.println("Errore durante la scrittura del file:"+ex.getMessage());
-				}finally {
-					try {if(fos!=null) fos.close();} catch(IOException exx) {}
-				}
+				writer.write(readResults.values());
+
 				try {
 					reader = new FileSystemPronosticoReader(pronosticoId);	
 				} catch (FileNotFoundException fnfe) {
 					System.err.println("Errore durante la lettura del file:"+fnfe.getMessage());
 					System.err.println("Utente non registrato?");
-					readResults = new ArrayList<PronosticoInput>();
+					readResults = new HashMap<String, PronosticoInput>();
 				}
 				
 				

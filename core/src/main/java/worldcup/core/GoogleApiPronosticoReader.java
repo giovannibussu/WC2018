@@ -5,8 +5,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.openspcoop2.utils.json.JSONUtils;
@@ -45,8 +46,8 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 		System.out.println(reader.readResults());
 	}
 	
-	public List<PronosticoInput> readResults() {
-		List<PronosticoInput> inputLst = new ArrayList<>();
+	public Map<String, PronosticoInput> readResults() {
+		Map<String, PronosticoInput> inputLst = new HashMap<>();
 		try {
 			System.out.println("Lettura Remota ["+this.url+"]..");
 			for(GoogleApiReaderInput reader: this.lst) {
@@ -58,7 +59,7 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 				input.setId(reader.id);
 				input.setHome(home);
 				input.setAway(away);
-				inputLst.add(input);
+				inputLst.put(reader.id, input);
 				System.out.println("Lettura risultato gara["+reader.id+"] completato");
 				
 			}

@@ -32,6 +32,15 @@ public class ProssimiIncontri {
 	public Map<Player, Match> getPronosticiPerMatch(Match match) {
 		return this.gioco.pronosticiPerMatch(match);
 	}
+	
+	public List<Match> getListaMatch(){
+		return this.gioco.getMatchList();
+	}
+	
+	public void setResult(Match match, int goalHome, int goalAway) {
+		this.gioco.setResult(match, goalHome, goalAway);
+	}
+	
 
 //	public List<Partita> getListProssimiIncontri(){
 //		List<Partita> list = new ArrayList<>();
