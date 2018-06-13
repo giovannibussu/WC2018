@@ -1,7 +1,6 @@
 package worldcup.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -51,7 +50,7 @@ public class Gioco {
 
 	public List<Match> getMatchList() {
 		List<Match> listaMatch = new ArrayList<Match>();
-		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values());
+		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values().stream().filter(match -> match.isPlayable() && !match.isPlayed()).collect(Collectors.toList()));
 		return listaMatch;
 	}
 

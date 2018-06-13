@@ -67,6 +67,7 @@ public class Team extends JsonSerializable {
 			try {
 			teams = readTeams("/teams.json");
 			} catch(Exception e) {
+				System.err.println(e);
 				teams = new HashMap<>();
 			}
 		}
