@@ -233,4 +233,8 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+	
+	public String getMatchLabel() {
+		return this.getHome().getNome() + " - " + this.getAway().getNome(); 
+	}
 }

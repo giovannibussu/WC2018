@@ -49,8 +49,10 @@ public class Gioco {
 		return map;
 	}
 
-	public Collection<Match> getMatchList() {
-		return this.ufficiale.getTorneo().getMatches().values();
+	public List<Match> getMatchList() {
+		List<Match> listaMatch = new ArrayList<Match>();
+		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values());
+		return listaMatch;
 	}
 
 	public void setResult(Match match, int goalHome, int goalAway) {
