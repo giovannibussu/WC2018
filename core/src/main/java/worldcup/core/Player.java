@@ -47,6 +47,7 @@ public class Player extends JsonSerializable {
 			try {
 			players = readPlayers("/players.json");
 			} catch(Exception e) {
+				System.err.println(e);
 				players = new HashMap<String, Player>();
 			}
 		}

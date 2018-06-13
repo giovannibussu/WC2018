@@ -48,6 +48,7 @@ public class Stadium extends JsonSerializable{
 			try {
 			stadiums = readStadiums("/stadi.json");
 			} catch(Exception e) {
+				System.err.println(e);
 				stadiums = new HashMap<Integer, Stadium>();
 			}
 		}

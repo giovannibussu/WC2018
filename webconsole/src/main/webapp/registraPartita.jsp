@@ -65,12 +65,11 @@
 						  </div>
 					  <div class="form-group">
 					    <label for="inputCasa">Punteggio Casa</label>
-					    <input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Suqadra in casa">
-					    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+					    <input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Squadra in casa">
 					  </div>
 					  <div class="form-group">
 					    <label for="inputTrasferta">Punteggio Trasferta</label>
-					    <input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Suqadra in trasferta">
+					    <input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Squadra in trasferta">
 					  </div>
 					  <button type="submit" class="btn btn-primary">Salva</button>
 					</form>

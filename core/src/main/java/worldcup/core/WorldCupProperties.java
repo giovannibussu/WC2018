@@ -16,13 +16,11 @@ public class WorldCupProperties {
 
 	
 	private String worldCupExternalFolder;
-	private String playersFile;
-	private String pronosticiFile;
-	private String stadiFile;
-	private String teamsFile;
 	private String pronosticiFolder;
 	private String idPronosticoUfficiale;
-	
+
+	private String username;
+	private String password;
 	private static final String PATH = "worldCup.properties";
 	
 	public WorldCupProperties() {
@@ -36,6 +34,8 @@ public class WorldCupProperties {
 			externalProps.load(new FileInputStream(new File(this.worldCupExternalFolder, PATH)));
 			this.pronosticiFolder = externalProps.getProperty("pronostici.folder").trim();
 			this.idPronosticoUfficiale = externalProps.getProperty("pronostici.ufficiale.id").trim();
+			this.username = externalProps.getProperty("username").trim();
+			this.password = externalProps.getProperty("password").trim();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,4 +53,13 @@ public class WorldCupProperties {
 	public String getWorldCupExternalFolder() {
 		return worldCupExternalFolder;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 }
