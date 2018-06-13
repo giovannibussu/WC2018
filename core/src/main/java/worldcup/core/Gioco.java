@@ -89,4 +89,9 @@ public class Gioco {
 		
 		return lstRet;
 	}
+	
+	public boolean check(String username, String password) {
+		return WorldCupProperties.getInstance().getUsername().equals(username) &&
+				WorldCupProperties.getInstance().getPassword().equals(password);
+	}
 }
