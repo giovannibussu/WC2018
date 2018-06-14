@@ -45,7 +45,14 @@ public class Gioco {
 			
 		}
 		
-		return map;
+		LinkedHashMap<Player, Match> sortedMap = new LinkedHashMap<>();
+		
+		map.entrySet()
+	    .stream()
+	    .sorted(Map.Entry.comparingByKey())
+	    .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+		
+		return sortedMap;
 	}
 
 	public List<Match> getMatchList() {
