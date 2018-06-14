@@ -57,7 +57,9 @@ public class Gioco {
 
 	public List<Match> getMatchList() {
 		List<Match> listaMatch = new ArrayList<Match>();
-		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values().stream().filter(match -> match.isPlayable() && !match.isPlayed()).collect(Collectors.toList()));
+		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values().stream().filter(match -> match.isPlayable() && !match.isPlayed())
+			    .sorted()
+				.collect(Collectors.toList()));
 		return listaMatch;
 	}
 
