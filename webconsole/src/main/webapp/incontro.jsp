@@ -13,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/favicon.ico">
 
     <title>WorldCup 2018</title>
 
@@ -29,12 +28,14 @@
     <link href="css/partite_google.css" rel="stylesheet">
     
     <%
+    String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
     Match match = pi.getMatch(idMatch);
     Map<Player, Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
     
     %>
+    <link rel="icon" href="<%= context %>/favicon.png">
   </head>
 
   <body>

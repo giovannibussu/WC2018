@@ -11,9 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
 
-    <title>WorldCup 2018 | Registra Partita</title>
+    <title>WorldCup 2018 | Registra Partita Esito</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,12 +28,18 @@
     <%
     String username = request.getParameter("username");
 	String password = request.getParameter("password");
+    String idMatch = request.getParameter("matchSelezionato");
+	String inputCasa = request.getParameter("inputCasa");
+    String inputTrasferta = request.getParameter("inputTrasferta");
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListaMatch(); 
     
     boolean login = pi.login(username, password);
-    		
+    	
+    if(login) {
+    	Match match = pi.getMatch(idMatch);
+    	pi.setResult(match, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
+    }
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
   </head>
@@ -53,46 +58,16 @@
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h3>Registra Partita</h3>
+	               <h3>Esito</h3>
                 </div>
                 <div class="ec-fixture-list">
-                	<ul>
-                 		<li>
-                         <div class="ec-cell">
-		                	<form action="<%= context %>/inviaRisultato.jsp" method="get"> 
-		                		<input type="hidden" name="username" value="<%=username%>" >
-		                		<input type="hidden" name="password" value="<%=password%>">
-		                		<div class="form-group">
-								    <label for="listaMatch">Match</label>
-								    <select class="form-control" id="listaMatch" name="matchSelezionato">
-								    	<% for(int i = 0 ; i < listaPartite.size() ; i++){ 
-								    			Match match =listaPartite.get(i);
-								    	%>
-								    		<option value="<%= match.getMatchId() %>"><%=match.getMatchLabel() %></option>
-								    	<% }%>
-								    </select>
-							  </div>
-							  <div class="form-group">
-							  	<div class="form-row">
-   									<div class="col-md-6">
-							    		<label for="inputCasa">Punteggio Casa</label>
-							    		<input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Squadra in casa" min="0" name="inputCasa" >
-							  		</div>
-							  		<div class="col-md-6">
-							    		<label for="inputTrasferta">Punteggio Trasferta</label>
-							    		<input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Squadra in trasferta" min="0" name="inputTrasferta">
-							  		</div>
-						  		</div>
-					  		</div>
-					  		<div class="form-group">
-						  		<div class="form-row" style="margin: auto;">
-							  	<button type="submit" class="btn btn-backtotop">Salva</button>
-							  	</div>
-						  	</div>
-							</form>
-						</div>
-						</li>
-					</ul>
+                	 <ul>
+                	 	<li>
+                	 		<div class="ec-cell">
+	                			<span>Risultato Registrato</span>
+                			</div>
+                		</li>
+               		</ul>
                   </div>
               </div>
           </div>
@@ -120,15 +95,5 @@
    
     <jsp:include page="includes/footer.jsp" flush="true"></jsp:include>
     
-   <script type="text/javascript">
-   $('[id^=div_match_]')
-       .click(function() {
-//            $(this).data('title', $(this).attr('title'));
-//            $(this).removeAttr('title');
-			var val = $(this).children('input[type=hidden]').val();
-			window.location = val;
-       });
-
-   </script>
   </body>
 </html>
