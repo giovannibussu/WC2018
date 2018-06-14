@@ -33,6 +33,8 @@
     ProssimiIncontri pi = new ProssimiIncontri();
     List<Match> listaPartite = pi.getListaMatch(); 
     
+    boolean login = pi.login(username, password);
+    		
     %>
   </head>
 
@@ -46,16 +48,19 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
+			<% if(login) { %>
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
 	               <h3>Registra Partita</h3>
                 </div>
                 <div class="ec-fixture-list">
-                	<form action="<%= context %>/inviaRisultato.jsp?username=<%=username%>&password=<%=password%>" method="get"> 
+                	<form action="<%= context %>/inviaRisultato.jsp" method="get"> 
+                		<input type="hidden" name="username" value="<%=username%>" >
+                		<input type="hidden" name="password" value="<%=password%>">
                 		<div class="form-group">
 						    <label for="listaMatch">Match</label>
-						    <select class="form-control" id="listaMatch">
+						    <select class="form-control" id="listaMatch" name="matchSelezionato">
 						    	<% for(int i = 0 ; i < listaPartite.size() ; i++){ 
 						    			Match match =listaPartite.get(i);
 						    	%>
@@ -65,17 +70,33 @@
 						  </div>
 					  <div class="form-group">
 					    <label for="inputCasa">Punteggio Casa</label>
-					    <input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Squadra in casa">
+					    <input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Squadra in casa" min="0" name="inputCasa" >
 					  </div>
 					  <div class="form-group">
 					    <label for="inputTrasferta">Punteggio Trasferta</label>
-					    <input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Squadra in trasferta">
+					    <input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Squadra in trasferta" min="0" name="inputTrasferta">
 					  </div>
-					  <button type="submit" class="btn btn-primary">Salva</button>
+					  <button type="submit" class="btn btn-backtotop">Salva</button>
 					</form>
                   </div>
               </div>
           </div>
+          <% } else { %>
+           <div class="row">
+          	<div class="col-md-12">
+	            <div class="ec-fancy-title">
+	               <h3>Errore</h3>
+                </div>
+                <div class="ec-fixture-list">
+                	 <ul>
+                	 	<li>
+	                		<span>Utente non autorizzato</span>
+                		</li>
+               		</ul>
+                  </div>
+              </div>
+          </div>
+          <% } %>
      </div>
 
     </main><!-- /.container -->

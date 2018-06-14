@@ -55,6 +55,7 @@ public class Gioco {
 	}
 
 	public void setResult(Match match, int goalHome, int goalAway) {
+		System.out.println("Match ["+match.getMatchId()+"], Gol Home ["+goalHome+"], Gol Away ["+goalAway+"]"); 
 		this.ufficiale.inserisciPronostico(match.getMatchId(), goalHome, goalAway);
 	}
 	
