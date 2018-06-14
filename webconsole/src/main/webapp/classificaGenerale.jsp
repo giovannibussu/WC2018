@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/favicon.ico">
 
     <title>WorldCup 2018 | Classifica Generale</title>
 
@@ -26,10 +25,12 @@
     <link href="css/custom.css" rel="stylesheet">
     
     <%
+    String context = request.getContextPath();
     String categoria = request.getParameter("cat");
     ClassificaGenerale classificaGenerale = new ClassificaGenerale();
     Map<Pronostico,Integer> classifica = classificaGenerale.getClassificaGenerale(categoria);
     %>
+    <link rel="icon" href="<%= context %>/favicon.png">
   </head>
 
   <body>
