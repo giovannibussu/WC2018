@@ -18,15 +18,16 @@ public class Pronostico {
 
 	public void inserisciPronostico(String id, int home, int away) {
 		this.torneo.getMatch(id).play(home, away);
-		this.salvaPronostico();
-		this.aggiornaPronostico();
-
 		PronosticoInput input = new PronosticoInput();
 		input.setId(id);
 		input.setHome(home);
 		input.setAway(away);
 		
 		this.pronostico.put(id, input);
+
+		this.salvaPronostico();
+		this.aggiornaPronostico();
+
 	}
 	
 	private void salvaPronostico() {
