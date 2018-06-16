@@ -86,7 +86,7 @@
 	{
 		"nome": "Brasile",
 		"id": "BRA",
-		"bandiera": "images/brazil.png",
+		"bandiera": "images/brasile.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
@@ -128,7 +128,7 @@
 	{
 		"nome": "Croazia",
 		"id": "CRO",
-		"bandiera": "images/croatia.png",
+		"bandiera": "images/croazia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
