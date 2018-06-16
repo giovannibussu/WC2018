@@ -45,16 +45,26 @@ public class Gioco {
 			
 		}
 		
-		return map;
+		LinkedHashMap<Player, Match> sortedMap = new LinkedHashMap<>();
+		
+		map.entrySet()
+	    .stream()
+	    .sorted(Map.Entry.comparingByKey())
+	    .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+		
+		return sortedMap;
 	}
 
 	public List<Match> getMatchList() {
 		List<Match> listaMatch = new ArrayList<Match>();
-		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values().stream().filter(match -> match.isPlayable() && !match.isPlayed()).collect(Collectors.toList()));
+		listaMatch.addAll(this.ufficiale.getTorneo().getMatches().values().stream().filter(match -> match.isPlayable() && !match.isPlayed())
+			    .sorted()
+				.collect(Collectors.toList()));
 		return listaMatch;
 	}
 
 	public void setResult(Match match, int goalHome, int goalAway) {
+		System.out.println("Match ["+match.getMatchId()+"], Gol Home ["+goalHome+"], Gol Away ["+goalAway+"]"); 
 		this.ufficiale.inserisciPronostico(match.getMatchId(), goalHome, goalAway);
 	}
 	

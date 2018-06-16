@@ -42,8 +42,14 @@ public class GoogleApiPronosticoReader implements PronosticoReader {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader("");
-		System.out.println(reader.readResults());
+		System.setProperty("http.proxyHost", "proxy");
+		System.setProperty("http.proxyPort", "8080");
+		System.setProperty("https.proxyHost", "proxy");
+		System.setProperty("https.proxyPort", "8080");
+		String pronosticoId = "14FurSiPU2U2_wRXm_KEH1U_n_5W3F4oMtlc2FlD18lQ";
+		GoogleApiPronosticoReader reader = new GoogleApiPronosticoReader(pronosticoId);
+		PronosticoWriter w = new PronosticoWriter(pronosticoId);
+		w.write(reader.readResults().values());
 	}
 	
 	public Map<String, PronosticoInput> readResults() {

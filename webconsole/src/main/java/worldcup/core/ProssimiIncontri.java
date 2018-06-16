@@ -16,8 +16,10 @@ public class ProssimiIncontri {
 	
 	public List<Match> getListProssimiIncontri(){
 		Calendar nowCal = new GregorianCalendar();
+		nowCal.set(Calendar.HOUR_OF_DAY, 0);
+		nowCal.set(Calendar.MINUTE, 0);
 		Date now = nowCal.getTime();
-		nowCal.add(Calendar.DATE, 1);
+		nowCal.add(Calendar.DATE, 2);
 		Date tomorrow= nowCal.getTime();
 		return this.gioco.matchPerData(now, tomorrow);
 	}
@@ -38,5 +40,7 @@ public class ProssimiIncontri {
 		this.gioco.setResult(match, goalHome, goalAway);
 	}
 	
-
+	public boolean login(String username, String password) {
+		return this.gioco.check(username, password);
+	}
 }

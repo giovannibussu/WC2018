@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.openspcoop2.utils.resources.FileSystemUtilities;
 
-public class Player extends JsonSerializable {
+public class Player extends JsonSerializable implements Comparable<Player> {
 
 	private static final String TEMPLATE_LINK = "https://docs.google.com/spreadsheets/d/SPREADSHEET";
 	private String nome;
@@ -65,6 +65,13 @@ public class Player extends JsonSerializable {
 	}
 	public String getLink() {
 		return link;
+	}
+	@Override
+	public int compareTo(Player o) {
+		if ( o != null )
+    		return this.getNome().compareTo(o.getNome());
+		
+    	return Integer.MIN_VALUE;
 	}
 
 }
