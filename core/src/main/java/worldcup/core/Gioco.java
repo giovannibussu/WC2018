@@ -23,9 +23,13 @@ public class Gioco {
 	}
 
 	public List<Match> matchPerData(Date dataInizio, Date dataFine) {
+		
+		Comparator<Match> byDate = 
+				(Match o1, Match o2)->o1.getDataMatch().compareTo(o2.getDataMatch());
+		
 		return ufficiale.getTorneo().getMatches().values().stream().filter(a-> 
 			a.getDataMatch().before(dataFine) && a.getDataMatch().after(dataInizio)
-		).collect(Collectors.toList());
+		).sorted(byDate).collect(Collectors.toList());
 	}
 
 	public Match getMatch(String idMatch) {
