@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Gioco {
@@ -34,6 +35,32 @@ public class Gioco {
 
 	public Match getMatch(String idMatch) {
 		return ufficiale.getTorneo().getMatches().get(idMatch);
+	}
+	
+	public List<Distribuzione> distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultatoEsatto();
+		return _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+	}
+	
+	public List<Distribuzione> distribuzionePronosticiPerMatchRisultato(Match match) {
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultato().name();
+		return _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+	}
+
+	public List<Distribuzione> _distribuzionePronosticiPerMatch(Match match, Function<Match, String> groupBy) {
+		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatch(match).values().stream()
+				.collect(Collectors.groupingBy(groupBy));
+
+		List<Distribuzione> distr = new ArrayList<>();
+		for(String p: pronosticiPerMatch.keySet()) {
+			Distribuzione distribuzione = new Distribuzione();
+			distribuzione.setRisultato(p);
+			distribuzione.setNumero(pronosticiPerMatch.get(p).size());
+			distribuzione.setTooltip(p);
+			distr.add(distribuzione);
+		}
+		
+		return distr;
 	}
 
 	public Map<Player, Match> pronosticiPerMatch(Match match) {
