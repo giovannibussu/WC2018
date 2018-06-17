@@ -1,7 +1,9 @@
 package worldcup.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,16 @@ public class ClassificaGenerale {
 					toReturn.put(pronostico, classifica.get(pronostico));
 			}
 			
-			return toReturn;
+			LinkedHashMap<Pronostico, Integer> reverseSortedMap = new LinkedHashMap<>();
+			
+			//Use Comparator.reverseOrder() for reverse ordering
+			toReturn.entrySet()
+			    .stream()
+			    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+			    .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+			
+			return reverseSortedMap;
+
 
 		}
 		
