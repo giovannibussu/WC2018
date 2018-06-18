@@ -43,4 +43,12 @@ public class ProssimiIncontri {
 	public boolean login(String username, String password) {
 		return this.gioco.check(username, password);
 	}
+	
+	public Grafico distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
+		return this.gioco.distribuzionePronosticiPerMatchRisultatoEsatto(match);
+	}
+	
+	public Grafico distribuzionePronosticiPerMatchRisultato(Match match) {
+		return this.gioco.distribuzionePronosticiPerMatchRisultato(match);
+	}
 }

@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WorldCup 2018 | Home</title>
+    <title>WorldCup 2018 | Prossimi Incontri</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -32,6 +32,7 @@
     
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
+
   </head>
 
   <body>

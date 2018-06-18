@@ -37,30 +37,50 @@ public class Gioco {
 		return ufficiale.getTorneo().getMatches().get(idMatch);
 	}
 	
-	public List<Distribuzione> distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
+	public Grafico distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
 		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultatoEsatto();
-		return _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		Grafico grafico = _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		grafico.setTitolo("");
+		grafico.setSottotitolo("");
+		return grafico;
 	}
 	
-	public List<Distribuzione> distribuzionePronosticiPerMatchRisultato(Match match) {
+	public Grafico distribuzionePronosticiPerMatchRisultato(Match match) {
 		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultato().name();
-		return _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		Grafico grafico = _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		grafico.setTitolo("");
+		grafico.setSottotitolo("");
+		return grafico;
 	}
 
-	public List<Distribuzione> _distribuzionePronosticiPerMatch(Match match, Function<Match, String> groupBy) {
+	public Grafico _distribuzionePronosticiPerMatch(Match match, Function<Match, String> groupBy) {
+		Grafico grafico = new Grafico();
 		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatch(match).values().stream()
 				.collect(Collectors.groupingBy(groupBy));
 
 		List<Distribuzione> distr = new ArrayList<>();
 		for(String p: pronosticiPerMatch.keySet()) {
 			Distribuzione distribuzione = new Distribuzione();
-			distribuzione.setRisultato(p);
-			distribuzione.setNumero(pronosticiPerMatch.get(p).size());
-			distribuzione.setTooltip(p);
+			distribuzione.setLabel(p);
+			distribuzione.setValue(pronosticiPerMatch.get(p).size());
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(p);
+			
+//			for (Match match2 : pronosticiPerMatch.get(p)) {
+//				if(sb.length() >0)
+//					sb.append(", ");
+				
+				// sb.append(match2.getCHIL"HASCOMMESSO?) ; // TODO Bussu
+//			} 
+		
+			distribuzione.setTooltip(sb.toString());
 			distr.add(distribuzione);
 		}
 		
-		return distr;
+		grafico.setDati(distr);
+		
+		return grafico;
 	}
 
 	public Map<Player, Match> pronosticiPerMatch(Match match) {

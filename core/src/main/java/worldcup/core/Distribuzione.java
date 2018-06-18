@@ -2,19 +2,19 @@ package worldcup.core;
 
 public class Distribuzione extends JsonSerializable {
 
-	private String risultato;
-	private Integer numero;
-	public String getRisultato() {
-		return risultato;
+	private String label;
+	private Integer value;
+	public String getLabel() {
+		return label;
 	}
-	public void setRisultato(String risultato) {
-		this.risultato = risultato;
+	public void setLabel(String risultato) {
+		this.label = risultato;
 	}
-	public Integer getNumero() {
-		return numero;
+	public Integer getValue() {
+		return value;
 	}
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public void setValue(Integer numero) {
+		this.value = numero;
 	}
 	public String getTooltip() {
 		return tooltip;
@@ -26,6 +26,6 @@ public class Distribuzione extends JsonSerializable {
 	
 	@Override
 	public String toString() {
-		return "risultato "+risultato+" numero "+numero+" tooltip " + tooltip;
+		return "label "+label+" value "+value+" tooltip " + tooltip;
 	}
 }
