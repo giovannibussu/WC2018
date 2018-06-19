@@ -147,11 +147,29 @@
                  </div>
          		</div>
       		</div>
+      		
+       <% if(visualizzaGrafici) { %>
+		<div class="row">
+         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
+            <div class="ec-fancy-title">
+               <h3>Pronostici</h3>
+               </div>
+               <div class="ec-fixture-list">
+                   <ul>
+                   		<li class="">
+                   			<div id="graficoRisultatiEsattiDiv"></div>
+              			</li>
+           			</ul>
+       			</div>
+   			</div>
+		</div>
+		
+		<% } %>
 
          <div class="row">
          	<div class="col-md-12">
             <div class="ec-fancy-title">
-               <h3>Pronostici per il match</h3>
+               <h3>Pronostici per Player</h3>
                </div>
                <div class="ec-fixture-list">
                    <ul>
@@ -172,24 +190,7 @@
                  </div>
              </div>
          </div>
-         
-       <% if(visualizzaGrafici) { %>
-		<div class="row">
-         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
-            <div class="ec-fancy-title">
-               <h3>Pillole Statistiche</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div id="graficoRisultatiEsattiDiv"></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-		
-		<% } %>
+
      </div>
 
     </main><!-- /.container -->
