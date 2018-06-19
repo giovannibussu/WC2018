@@ -86,7 +86,7 @@ public class Gioco {
 				mappaNomi.put(key, player.getNome());
 			} else {
 				String string = mappaNomi.get(key);
-				mappaNomi.put(key, string + "," +player.getNome());
+				mappaNomi.put(key, string + "<br/>" +player.getNome());
 				
 			}
 		}
@@ -99,7 +99,6 @@ public class Gioco {
 			Distribuzione distribuzione = new Distribuzione();
 			distribuzione.setLabel(p);
 			distribuzione.setValue(pronosticiPerMatch.get(p).size());
-			
 			distribuzione.setTooltip(mappaNomi.get(p));
 			distr.add(distribuzione);
 		}
@@ -118,26 +117,25 @@ public class Gioco {
 		List<Distribuzione> distr = new ArrayList<>();
 		for(String p: pronosticiPerMatch.keySet()) {
 			Distribuzione distribuzione = new Distribuzione();
-			distribuzione.setLabel(p);
+			distribuzione.setLabel(getRisultatoLabel(p));
 			distribuzione.setValue(pronosticiPerMatch.get(p).size());
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(p);
-			
-//			for (Match match2 : pronosticiPerMatch.get(p)) {
-//				if(sb.length() >0)
-//					sb.append(", ");
-				
-				// sb.append(match2.getCHIL"HASCOMMESSO?) ; // TODO Bussu
-//			} 
-		
-			distribuzione.setTooltip(sb.toString());
+			distribuzione.setTooltip(pronosticiPerMatch.get(p).size() +"");
 			distr.add(distribuzione);
 		}
 		
 		grafico.setDati(distr);
 		
 		return grafico;
+	}
+	
+	public String getRisultatoLabel (String s) {
+		if(s.equals("_1")) {
+			return "1";
+		} else if(s.equals("_2")) {
+			return "2";
+		} else {
+			return "X";
+		}
 	}
 
 	public Map<Player, Match> pronosticiPerMatch(Match match) {
