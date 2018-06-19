@@ -145,6 +145,10 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	}
 
 	public boolean equi(Match other) {
+		
+		if(other == null)
+			return false;
+
 		if(this.home == null)
 			return false;
 		if(this.away == null)
