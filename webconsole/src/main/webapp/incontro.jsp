@@ -29,19 +29,19 @@
     
     <link href="css/c3.min.css" rel="stylesheet" type="text/css">
     <link href="css/ChartMap.css" rel="stylesheet" type="text/css">
+    
+    <link href="css/roboto/roboto-fontface.css" rel="stylesheet" type="text/css">
     <%
     String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
     Match match = pi.getMatch(idMatch);
     Map<Player, Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
-    boolean visualizzaGrafici = false;
+    boolean visualizzaGrafici = true;
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
     
     <script>
-    	var graficoRisultati = '<%= pi.distribuzionePronosticiPerMatchRisultato(match).serializeToString()%>';
-    	
     	var graficoRisultatiEsatti = '<%= pi.distribuzionePronosticiPerMatchRisultatoEsatto(match).serializeToString()%>';
     </script>
     
@@ -173,26 +173,11 @@
              </div>
          </div>
          
-         <% if(visualizzaGrafici) { %>
-         <div class="row">
-         	<div class="col-md-12" id="chartPanelGraficoRisultatiDiv">
-            <div class="ec-fancy-title">
-               <h3>Pronostici per Risultato</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div id="graficoRisultatiDiv"></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-		
+       <% if(visualizzaGrafici) { %>
 		<div class="row">
          	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
             <div class="ec-fancy-title">
-               <h3>Pronostici per Risultato Esatto</h3>
+               <h3>Pillole Statistiche</h3>
                </div>
                <div class="ec-fixture-list">
                    <ul>
@@ -215,29 +200,15 @@
      <script src="js/d3.min.js"></script>
      <script src="js/c3.js"></script>
      <script src="js/ChartMap.js"></script>
-     <script src="js/SvgRaster.js"></script>
     
-      <script type="text/javascript">
+	  <script type="text/javascript">
           //<![CDATA[
-          var chartId = 'graficoRisultatiId';
-          var chartDivId = 'graficoRisultatiDiv';
-          var chartWidth = jQuery('#chartPanelGraficoRisultatiDiv').width();
-          var chartHeight = 650;
-          var chartType = 'pie';
+          var chart2Id = 'graficoRisultatiEsattiId';
+          var chart2DivId = 'graficoRisultatiEsattiDiv';
+          var chart2Width = jQuery('#chartPanelGraficoRisultatiEsattiDiv').width();
+          var chart2Height = 650;
           // init 
-          createChart(chartDivId, graficoRisultati, chartType, chartWidth, chartHeight);
-   //]]>  
-  </script>
-  
-  <script type="text/javascript">
-          //<![CDATA[
-          var chartId = 'graficoRisultatiEsattiId';
-          var chartDivId = 'graficoRisultatiEsattiDiv';
-          var chartWidth = jQuery('#chartPanelGraficoRisultatiEsattiDiv').width();
-          var chartHeight = 650;
-          var chartType = 'pie';
-          // init 
-          createChart(chartDivId, graficoRisultatiEsatti, chartType, chartWidth, chartHeight);
+          createChart(chart2DivId, graficoRisultatiEsatti, 'pie', chart2Width, chart2Height);
    //]]>  
   </script>
   <% } %>

@@ -5,9 +5,15 @@ import java.util.List;
 public class Grafico extends JsonSerializable{
 
 	/*
-	 * {"coloriAutomatici":true,"xAxisGridLines":true,"titolo":"Distribuzione Giornaliera per Servizio ",
-	 * "sottotitolo":"Numero Transazioni  (dal 19 maggio 2018 al 18 giugno 2018 )",
-	 * "clickItemLegenda":false,"valoreRealeTorta":true,"colonneLegenda":16,"limiteColonneLegenda":16,"noData":"Non esistono transazioni per il periodo selezionato"}"
+	 "{"coloriAutomatici":true,
+	 	"xAxisGridLines":true,
+ 		"titolo":"Titolo ",
+ 		"sottotitolo":"sottotitolo",
+ 		"clickItemLegenda":false,
+ 		"valoreRealeTorta":true,
+ 		"colonneLegenda":16,
+ 		"limiteColonneLegenda":16,
+ 		"dati":[{"label":"Label","tooltip":"tooltip","value":74684},... ]}"
 	 * */
 	private List<Distribuzione> dati = null;
 	private boolean coloriAutomatici = true;

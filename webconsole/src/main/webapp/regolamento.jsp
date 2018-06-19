@@ -21,6 +21,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/custom.css" rel="stylesheet">
     
+     <link href="css/roboto/roboto-fontface.css" rel="stylesheet" type="text/css">
     <%
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
