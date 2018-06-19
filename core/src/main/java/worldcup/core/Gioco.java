@@ -38,25 +38,82 @@ public class Gioco {
 	}
 	
 	public Grafico distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
-		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultatoEsatto();
-		Grafico grafico = _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		Grafico grafico = _distribuzionePronosticiPerMatchRisultatoEsatto(match);
 		grafico.setTitolo("");
 		grafico.setSottotitolo("");
 		return grafico;
 	}
 	
 	public Grafico distribuzionePronosticiPerMatchRisultato(Match match) {
-		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultato().name();
-		Grafico grafico = _distribuzionePronosticiPerMatch(match, risultatoEsatto);
+		Grafico grafico = _distribuzionePronosticiPerMatchRisultato(match);
 		grafico.setTitolo("");
 		grafico.setSottotitolo("");
 		return grafico;
 	}
 
-	public Grafico _distribuzionePronosticiPerMatch(Match match, Function<Match, String> groupBy) {
+	public Grafico _distribuzionePronosticiPerMatchBase(Match match, Function<Match, String> groupBy) {
 		Grafico grafico = new Grafico();
 		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatch(match).values().stream()
 				.collect(Collectors.groupingBy(groupBy));
+
+		List<Distribuzione> distr = new ArrayList<>();
+		for(String p: pronosticiPerMatch.keySet()) {
+			Distribuzione distribuzione = new Distribuzione();
+			distribuzione.setLabel(p);
+			distribuzione.setValue(pronosticiPerMatch.get(p).size());
+			
+			distribuzione.setTooltip(pronosticiPerMatch.get(p).size() +"");
+			distr.add(distribuzione);
+		}
+		
+		grafico.setDati(distr);
+		
+		return grafico;
+	}
+
+
+	public Grafico _distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultatoEsatto();
+
+		Grafico grafico = new Grafico();
+		Map<Player, Match> pronosticiPerMatchMap = pronosticiPerMatch(match);
+
+		Map<String, String> mappaNomi = new HashMap<>();
+		
+		for(Player player: pronosticiPerMatchMap.keySet()) {
+			String key =pronosticiPerMatchMap.get(player).getResult().getRisultatoEsatto();
+			if(!mappaNomi.containsKey(key)) {
+				mappaNomi.put(key, player.getNome());
+			} else {
+				String string = mappaNomi.get(key);
+				mappaNomi.put(key, string + "," +player.getNome());
+				
+			}
+		}
+
+		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatchMap.values().stream()
+				.collect(Collectors.groupingBy(risultatoEsatto));
+
+		List<Distribuzione> distr = new ArrayList<>();
+		for(String p: mappaNomi.keySet()) {
+			Distribuzione distribuzione = new Distribuzione();
+			distribuzione.setLabel(p);
+			distribuzione.setValue(pronosticiPerMatch.get(p).size());
+			
+			distribuzione.setTooltip(mappaNomi.get(p));
+			distr.add(distribuzione);
+		}
+		
+		grafico.setDati(distr);
+		
+		return grafico;
+	}
+
+	public Grafico _distribuzionePronosticiPerMatchRisultato(Match match) {
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultato().name();
+		Grafico grafico = new Grafico();
+		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatch(match).values().stream()
+				.collect(Collectors.groupingBy(risultatoEsatto));
 
 		List<Distribuzione> distr = new ArrayList<>();
 		for(String p: pronosticiPerMatch.keySet()) {
