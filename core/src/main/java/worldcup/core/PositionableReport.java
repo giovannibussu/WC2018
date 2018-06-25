@@ -117,7 +117,7 @@ public class PositionableReport {
 				
 				if(original.getPassaggioTurno()!= null && original.getPassaggioTurno().contains(team)) {
 					System.out.println("   Passaggio Indovinato");
-					result.addPassaggioTurno();
+//					result.addPassaggioTurno();
 				} else {
 					System.out.println("   Passaggio NON Indovinato");
 				}
@@ -140,7 +140,7 @@ public class PositionableReport {
 						System.out.println("  Pronostico :"+((t2 != null) ? t2.getNome() : "NULL" ));
 					if (t1 != null && t2 != null && t1.equals(t2)) {
 					    System.out.println("   Posizione Indovinata");
-					  result.addPosizioneTabellone();
+//					  result.addPosizioneTabellone();
 					} else {
 					    System.out.println("   Posizione NON indovinata");
 					}
