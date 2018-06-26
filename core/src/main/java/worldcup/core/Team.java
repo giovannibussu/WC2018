@@ -62,10 +62,10 @@ public class Team extends JsonSerializable {
 	
 	private static Map<String, Team> teams;
 	
-	public static Map<String, Team> readTeams() {
+	public static Map<String, Team> readTeams(String id) { //TODO leggere e recuperare per player
 		if(teams == null) {
 			try {
-			teams = readTeams("/teams.json");
+			teams = read("/teams.json");
 			} catch(Exception e) {
 				System.err.println(e);
 				teams = new HashMap<>();
@@ -75,7 +75,7 @@ public class Team extends JsonSerializable {
 	}
 
 
-	public static Map<String, Team> readTeams(String resource) throws Exception {
+	private static Map<String, Team> read(String resource) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
 		

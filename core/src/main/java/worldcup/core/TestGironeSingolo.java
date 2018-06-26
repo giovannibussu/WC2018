@@ -101,7 +101,7 @@ public class TestGironeSingolo
 
                         
 
-			Tornei[j] = ExampleTorneoReader.getTorneo();
+			Tornei[j] = ExampleTorneoReader.getTorneo(id);
 	                for (PronosticoInput pronostico : readResults) {
 	                        System.out.println(pronostico);
         	                Tornei[j].play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
@@ -114,7 +114,7 @@ public class TestGironeSingolo
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
 		PronosticoWriter("master",49);
-		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
+		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo("master");
 		reader = new FileSystemPronosticoReader("master");
                 for (PronosticoInput pronostico : reader.readResults().values()) {
 	                System.out.println(pronostico);

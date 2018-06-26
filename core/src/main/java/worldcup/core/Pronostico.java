@@ -12,7 +12,7 @@ public class Pronostico {
 	private Map<String, PronosticoInput> pronostico;
 	public Pronostico(Player player) {
 		this.player = player;
-		this.torneo = ExampleTorneoReader.getTorneo();
+		this.torneo = ExampleTorneoReader.getTorneo(player.getId());
 		this.aggiornaPronostico();
 	}
 

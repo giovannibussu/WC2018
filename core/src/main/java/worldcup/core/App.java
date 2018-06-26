@@ -37,9 +37,9 @@ public class App
 		System.out.println("Pronostici recuperati");
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
-		Torneo pronosticoA = ExampleTorneoReader.getTorneo();
-		Torneo pronosticoB = ExampleTorneoReader.getTorneo();
-		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
+		Torneo pronosticoA = ExampleTorneoReader.getTorneo(spreadsheetId);
+		Torneo pronosticoB = ExampleTorneoReader.getTorneo(spreadsheetId);
+		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo(spreadsheetId);
 		
 		//metodo play, inserisce il pronostico (o il risultato ufficiale) per una partita. Per gli ID delle partite vedere l'excel o i file gironi.txt e knockout.txt 
 		for (PronosticoInput pronostico : reader.readResults().values()) {
