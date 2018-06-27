@@ -60,18 +60,20 @@ public class Team extends JsonSerializable {
 		this.link = link;
 	}
 	
-	private static Map<String, Team> teams;
+	private static Map<String, Map<String, Team>> teams;
 	
-	public static Map<String, Team> readTeams(String id) { //TODO leggere e recuperare per player
-		if(teams == null) {
+	public static Map<String, Team> readTeams(String id) {
+		if(teams == null)
+			teams = new HashMap<>();
+		
+		if(!teams.containsKey(id)) {
 			try {
-			teams = read("/teams.json");
+			teams.put(id, read(id+"-team.json"));
 			} catch(Exception e) {
 				System.err.println(e);
-				teams = new HashMap<>();
 			}
 		}
-		return teams;
+		return teams.get(id);
 	}
 
 
