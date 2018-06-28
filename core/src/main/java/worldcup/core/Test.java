@@ -48,7 +48,7 @@ public class Test
                         System.out.println("Cerco versione cache per "+id);
                         reader = new FileSystemPronosticoReader(id);
 
-			Tornei[j] = ExampleTorneoReader.getTorneo();
+			Tornei[j] = ExampleTorneoReader.getTorneo(id);
 	                for (PronosticoInput pronostico : reader.readResults().values()) {
 	                        System.out.println(pronostico);
         	                Tornei[j].play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
@@ -61,7 +61,7 @@ public class Test
 
 		//Leggo un torneo. Attualmente si dovra' leggere da file una volta per pronostico... TODO migliorare 
 		PronosticoWriter(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
-		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo();
+		Torneo risultatoUfficiale = ExampleTorneoReader.getTorneo(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
 		reader = new FileSystemPronosticoReader(WorldCupProperties.getInstance().getIdPronosticoUfficiale());
                 for (PronosticoInput pronostico : reader.readResults().values()) {
 	                System.out.println(pronostico);

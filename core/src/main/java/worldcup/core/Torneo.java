@@ -39,23 +39,25 @@ public class Torneo extends JsonSerializable {
 		int points = 0;
 		PositionableReport thisReport = this.reports.get(TYPE.GIRONE);
 		PositionableReport officialReport = official.getReports().get(TYPE.GIRONE);
-		points += thisReport.getPoints(officialReport);	
+		
+		WorldCupProperties props = WorldCupProperties.getInstance();
+		points += thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioGironi());	
 		
 		 thisReport = this.reports.get(TYPE.OTTAVI);
 		 officialReport = official.getReports().get(TYPE.OTTAVI);
-		points += thisReport.getPoints(officialReport);	
+		points += thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioOttavi());	
 		
 		 thisReport = this.reports.get(TYPE.QUARTI);
 		 officialReport = official.getReports().get(TYPE.QUARTI);
-		points += thisReport.getPoints(officialReport);	
+		points += thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioQuarti());	
 		
 		 thisReport = this.reports.get(TYPE.SEMIFINALI);
 		 officialReport = official.getReports().get(TYPE.SEMIFINALI);
-		points += thisReport.getPoints(officialReport);	
+		points += thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioSemifinali());	
 		
 		 thisReport = this.reports.get(TYPE.FINALE);
 		 officialReport = official.getReports().get(TYPE.FINALE);
-		points += thisReport.getPoints(officialReport);	
+		points += thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioFinale());	
 		
 //		for(TYPE k: this.reports.keySet()) {
 //			PositionableReport thisReport = this.reports.get(k);
