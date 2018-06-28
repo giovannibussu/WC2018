@@ -56,17 +56,17 @@ public class PositionableReport {
 
 	}
 
-	public int getPoints(PositionableReport original) {
-		PositionableResult result = this.getResult(original);
+	public int getPoints(PositionableReport original, boolean showConf) {
+		PositionableResult result = this.getResult(original, showConf);
 		int points = 0;
-		points+= result.getPassaggioTurno() * conf.getPassaggioTurno();
-		points+= result.getPosizioneTabellone() * conf.getPosizioneTabellone();
-		points+= result.getRisultato() * conf.getRisultato();
-		points+= result.getRisultatoEsatto() * conf.getRisultatoEsatto();
+		points+= result.getPassaggioTurno() * this.conf.getPassaggioTurno();
+		points+= result.getPosizioneTabellone() * this.conf.getPosizioneTabellone();
+		points+= result.getRisultato() * this.conf.getRisultato();
+		points+= result.getRisultatoEsatto() * this.conf.getRisultatoEsatto();
 		return points;
 	}
 
-	private PositionableResult getResult(PositionableReport original) {
+	private PositionableResult getResult(PositionableReport original, boolean showConf) {
 		PositionableResult result = new PositionableResult();
 		System.out.println("--- Report "+this.type);
 		System.out.println("*** Calcolo Risultati ***");
@@ -102,7 +102,7 @@ public class PositionableReport {
 		System.out.println("************************");
 		System.out.println("");
 
-		if(this.isPlayed()) {
+		if(original.isPlayed(showConf)) {
 			System.out.println("*** Calcolo Passaggi ***");
 			if(passaggioTurno!=null) {
 				System.out.print("  Risultato : ");
@@ -155,12 +155,12 @@ public class PositionableReport {
 		return result;
 	}
 	
-	private boolean isPlayed() {
+	public boolean isPlayed(boolean conf) {
 		for(Match p:this.matches.keySet()) {
 			if(!p.isPlayed())
 				return false;
 		}
-		return true;
+		return conf;
 	} 
 
 	private Match getEqui(Map<Match, MatchResult> matches, Match orig) {
