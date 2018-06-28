@@ -56,8 +56,8 @@ public class PositionableReport {
 
 	}
 
-	public int getPoints(PositionableReport original, boolean showConf) {
-		PositionableResult result = this.getResult(original, showConf);
+	public int getPoints(PositionableReport original, boolean showPassaggiTurnoConf) {
+		PositionableResult result = this.getResult(original, showPassaggiTurnoConf);
 		int points = 0;
 		points+= result.getPassaggioTurno() * this.conf.getPassaggioTurno();
 		points+= result.getPosizioneTabellone() * this.conf.getPosizioneTabellone();
@@ -66,101 +66,104 @@ public class PositionableReport {
 		return points;
 	}
 
-	private PositionableResult getResult(PositionableReport original, boolean showConf) {
+	private PositionableResult getResult(PositionableReport original, boolean showPassaggiTurnoConf) {
 		PositionableResult result = new PositionableResult();
-		System.out.println("--- Report "+this.type);
-		System.out.println("*** Calcolo Risultati ***");
+//		System.out.println("--- Report "+this.type);
+//		System.out.println("*** Calcolo Risultati ***");
 		for(Match match: matches.keySet()) {
-			System.out.println(" Match : "+match);
+//			System.out.println(" Match : "+match);
 			Match other = getEqui(original.getMatches(), match);
 			if(other!=null) {
 				if(match.isPlayed() && other.isPlayed()) {
-					System.out.println("  Risultato  :"+(match.getResult().getRisultato()));
-					System.out.println("  Pronostico :"+(other.getResult().getRisultato()));
+//					System.out.println("  Risultato  :"+(match.getResult().getRisultato()));
+//					System.out.println("  Pronostico :"+(other.getResult().getRisultato()));
 					if(match.getResult().getRisultato().equals(other.getResult().getRisultato())) {
-						System.out.println("   Risultato Indovinato");
+//						System.out.println("   Risultato Indovinato");
 						result.addRisultato();
 					} else {						
-						System.out.println("   Risultato NON indovinato");
+//						System.out.println("   Risultato NON indovinato");
 					}
-					System.out.println("  Risultato esatto  :"+(match.getResult().getRisultatoEsatto()));
-					System.out.println("  Pronostico risutato esatto :"+(other.getResult().getRisultatoEsatto()));
+//					System.out.println("  Risultato esatto  :"+(match.getResult().getRisultatoEsatto()));
+//					System.out.println("  Pronostico risutato esatto :"+(other.getResult().getRisultatoEsatto()));
 					if(match.getResult().getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto())) {
-						System.out.println("   Risultato Esatto Indovinato");
+//						System.out.println("   Risultato Esatto Indovinato");
 						result.addRisultatoEsatto();
 					} else {
-						System.out.println("   Risultato Esatto NON Indovinato");
+//						System.out.println("   Risultato Esatto NON Indovinato");
 					}
 				} else {
-					System.out.println("  Match non giocato o non pronosticao");
+//					System.out.println("  Match non giocato o non pronosticao");
 				}
 
 			} else {
-				System.out.println("  Match non Equi");
+//				System.out.println("  Match non Equi");
 			}
 		}
-		System.out.println("************************");
-		System.out.println("");
+//		System.out.println("************************");
+//		System.out.println("");
 
-		if(original.isPlayed(showConf)) {
-			System.out.println("*** Calcolo Passaggi ***");
+//		if(showPassaggiTurnoConf && original.isPlayed()) {
+		if(showPassaggiTurnoConf) {
+//			System.out.println("*** Calcolo Passaggi ***");
 			if(passaggioTurno!=null) {
-				System.out.print("  Risultato : ");
+//				System.out.print("  Risultato : ");
 				if(original.getPassaggioTurno()!= null) {
 					for (Team t : original.getPassaggioTurno()) {
-						System.out.print(t.getNome()+" ");
+//						System.out.print(t.getNome()+" ");
 					}
-					System.out.println();
+//					System.out.println();
 				}
 
 				for(Team team: passaggioTurno) {
 
-					System.out.println("  Pronostico  : "+team.getNome());
+//					System.out.println("  Pronostico  : "+team.getNome());
 
 					if(original.getPassaggioTurno()!= null && original.getPassaggioTurno().contains(team)) {
-						System.out.println("   Passaggio Indovinato");
+//						System.out.println("   Passaggio Indovinato");
 						result.addPassaggioTurno();
 					} else {
-						System.out.println("   Passaggio NON Indovinato");
+//						System.out.println("   Passaggio NON Indovinato");
 					}
 				}
 			}
-			System.out.println("************************");
-			System.out.println("");
+//			System.out.println("************************");
+//			System.out.println("");
 			//TODO il calcolo delle posizioni per ottavi quarti e semifinale deve essere fatto sulla posizione del livello successivo non su quello attuale
 			// adeguare il calcolo a quanto scritto sul regolamento
-			System.out.println("*** Calcolo Posizioni ***");
+//			System.out.println("*** Calcolo Posizioni ***");
 			if(posizioni!=null) {
 				for(String k: posizioni.keySet()) {
 					if(original.getPosizioni() !=null )
 					{
-						System.out.println("Posizione : "+k);
+//						System.out.println("Posizione : "+k);
 						Team t1 =original.getPosizioni().get(k);
-						System.out.println("  Risultato  :"+((t1 != null) ? t1.getNome() : "NULL" ));
+//						System.out.println("  Risultato  :"+((t1 != null) ? t1.getNome() : "NULL" ));
 
 						Team t2= this.getPosizioni().get(k);
-						System.out.println("  Pronostico :"+((t2 != null) ? t2.getNome() : "NULL" ));
+//						System.out.println("  Pronostico :"+((t2 != null) ? t2.getNome() : "NULL" ));
 						if (t1 != null && t2 != null && t1.equals(t2)) {
-							System.out.println("   Posizione Indovinata");
+//							System.out.println("   Posizione Indovinata");
 							result.addPosizioneTabellone();
 						} else {
-							System.out.println("   Posizione NON indovinata");
+//							System.out.println("   Posizione NON indovinata");
 						}
 					}
 				}
 			}
-			System.out.println("*************************");
+//			System.out.println("*************************");
 		}
-		System.out.println("");
+//		System.out.println("");
 		return result;
 	}
 	
-	public boolean isPlayed(boolean conf) {
+	public boolean isPlayed() {
+//		System.out.println("###################### is played: numero matches:" + this.matches.size());
 		for(Match p:this.matches.keySet()) {
+//			System.out.println("###################### match:" + p);
 			if(!p.isPlayed())
 				return false;
 		}
-		return conf;
+		return true;
 	} 
 
 	private Match getEqui(Map<Match, MatchResult> matches, Match orig) {
