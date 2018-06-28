@@ -24,7 +24,7 @@
 		"nome": "Islanda",
 		"id": "ISL",
 		"bandiera": "images/islanda.png",
-		"fairPlay": 1,
+		"fairPlay": 0,
       	"link" : ""
 	},
 	{

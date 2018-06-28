@@ -22,7 +22,7 @@ import worldcup.core.AbstractSubTorneo.TYPE;
  */
 public class ExampleTorneoReader 
 {
-	public static Torneo getTorneo() {
+	public static Torneo getTorneo(String playerId) {
 
 		int nTeamGirone = 4;
 		int nTeamPassaggioTurnoGirone = 2;
@@ -32,7 +32,7 @@ public class ExampleTorneoReader
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
 
 		try {
-			Map<String, Team> teams = Team.readTeams();
+			Map<String, Team> teams = Team.readTeams(playerId);
 
 			InputStream isGironi=new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), "/gironi.txt"));
 			BufferedReader breader = new BufferedReader(new InputStreamReader(isGironi));

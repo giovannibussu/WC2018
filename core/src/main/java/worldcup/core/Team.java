@@ -60,22 +60,24 @@ public class Team extends JsonSerializable {
 		this.link = link;
 	}
 	
-	private static Map<String, Team> teams;
+	private static Map<String, Map<String, Team>> teams;
 	
-	public static Map<String, Team> readTeams() {
-		if(teams == null) {
+	public static Map<String, Team> readTeams(String id) {
+		if(teams == null)
+			teams = new HashMap<>();
+		
+		if(!teams.containsKey(id)) {
 			try {
-			teams = readTeams("/teams.json");
+			teams.put(id, read(id+"-team.json"));
 			} catch(Exception e) {
 				System.err.println(e);
-				teams = new HashMap<>();
 			}
 		}
-		return teams;
+		return teams.get(id);
 	}
 
 
-	public static Map<String, Team> readTeams(String resource) throws Exception {
+	private static Map<String, Team> read(String resource) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
 		
