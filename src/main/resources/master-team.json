@@ -157,7 +157,7 @@
 		"nome": "Giappone",
 		"id": "JPN",
 		"bandiera": "images/giappone.png",
-		"fairPlay": 0,
+		"fairPlay": 1,
       	"link" : ""
 	},
 	{
