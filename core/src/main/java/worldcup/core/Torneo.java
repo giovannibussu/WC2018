@@ -41,24 +41,24 @@ public class Torneo extends JsonSerializable {
 		PositionableReport officialReport = official.getReports().get(TYPE.GIRONE);
 
 		WorldCupProperties props = WorldCupProperties.getInstance();
-//		int pointsGironi = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioGironi());	
+		int pointsGironi = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioGironi());	
 //		System.out.println("Punti gironi: " + pointsGironi);
 		thisReport = this.reports.get(TYPE.OTTAVI);
 		officialReport = official.getReports().get(TYPE.OTTAVI);
 		int pointsOttavi = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioOttavi());	
-		System.out.println("Punti dopo gli ottavi: " + pointsOttavi);
-//
-//		thisReport = this.reports.get(TYPE.QUARTI);
-//		officialReport = official.getReports().get(TYPE.QUARTI);
-//		int pointsQuarti = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioQuarti());	
-//
-//		thisReport = this.reports.get(TYPE.SEMIFINALI);
-//		officialReport = official.getReports().get(TYPE.SEMIFINALI);
-//		int pointsSemifinale = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioSemifinali());	
-//
-//		thisReport = this.reports.get(TYPE.FINALE);
-//		officialReport = official.getReports().get(TYPE.FINALE);
-//		int pointsFinale = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioFinale());	
+//		System.out.println("Punti dopo gli ottavi: " + pointsOttavi);
+
+		thisReport = this.reports.get(TYPE.QUARTI);
+		officialReport = official.getReports().get(TYPE.QUARTI);
+		int pointsQuarti = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioQuarti());	
+
+		thisReport = this.reports.get(TYPE.SEMIFINALI);
+		officialReport = official.getReports().get(TYPE.SEMIFINALI);
+		int pointsSemifinale = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioSemifinali());	
+
+		thisReport = this.reports.get(TYPE.FINALE);
+		officialReport = official.getReports().get(TYPE.FINALE);
+		int pointsFinale = thisReport.getPoints(officialReport, props.isMostraPuntiPassaggioFinale());	
 
 		//		for(TYPE k: this.reports.keySet()) {
 		//			PositionableReport thisReport = this.reports.get(k);
@@ -66,8 +66,7 @@ public class Torneo extends JsonSerializable {
 		//			points += thisReport.getPoints(officialReport);
 		//		}
 
-//		return pointsGironi + pointsOttavi + pointsQuarti + pointsSemifinale + pointsFinale;
-		return pointsOttavi ;
+		return pointsGironi + pointsOttavi + pointsQuarti + pointsSemifinale + pointsFinale;
 	}
 
 	private void refreshReports() {
