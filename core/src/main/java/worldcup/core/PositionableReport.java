@@ -134,8 +134,6 @@ public class PositionableReport {
 			}
 //			System.out.println("************************");
 //			System.out.println("");
-			//TODO il calcolo delle posizioni per ottavi quarti e semifinale deve essere fatto sulla posizione del livello successivo non su quello attuale
-			// adeguare il calcolo a quanto scritto sul regolamento
 //			System.out.println("*** Calcolo Posizioni ***");
 			if(posizioni!=null && !posizioni.isEmpty()) {
 				for(String k: posizioni.keySet()) {
