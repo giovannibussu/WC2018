@@ -2,7 +2,9 @@ package worldcup.core;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Girone extends AbstractSubTorneo {
@@ -56,6 +58,15 @@ public class Girone extends AbstractSubTorneo {
 		}
 		return sb.toString();
 	}
+
+	public Map<String, Team> getPosizioni() {
+		Map<String, Team> posizioni = new HashMap<String, Team>();
+		for(int i = 0; i < this.getnTeams(); i++) {
+			posizioni.put(this.getName() + "-"+i, this.getAtPosition(i));
+		}
+		return posizioni;
+	}
+
 	@Override
 	public boolean isDrawable() {
 		return true;

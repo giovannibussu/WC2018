@@ -69,14 +69,13 @@ public class TestGironeSingolo
 	{
 
 		Map<String, Player> playerMap = new HashMap<>();
-		String plId = "1cjnFdUtaVWFfsyaqjeKWGtqQI4tHRw0ewJsAUadV-lE";
+		String plId = "1WoU8lz82eo6T6qLM5-MUnE93eblFAQO2-zw79Xw1gdw";
 		Player player = Player.getPlayers().get(plId);
 		
 		playerMap.put(plId, player);
-		Torneo[] Tornei = new Torneo[playerMap.size()];
 		PronosticoReader reader ;
-		int j=0;
 //		Map<String, Player> playerMap = Player.getPlayers();
+		Map<String,Torneo> Tornei = new HashMap<String,Torneo>();
 		for (Player pl: playerMap.values()) {
 			
 			String id = pl.getId();
@@ -110,13 +109,12 @@ public class TestGironeSingolo
 
                         
 
-			Tornei[j] = ExampleTorneoReader.getTorneo(id);
+			Torneo torneo = ExampleTorneoReader.getTorneo(id);
 	                for (PronosticoInput pronostico : readResults) {
 //	                        System.out.println(pronostico);
-        	                Tornei[j].play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
+        	                torneo.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 	}
-			j++;
-
+	    			Tornei.put(id, torneo);
 		}
 
 //		System.out.println("Pronostici recuperati");
@@ -132,7 +130,6 @@ public class TestGironeSingolo
                         risultatoUfficiale.play(pronostico.getId(),pronostico.getHome(),pronostico.getAway());
                 }
 
-		j=0;	
 		for (Player pl: playerMap.values()) {
 			
 //			System.out.println("Pronostico giocatore: " +pl.getNome());
@@ -152,8 +149,9 @@ public class TestGironeSingolo
 //			}
 //
 //			System.out.println("Pronostico vincitore: " +((Tornei[j].getWinner() != null) ? Tornei[j].getWinner().getNome() : "Non indicato"));
-			System.out.println("Punti "+pl.getNome()+": "+Tornei[j].getPoints(risultatoUfficiale));
-			j++;
+			System.out.println("Punti "+pl.getNome()+": "+Tornei.get(pl.getId()).getPoints(risultatoUfficiale));
+			
+//			risultatoUfficiale.getPoints(risultatoUfficiale);
 		}
 		// stampa il pronostico di una partita
 //		

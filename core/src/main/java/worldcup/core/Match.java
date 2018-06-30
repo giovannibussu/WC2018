@@ -144,6 +144,35 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 		return result;
 	}
 
+	public boolean isRisultato(Match other) {
+		if(other == null)
+			return false;
+
+		if(!equi(other))
+			return false;
+		
+		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
+			return this.result.getRisultato().equals(other.getResult().getRisultato());
+		} else {
+			return this.result.getRisultatoReversed().equals(other.getResult().getRisultato());
+		}
+	}
+
+	public boolean isRisultatoEsatto(Match other) {
+		if(other == null)
+			return false;
+
+		if(!equi(other))
+			return false;
+		
+		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
+			return this.result.getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto());
+		} else {
+			return this.result.getRisultatoEsattoReversed().equals(other.getResult().getRisultatoEsatto());
+		}
+	
+	}
+	
 	public boolean equi(Match other) {
 		
 		if(other == null)

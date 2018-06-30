@@ -88,6 +88,12 @@ public abstract class AbstractSubTorneo {
 		return values.get(index).getTeam();
 	}
 
+	public boolean isPlayable() {
+		return this.matches.stream()
+				.filter(match -> match.isPlayable())
+				.collect(Collectors.toList()).size() >= ((nTeams -1) * (nTeams /2));
+	}
+
 	public boolean isPlayed() {
 		return this.matches.stream()
 				.filter(match -> match.isPlayed())
@@ -146,13 +152,7 @@ public abstract class AbstractSubTorneo {
 	}
 
 
-	public Map<String, Team> getPosizioni() {
-		Map<String, Team> posizioni = new HashMap<String, Team>();
-		for(int i = 0; i < this.getnTeams(); i++) {
-			posizioni.put(this.getName() + "-"+i, this.getAtPosition(i));
-		}
-		return posizioni;
-	}
+	public abstract Map<String, Team> getPosizioni();
 
 	public TYPE getType() {
 		return type;

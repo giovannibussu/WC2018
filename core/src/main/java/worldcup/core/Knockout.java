@@ -1,5 +1,8 @@
 package worldcup.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Knockout extends AbstractSubTorneo {
 
 	public Knockout(String name, TYPE type) {
@@ -21,6 +24,14 @@ public class Knockout extends AbstractSubTorneo {
 			}
 		}
 		return sb.toString();
+	}
+
+	public Map<String, Team> getPosizioni() {
+		Map<String, Team> posizioni = new HashMap<String, Team>();
+		Match next = this.getMatches().iterator().next();
+		posizioni.put(this.getName() + "-0", next.getHome());
+		posizioni.put(this.getName() + "-1", next.getAway());
+		return posizioni;
 	}
 
 	@Override

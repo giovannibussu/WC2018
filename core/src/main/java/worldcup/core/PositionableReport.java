@@ -58,6 +58,11 @@ public class PositionableReport {
 
 	public int getPoints(PositionableReport original, boolean showPassaggiTurnoConf) {
 		PositionableResult result = this.getResult(original, showPassaggiTurnoConf);
+		
+//		System.out.println("Risultati azzeccati: "+ result.getRisultato());
+//		System.out.println("Risultati esatti azzeccati: "+ result.getRisultatoEsatto());
+//		System.out.println("Passaggi turno azzeccati: "+ result.getPassaggioTurno());
+//		System.out.println("Posizioni azzeccate: "+ result.getPosizioneTabellone());
 		int points = 0;
 		points+= result.getPassaggioTurno() * this.conf.getPassaggioTurno();
 		points+= result.getPosizioneTabellone() * this.conf.getPosizioneTabellone();
@@ -74,10 +79,11 @@ public class PositionableReport {
 //			System.out.println(" Match : "+match);
 			Match other = getEqui(original.getMatches(), match);
 			if(other!=null) {
+				System.out.println(" Match : "+match);
 				if(match.isPlayed() && other.isPlayed()) {
 //					System.out.println("  Risultato  :"+(match.getResult().getRisultato()));
 //					System.out.println("  Pronostico :"+(other.getResult().getRisultato()));
-					if(match.getResult().getRisultato().equals(other.getResult().getRisultato())) {
+					if(match.isRisultato(other)) {
 //						System.out.println("   Risultato Indovinato");
 						result.addRisultato();
 					} else {						
@@ -85,7 +91,7 @@ public class PositionableReport {
 					}
 //					System.out.println("  Risultato esatto  :"+(match.getResult().getRisultatoEsatto()));
 //					System.out.println("  Pronostico risutato esatto :"+(other.getResult().getRisultatoEsatto()));
-					if(match.getResult().getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto())) {
+					if(match.isRisultatoEsatto(other)) {
 //						System.out.println("   Risultato Esatto Indovinato");
 						result.addRisultatoEsatto();
 					} else {
@@ -131,7 +137,7 @@ public class PositionableReport {
 			//TODO il calcolo delle posizioni per ottavi quarti e semifinale deve essere fatto sulla posizione del livello successivo non su quello attuale
 			// adeguare il calcolo a quanto scritto sul regolamento
 //			System.out.println("*** Calcolo Posizioni ***");
-			if(posizioni!=null) {
+			if(posizioni!=null && !posizioni.isEmpty()) {
 				for(String k: posizioni.keySet()) {
 					if(original.getPosizioni() !=null )
 					{
@@ -149,6 +155,8 @@ public class PositionableReport {
 						}
 					}
 				}
+//			} else {
+//				System.out.println("Posizioni nulle");
 			}
 //			System.out.println("*************************");
 		}
@@ -157,9 +165,7 @@ public class PositionableReport {
 	}
 	
 	public boolean isPlayed() {
-//		System.out.println("###################### is played: numero matches:" + this.matches.size());
 		for(Match p:this.matches.keySet()) {
-//			System.out.println("###################### match:" + p);
 			if(!p.isPlayed())
 				return false;
 		}
