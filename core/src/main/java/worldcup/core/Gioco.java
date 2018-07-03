@@ -34,7 +34,8 @@ public class Gioco {
 	}
 
 	public Match getMatch(String idMatch) {
-		return ufficiale.getTorneo().getMatches().get(idMatch);
+		Match match = ufficiale.getTorneo().getMatches().get(idMatch);
+		return match;
 	}
 	
 	public Grafico distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
@@ -73,7 +74,7 @@ public class Gioco {
 
 
 	public Grafico _distribuzionePronosticiPerMatchRisultatoEsatto(Match match) {
-		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultatoEsatto();
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getRisultatoEsatto(match);
 
 		Grafico grafico = new Grafico();
 		Map<Player, Match> pronosticiPerMatchMap = pronosticiPerMatch(match);
@@ -81,7 +82,7 @@ public class Gioco {
 		Map<String, String> mappaNomi = new HashMap<>();
 		
 		for(Player player: pronosticiPerMatchMap.keySet()) {
-			String key =pronosticiPerMatchMap.get(player).getResult().getRisultatoEsatto(); //TODO bussu ribaltare risultati
+			String key =pronosticiPerMatchMap.get(player).getRisultatoEsatto(match);
 			if(!mappaNomi.containsKey(key)) {
 				mappaNomi.put(key, player.getNome());
 			} else {
@@ -109,7 +110,7 @@ public class Gioco {
 	}
 
 	public Grafico _distribuzionePronosticiPerMatchRisultato(Match match) {
-		Function<Match, String> risultatoEsatto = (Match m) -> m.getResult().getRisultato().name();
+		Function<Match, String> risultatoEsatto = (Match m) -> m.getRisultato(match).name();
 		Grafico grafico = new Grafico();
 		Map<String, List<Match>> pronosticiPerMatch = pronosticiPerMatch(match).values().stream()
 				.collect(Collectors.groupingBy(risultatoEsatto));
