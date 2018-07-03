@@ -147,50 +147,50 @@
                  </div>
          		</div>
       		</div>
-      		
-       <% if(visualizzaGrafici) { %>
-		<div class="row">
-         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
-            <div class="ec-fancy-title">
-               <h3>Pronostici</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div id="graficoRisultatiEsattiDiv"></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-		
-		<% } %>
-
-         <div class="row">
-         	<div class="col-md-12">
-            <div class="ec-fancy-title">
-               <h3>Pronostici per Player</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                     <%
-                     int i = 0;
-                     for(Player p: listaPronosticiMatch.keySet()){
-                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
-                   	i++;
-                   	Match m = listaPronosticiMatch.get(p);
-                   	String risultato = (m.getResult() != null && m.getResult().getRisultatoEsatto() != null) ? m.getResult().getRisultatoEsatto() : "";
-	          	%>
-                       <li class="<%=liStyleClass %>">
-                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
-                           <div class="ec-cell"><span><%=risultato %></span></div>
-                       </li>
-                   <% } %>       
-                     </ul>
-                 </div>
-             </div>
-         </div>
-
+	 <% if(listaPronosticiMatch.size() > 0) { %>
+	       <% if(visualizzaGrafici) { %>
+			<div class="row">
+	         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
+	            <div class="ec-fancy-title">
+	               <h3>Pronostici</h3>
+	               </div>
+	               <div class="ec-fixture-list">
+	                   <ul>
+	                   		<li class="">
+	                   			<div id="graficoRisultatiEsattiDiv"></div>
+	              			</li>
+	           			</ul>
+	       			</div>
+	   			</div>
+			</div>
+			
+			<% } %>
+	
+	         <div class="row">
+	         	<div class="col-md-12">
+	            <div class="ec-fancy-title">
+	               <h3>Pronostici per Player</h3>
+	               </div>
+	               <div class="ec-fixture-list">
+	                   <ul>
+	                     <%
+	                     int i = 0;
+	                     for(Player p: listaPronosticiMatch.keySet()){
+	                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
+	                   	i++;
+	                   	Match m = listaPronosticiMatch.get(p);
+	                   	String risultato = (m.getResult() != null && m.getResult().getRisultatoEsatto() != null) ? m.getResult().getRisultatoEsatto() : ""; //TODO bussu ribaltare risultati
+		          	%>
+	                       <li class="<%=liStyleClass %>">
+	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
+	                           <div class="ec-cell"><span><%=risultato %></span></div>
+	                       </li>
+	                   <% } %>       
+	                     </ul>
+	                 </div>
+	             </div>
+	         </div>
+ 		 <% } %>
      </div>
 
     </main><!-- /.container -->

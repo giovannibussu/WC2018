@@ -81,7 +81,7 @@ public class Gioco {
 		Map<String, String> mappaNomi = new HashMap<>();
 		
 		for(Player player: pronosticiPerMatchMap.keySet()) {
-			String key =pronosticiPerMatchMap.get(player).getResult().getRisultatoEsatto();
+			String key =pronosticiPerMatchMap.get(player).getResult().getRisultatoEsatto(); //TODO bussu ribaltare risultati
 			if(!mappaNomi.containsKey(key)) {
 				mappaNomi.put(key, player.getNome());
 			} else {
