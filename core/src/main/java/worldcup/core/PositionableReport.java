@@ -79,7 +79,7 @@ public class PositionableReport {
 //			System.out.println(" Match : "+match);
 			Match other = getEqui(original.getMatches(), match);
 			if(other!=null) {
-				System.out.println(" Match : "+match);
+//				System.out.println(" Match : "+match);
 				if(match.isPlayed() && other.isPlayed()) {
 //					System.out.println("  Risultato  :"+(match.getResult().getRisultato()));
 //					System.out.println("  Pronostico :"+(other.getResult().getRisultato()));

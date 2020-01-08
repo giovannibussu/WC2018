@@ -179,7 +179,7 @@
 	                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
 	                   	i++;
 	                   	Match m = listaPronosticiMatch.get(p);
-	                   	String risultato = (m.getResult() != null && m.getResult().getRisultatoEsatto() != null) ? m.getResult().getRisultatoEsatto() : ""; //TODO bussu ribaltare risultati
+	                   	String risultato = (m.getResult() != null && m.getRisultatoEsatto(match) != null) ? m.getRisultatoEsatto(match) : ""; //TODO bussu ribaltare risultati
 		          	%>
 	                       <li class="<%=liStyleClass %>">
 	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>

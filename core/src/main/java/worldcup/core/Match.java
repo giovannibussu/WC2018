@@ -144,6 +144,30 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 		return result;
 	}
 
+	public RISULTATO getRisultato(Match other) {
+		
+		if(!this.equi(other))
+			return null;
+		
+		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
+			return this.result.getRisultato();
+		} else {
+			return this.result.getRisultatoReversed();
+		}
+	}
+
+	public String getRisultatoEsatto(Match other) {
+		
+		if(!this.equi(other))
+			return null;
+		
+		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
+			return this.result.getRisultatoEsatto();
+		} else {
+			return this.result.getRisultatoEsattoReversed();
+		}
+	}
+
 	public boolean isRisultato(Match other) {
 		if(other == null)
 			return false;
@@ -151,11 +175,7 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 		if(!equi(other))
 			return false;
 		
-		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
-			return this.result.getRisultato().equals(other.getResult().getRisultato());
-		} else {
-			return this.result.getRisultatoReversed().equals(other.getResult().getRisultato());
-		}
+		return this.getRisultato(other).equals(other.getResult().getRisultato());
 	}
 
 	public boolean isRisultatoEsatto(Match other) {
@@ -165,12 +185,7 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 		if(!equi(other))
 			return false;
 		
-		if(other.getHome().equals(this.getHome()) && other.getAway().equals(this.getAway())) {
-			return this.result.getRisultatoEsatto().equals(other.getResult().getRisultatoEsatto());
-		} else {
-			return this.result.getRisultatoEsattoReversed().equals(other.getResult().getRisultatoEsatto());
-		}
-	
+		return this.getRisultatoEsatto(other).equals(other.getResult().getRisultatoEsatto());
 	}
 	
 	public boolean equi(Match other) {
@@ -270,4 +285,5 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	public String getMatchLabel() {
 		return this.getHome().getNome() + " - " + this.getAway().getNome(); 
 	}
+	
 }

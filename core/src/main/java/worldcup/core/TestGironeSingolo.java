@@ -68,13 +68,13 @@ public class TestGironeSingolo
 	public static void main( String[] args ) throws Exception
 	{
 
-		Map<String, Player> playerMap = new HashMap<>();
-		String plId = "1WoU8lz82eo6T6qLM5-MUnE93eblFAQO2-zw79Xw1gdw";
-		Player player = Player.getPlayers().get(plId);
-		
-		playerMap.put(plId, player);
+//		Map<String, Player> playerMap = new HashMap<>();
+//		String plId = "1WoU8lz82eo6T6qLM5-MUnE93eblFAQO2-zw79Xw1gdw";
+//		Player player = Player.getPlayers().get(plId);
+//		
+//		playerMap.put(plId, player);
 		PronosticoReader reader ;
-//		Map<String, Player> playerMap = Player.getPlayers();
+		Map<String, Player> playerMap = Player.getPlayers();
 		Map<String,Torneo> Tornei = new HashMap<String,Torneo>();
 		for (Player pl: playerMap.values()) {
 			
