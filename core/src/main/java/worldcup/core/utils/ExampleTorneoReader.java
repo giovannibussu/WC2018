@@ -1,4 +1,4 @@
-package worldcup.core;
+package worldcup.core.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import worldcup.core.AbstractSubTorneo;
+import worldcup.core.Girone;
+import worldcup.core.Knockout;
+import worldcup.core.Match;
+import worldcup.core.Team;
+import worldcup.core.Torneo;
+import worldcup.core.WorldCupProperties;
 import worldcup.core.AbstractSubTorneo.TYPE;
 
 /**

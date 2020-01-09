@@ -1,4 +1,4 @@
-package worldcup.core;
+package worldcup.core.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 import org.openspcoop2.utils.json.JSONUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import worldcup.core.PronosticoInput;
+import worldcup.core.PronosticoReader;
+import worldcup.core.PronosticoWriter;
+import worldcup.core.Torneo;
 
 public class GoogleApiPronosticoReader implements PronosticoReader {
 

@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+
+import worldcup.core.utils.ExampleTorneoReader;
+import worldcup.core.utils.FileSystemPronosticoReader;
+import worldcup.core.utils.GoogleApiPronosticoReader;
 /**
  * Hello world!
  *

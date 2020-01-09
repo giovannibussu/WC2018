@@ -7,6 +7,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import worldcup.core.utils.ExampleTorneoReader;
+import worldcup.core.utils.FileSystemPronosticoReader;
+import worldcup.core.utils.GoogleApiPronosticoReader;
 /**
  * Hello world!
  *

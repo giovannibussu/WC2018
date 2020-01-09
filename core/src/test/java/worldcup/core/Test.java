@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
+
+import worldcup.core.utils.ExampleTorneoReader;
+import worldcup.core.utils.FileSystemPronosticoReader;
 /**
  * Hello world!
  *

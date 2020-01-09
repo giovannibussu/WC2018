@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import worldcup.core.utils.FileSystemPronosticoReader;
+import worldcup.core.utils.GoogleApiPronosticoReader;
+
 public class PronosticiReader {
 
 	public static Map<String, Pronostico> leggiPronostici() {
