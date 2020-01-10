@@ -1,4 +1,4 @@
-package worldcup.core;
+package worldcup.core.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -10,6 +10,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.openspcoop2.utils.resources.FileSystemUtilities;
+
+import worldcup.core.Deserializer;
+import worldcup.core.JsonSerializable;
+import worldcup.core.WorldCupProperties;
 
 public class Team extends JsonSerializable {
 

@@ -2,6 +2,8 @@ package worldcup.core;
 
 import java.util.List;
 
+import worldcup.core.model.Match;
+
 public class GiocoTest {
 
 	public static void main(String[] args) {

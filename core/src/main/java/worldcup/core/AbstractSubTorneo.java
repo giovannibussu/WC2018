@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
+
 public abstract class AbstractSubTorneo {
 
 	public enum TYPE {GIRONE, OTTAVI, QUARTI, SEMIFINALI, FINALE}

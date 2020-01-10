@@ -1,4 +1,4 @@
-package worldcup.core;
+package worldcup.core.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import worldcup.core.AbstractSubTorneo;
+import worldcup.core.GironePerformance;
+import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class Girone extends AbstractSubTorneo {
 

@@ -8,9 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import worldcup.core.model.Player;
+import worldcup.core.model.Torneo;
 import worldcup.core.utils.ExampleTorneoReader;
 import worldcup.core.utils.FileSystemPronosticoReader;
 import worldcup.core.utils.GoogleApiPronosticoReader;
+import worldcup.core.utils.PronosticoReader;
 /**
  * Hello world!
  *

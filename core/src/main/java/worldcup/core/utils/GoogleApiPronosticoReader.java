@@ -15,9 +15,7 @@ import org.openspcoop2.utils.json.JSONUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import worldcup.core.PronosticoInput;
-import worldcup.core.PronosticoReader;
-import worldcup.core.PronosticoWriter;
-import worldcup.core.Torneo;
+import worldcup.core.model.Torneo;
 
 public class GoogleApiPronosticoReader implements PronosticoReader {
 

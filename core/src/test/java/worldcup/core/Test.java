@@ -4,8 +4,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
+import worldcup.core.model.Torneo;
 import worldcup.core.utils.ExampleTorneoReader;
 import worldcup.core.utils.FileSystemPronosticoReader;
+import worldcup.core.utils.PronosticoReader;
 /**
  * Hello world!
  *

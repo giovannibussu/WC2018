@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import worldcup.core.model.Match;
+import worldcup.core.model.Player;
+
 public class Gioco {
 
 	private Map<String, Pronostico> pronostici;

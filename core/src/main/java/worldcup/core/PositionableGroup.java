@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import worldcup.core.AbstractSubTorneo.TYPE;
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
 
 public class PositionableGroup implements Comparable<PositionableGroup> {
 

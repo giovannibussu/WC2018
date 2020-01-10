@@ -10,7 +10,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import worldcup.core.PronosticoInput;
-import worldcup.core.PronosticoReader;
 import worldcup.core.WorldCupProperties;
 
 public class FileSystemPronosticoReader implements PronosticoReader {

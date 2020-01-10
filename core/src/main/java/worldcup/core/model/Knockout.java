@@ -1,7 +1,12 @@
-package worldcup.core;
+package worldcup.core.model;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import worldcup.core.AbstractSubTorneo;
+import worldcup.core.IPerformance;
+import worldcup.core.KnockoutPerformance;
+import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class Knockout extends AbstractSubTorneo {
 

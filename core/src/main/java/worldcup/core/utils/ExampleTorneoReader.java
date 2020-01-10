@@ -15,13 +15,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import worldcup.core.AbstractSubTorneo;
-import worldcup.core.Girone;
-import worldcup.core.Knockout;
-import worldcup.core.Match;
-import worldcup.core.Team;
-import worldcup.core.Torneo;
 import worldcup.core.WorldCupProperties;
 import worldcup.core.AbstractSubTorneo.TYPE;
+import worldcup.core.model.Girone;
+import worldcup.core.model.Knockout;
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
+import worldcup.core.model.Torneo;
 
 /**
  * Hello world!

@@ -1,9 +1,12 @@
-package worldcup.core;
+package worldcup.core.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+
+import worldcup.core.PronosticoInput;
+import worldcup.core.WorldCupProperties;
 
 public class PronosticoWriter {
 

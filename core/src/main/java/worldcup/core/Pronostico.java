@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import worldcup.core.model.Player;
+import worldcup.core.model.Torneo;
 import worldcup.core.utils.ExampleTorneoReader;
+import worldcup.core.utils.PronosticoWriter;
 
 public class Pronostico {
 

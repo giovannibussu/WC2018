@@ -1,9 +1,12 @@
-package worldcup.core;
+package worldcup.core.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import worldcup.core.AbstractSubTorneo;
+import worldcup.core.JsonSerializable;
+import worldcup.core.MatchResult;
 import worldcup.core.MatchResult.RISULTATO;
 
 public  class Match extends JsonSerializable implements Comparable<Match> {

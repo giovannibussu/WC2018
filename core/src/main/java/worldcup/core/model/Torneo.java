@@ -1,4 +1,4 @@
-package worldcup.core;
+package worldcup.core.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import worldcup.core.AbstractSubTorneo;
+import worldcup.core.JsonSerializable;
+import worldcup.core.PositionableGroup;
+import worldcup.core.PositionableReport;
+import worldcup.core.WorldCupProperties;
 import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class Torneo extends JsonSerializable {
