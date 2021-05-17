@@ -3,6 +3,9 @@ package worldcup.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import worldcup.core.model.Girone;
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
 import worldcup.core.performance.PerformanceEvaluatorUtils;
 
 public class GironePerformance implements IPerformance {

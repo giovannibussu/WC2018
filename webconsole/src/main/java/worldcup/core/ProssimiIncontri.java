@@ -6,6 +6,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
+import worldcup.core.model.Match;
+import worldcup.core.model.Player;
+
 public class ProssimiIncontri {
 	
 	private Gioco gioco = null;

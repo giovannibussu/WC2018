@@ -65,7 +65,7 @@ public  class Match extends JsonSerializable implements Comparable<Match> {
 	private void tryPlay() {
 		if(this.isPlayable() && this.result!=null) {
 			this.played = true;
-			this.torneo.play(this, this.result.getGoalsHome(), this.result.getGoalsAway());
+			this.torneo.play(this);
 		}
 	}
 

@@ -57,7 +57,7 @@ public abstract class AbstractSubTorneo {
 		}
 	}
 	
-	public void play(Match match, int homeGoals, int awayGoals) {
+	public void play(Match match) {
 		if(match.isPlayable()) {
 
 			if(!this.teamPerformances.containsKey(match.getHome())) {
@@ -67,7 +67,7 @@ public abstract class AbstractSubTorneo {
 				this.registerTeam(match.getAway());
 			} 
 
-			if(!this.isDrawable() && homeGoals == awayGoals) {
+			if(!this.isDrawable() && match.isDraw()) {
 				throw new RuntimeException("Pareggio non ammesso per la gara ["+this.getName()+"]");
 			}
 			this.matches.add(match);

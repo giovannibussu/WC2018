@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import worldcup.core.AbstractSubTorneo;
 import worldcup.core.GironePerformance;
-import worldcup.core.AbstractSubTorneo.TYPE;
 
 public class Girone extends AbstractSubTorneo {
 
