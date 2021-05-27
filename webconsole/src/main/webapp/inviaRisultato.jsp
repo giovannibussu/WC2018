@@ -1,6 +1,6 @@
-<%@page import="worldcup.core.Team"%>
-<%@page import="worldcup.core.Stadium"%>
-<%@page import="worldcup.core.Match"%>
+<%@page import="worldcup.core.model.Team"%>
+<%@page import="worldcup.core.model.Stadium"%>
+<%@page import="worldcup.core.model.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>

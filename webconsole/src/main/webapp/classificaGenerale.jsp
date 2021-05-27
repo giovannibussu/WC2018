@@ -1,7 +1,6 @@
 <%@page import="java.util.Map"%>
 <%@page import="worldcup.core.Pronostico"%>
 <%@page import="worldcup.core.ClassificaGenerale"%>
-<%@page import="worldcup.core.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
