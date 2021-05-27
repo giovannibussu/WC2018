@@ -5,6 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import worldcup.core.model.Player;
+import worldcup.core.utils.FileSystemPronosticoReader;
+import worldcup.core.utils.GoogleApiPronosticoReader;
+import worldcup.core.utils.PronosticoReader;
+import worldcup.core.utils.PronosticoWriter;
+
 public class PronosticiReader {
 
 	public static Map<String, Pronostico> leggiPronostici() {

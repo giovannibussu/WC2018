@@ -6,14 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import worldcup.core.AbstractSubTorneo.TYPE;
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
 
 public class PositionableGroup implements Comparable<PositionableGroup> {
 
 	private List<AbstractSubTorneo> lstPos;
+	private List<AbstractSubTorneo> lstPosNext;
 	private TYPE type;
-	public PositionableGroup(TYPE type, List<AbstractSubTorneo> lstPos) {
+	public PositionableGroup(TYPE type, List<AbstractSubTorneo> lstPos, List<AbstractSubTorneo> lstPosNext) {
 		this.type = type;
 		this.lstPos = lstPos;
+		this.lstPosNext = lstPosNext;
 	}
 	
 	public PositionableReport getReport() {
@@ -30,7 +34,14 @@ public class PositionableGroup implements Comparable<PositionableGroup> {
 					passaggioTurno.add(p.getAtPosition(i));
 				}
 				positionableReport.setPassaggioTurno(passaggioTurno);
-				positionableReport.setPosizioni(p.getPosizioni());				
+			}
+		}
+
+		if(this.lstPosNext!=null) {
+			for(AbstractSubTorneo p: lstPosNext) {
+				if((type.equals(TYPE.GIRONE) && p.isPlayed()) || (!type.equals(TYPE.GIRONE) && p.isPlayable())) {
+					positionableReport.setPosizioni(p.getPosizioni());				
+				}
 			}
 		}
 		

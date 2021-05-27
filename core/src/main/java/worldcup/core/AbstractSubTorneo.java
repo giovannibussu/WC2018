@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
+
 public abstract class AbstractSubTorneo {
 
 	public enum TYPE {GIRONE, OTTAVI, QUARTI, SEMIFINALI, FINALE}
@@ -54,7 +57,7 @@ public abstract class AbstractSubTorneo {
 		}
 	}
 	
-	public void play(Match match, int homeGoals, int awayGoals) {
+	public void play(Match match) {
 		if(match.isPlayable()) {
 
 			if(!this.teamPerformances.containsKey(match.getHome())) {
@@ -64,7 +67,7 @@ public abstract class AbstractSubTorneo {
 				this.registerTeam(match.getAway());
 			} 
 
-			if(!this.isDrawable() && homeGoals == awayGoals) {
+			if(!this.isDrawable() && match.isDraw()) {
 				throw new RuntimeException("Pareggio non ammesso per la gara ["+this.getName()+"]");
 			}
 			this.matches.add(match);
@@ -86,6 +89,12 @@ public abstract class AbstractSubTorneo {
 		List<IPerformance> values = Arrays.asList(this.teamPerformances.values().toArray(new IPerformance[]{}));
 		Collections.sort(values);
 		return values.get(index).getTeam();
+	}
+
+	public boolean isPlayable() {
+		return this.matches.stream()
+				.filter(match -> match.isPlayable())
+				.collect(Collectors.toList()).size() >= ((nTeams -1) * (nTeams /2));
 	}
 
 	public boolean isPlayed() {
@@ -146,13 +155,7 @@ public abstract class AbstractSubTorneo {
 	}
 
 
-	public Map<String, Team> getPosizioni() {
-		Map<String, Team> posizioni = new HashMap<String, Team>();
-		for(int i = 0; i < this.getnTeams(); i++) {
-			posizioni.put(this.getName() + "-"+i, this.getAtPosition(i));
-		}
-		return posizioni;
-	}
+	public abstract Map<String, Team> getPosizioni();
 
 	public TYPE getType() {
 		return type;

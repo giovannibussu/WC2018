@@ -1,5 +1,8 @@
 package worldcup.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PartitaGironePerformance implements Comparable<PartitaGironePerformance>{
 
 	private int points;
@@ -16,19 +19,20 @@ public class PartitaGironePerformance implements Comparable<PartitaGironePerform
 	}
 
 	public int _compareTo(PartitaGironePerformance against) {
-		if(this.points!=against.getPoints()) { // 1.punti fatti
-			return this.points-against.getPoints();
-		} else {
-			if(this.getGoalsDifference()!=against.getGoalsDifference()) {  // 2. differenza reti totale
-				return this.getGoalsDifference() - against.getGoalsDifference();
-			} else {
-				if(this.goalsDone != against.getGoalsDone()) { // 3. goal fatti totali
-					return this.goalsDone - against.getGoalsDone();
-				} else {
-					return 0;
-				}
+		
+		List<Integer> lstCriteri = new ArrayList<>();
+		
+		lstCriteri.add(this.points-against.getPoints()); // 1.punti fatti
+		lstCriteri.add(this.getGoalsDifference() - against.getGoalsDifference()); // 2. differenza reti totale
+		lstCriteri.add(this.goalsDone - against.getGoalsDone()); // 3. goal fatti totali
+		
+		for(int i =0; i < lstCriteri.size(); i++) {
+			if(lstCriteri.get(i) != 0) {
+				return lstCriteri.get(i);
 			}
 		}
+		
+		return 0;
 	}
 
 	public int getPoints() {

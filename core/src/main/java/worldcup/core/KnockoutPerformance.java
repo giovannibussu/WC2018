@@ -1,5 +1,8 @@
 package worldcup.core;
 
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
+
 public class KnockoutPerformance implements IPerformance{
 
 	private Team team;

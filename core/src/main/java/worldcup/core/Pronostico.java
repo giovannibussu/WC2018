@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import worldcup.core.model.Player;
+import worldcup.core.model.Torneo;
+import worldcup.core.utils.ExampleTorneoReader;
+import worldcup.core.utils.PronosticoWriter;
+
 public class Pronostico {
 
 	private Player player;
@@ -12,7 +17,7 @@ public class Pronostico {
 	private Map<String, PronosticoInput> pronostico;
 	public Pronostico(Player player) {
 		this.player = player;
-		this.torneo = ExampleTorneoReader.getTorneo();
+		this.torneo = ExampleTorneoReader.getTorneo(player.getId());
 		this.aggiornaPronostico();
 	}
 

@@ -3,6 +3,11 @@ package worldcup.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import worldcup.core.model.Girone;
+import worldcup.core.model.Match;
+import worldcup.core.model.Team;
+import worldcup.core.performance.PerformanceEvaluatorUtils;
+
 public class GironePerformance implements IPerformance {
 
 	private Girone girone;
@@ -28,36 +33,9 @@ public class GironePerformance implements IPerformance {
 	}
 
 	public int _compareTo(GironePerformance against) {
-		if(this.getPoints()!=against.getPoints()) { // 1.punti fatti
-			return this.getPoints()-against.getPoints();
-		} else {
-			if(this.getGoalsDifference()!=against.getGoalsDifference()) {  // 2. differenza reti totale
-				return this.getGoalsDifference() - against.getGoalsDifference();
-			} else {
-				if(this.getGoalsDone() != against.getGoalsDone()) { // 3. goal fatti totali
-					return this.getGoalsDone() - against.getGoalsDone();
-				} else {
-					if(this.singleMatch.containsKey(against.getTeam())) {
-						int compareSingleMatch = this.singleMatch.get(against.getTeam()).compareTo(against.getSingleMatch().get(team));
-						if(compareSingleMatch!=0) { // 4. scontro diretto
-							return compareSingleMatch;
-						} else {
-							if(this.getTeam().getFairPlay() != against.getTeam().getFairPlay()) { // 5. fair play (per semplificare messo in configurazione delle squadre, comprende eventuale sorteggio)
-								return this.getTeam().getFairPlay() - against.getTeam().getFairPlay();
-							} else {
-								return 0;
-							}
-						}
-					} else {
-						if(this.getTeam().getFairPlay() != against.getTeam().getFairPlay()) { // 5. fair play (per semplificare messo in configurazione delle squadre, comprende eventuale sorteggio)
-							return this.getTeam().getFairPlay() - against.getTeam().getFairPlay();
-						} else {
-							return 0;
-						}
-					}
-				}
-			}
-		}
+		
+		return PerformanceEvaluatorUtils.compareTo(this, against, PerformanceEvaluatorUtils.getRegoleGirone());
+		
 	}
 
 	public Team getTeam() {

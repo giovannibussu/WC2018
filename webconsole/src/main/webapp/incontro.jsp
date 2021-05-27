@@ -29,19 +29,19 @@
     
     <link href="css/c3.min.css" rel="stylesheet" type="text/css">
     <link href="css/ChartMap.css" rel="stylesheet" type="text/css">
+    
+    <link href="css/roboto/roboto-fontface.css" rel="stylesheet" type="text/css">
     <%
     String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
     Match match = pi.getMatch(idMatch);
     Map<Player, Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
-    boolean visualizzaGrafici = false;
+    boolean visualizzaGrafici = true;
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
     
     <script>
-    	var graficoRisultati = '<%= pi.distribuzionePronosticiPerMatchRisultato(match).serializeToString()%>';
-    	
     	var graficoRisultatiEsatti = '<%= pi.distribuzionePronosticiPerMatchRisultatoEsatto(match).serializeToString()%>';
     </script>
     
@@ -147,64 +147,50 @@
                  </div>
          		</div>
       		</div>
-
-         <div class="row">
-         	<div class="col-md-12">
-            <div class="ec-fancy-title">
-               <h3>Pronostici per il match</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                     <%
-                     int i = 0;
-                     for(Player p: listaPronosticiMatch.keySet()){
-                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
-                   	i++;
-                   	Match m = listaPronosticiMatch.get(p);
-                   	String risultato = (m.getResult() != null && m.getResult().getRisultatoEsatto() != null) ? m.getResult().getRisultatoEsatto() : "";
-	          	%>
-                       <li class="<%=liStyleClass %>">
-                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
-                           <div class="ec-cell"><span><%=risultato %></span></div>
-                       </li>
-                   <% } %>       
-                     </ul>
-                 </div>
-             </div>
-         </div>
-         
-         <% if(visualizzaGrafici) { %>
-         <div class="row">
-         	<div class="col-md-12" id="chartPanelGraficoRisultatiDiv">
-            <div class="ec-fancy-title">
-               <h3>Pronostici per Risultato</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div id="graficoRisultatiDiv"></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-		
-		<div class="row">
-         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
-            <div class="ec-fancy-title">
-               <h3>Pronostici per Risultato Esatto</h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div id="graficoRisultatiEsattiDiv"></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-		
-		<% } %>
+	 <% if(listaPronosticiMatch.size() > 0) { %>
+	       <% if(visualizzaGrafici) { %>
+			<div class="row">
+	         	<div class="col-md-12" id="chartPanelGraficoRisultatiEsattiDiv">
+	            <div class="ec-fancy-title">
+	               <h3>Pronostici</h3>
+	               </div>
+	               <div class="ec-fixture-list">
+	                   <ul>
+	                   		<li class="">
+	                   			<div id="graficoRisultatiEsattiDiv"></div>
+	              			</li>
+	           			</ul>
+	       			</div>
+	   			</div>
+			</div>
+			
+			<% } %>
+	
+	         <div class="row">
+	         	<div class="col-md-12">
+	            <div class="ec-fancy-title">
+	               <h3>Pronostici per Player</h3>
+	               </div>
+	               <div class="ec-fixture-list">
+	                   <ul>
+	                     <%
+	                     int i = 0;
+	                     for(Player p: listaPronosticiMatch.keySet()){
+	                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
+	                   	i++;
+	                   	Match m = listaPronosticiMatch.get(p);
+	                   	String risultato = (m.getResult() != null && m.getRisultatoEsatto(match) != null) ? m.getRisultatoEsatto(match) : ""; //TODO bussu ribaltare risultati
+		          	%>
+	                       <li class="<%=liStyleClass %>">
+	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
+	                           <div class="ec-cell"><span><%=risultato %></span></div>
+	                       </li>
+	                   <% } %>       
+	                     </ul>
+	                 </div>
+	             </div>
+	         </div>
+ 		 <% } %>
      </div>
 
     </main><!-- /.container -->
@@ -215,29 +201,15 @@
      <script src="js/d3.min.js"></script>
      <script src="js/c3.js"></script>
      <script src="js/ChartMap.js"></script>
-     <script src="js/SvgRaster.js"></script>
     
-      <script type="text/javascript">
+	  <script type="text/javascript">
           //<![CDATA[
-          var chartId = 'graficoRisultatiId';
-          var chartDivId = 'graficoRisultatiDiv';
-          var chartWidth = jQuery('#chartPanelGraficoRisultatiDiv').width();
-          var chartHeight = 650;
-          var chartType = 'pie';
+          var chart2Id = 'graficoRisultatiEsattiId';
+          var chart2DivId = 'graficoRisultatiEsattiDiv';
+          var chart2Width = jQuery('#chartPanelGraficoRisultatiEsattiDiv').width();
+          var chart2Height = 650;
           // init 
-          createChart(chartDivId, graficoRisultati, chartType, chartWidth, chartHeight);
-   //]]>  
-  </script>
-  
-  <script type="text/javascript">
-          //<![CDATA[
-          var chartId = 'graficoRisultatiEsattiId';
-          var chartDivId = 'graficoRisultatiEsattiDiv';
-          var chartWidth = jQuery('#chartPanelGraficoRisultatiEsattiDiv').width();
-          var chartHeight = 650;
-          var chartType = 'pie';
-          // init 
-          createChart(chartDivId, graficoRisultatiEsatti, chartType, chartWidth, chartHeight);
+          createChart(chart2DivId, graficoRisultatiEsatti, 'pie', chart2Width, chart2Height);
    //]]>  
   </script>
   <% } %>

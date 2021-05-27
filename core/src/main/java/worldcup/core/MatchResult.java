@@ -27,4 +27,16 @@ public class MatchResult {
 	public Integer getGoalsAway() {
 		return goalsAway;
 	}
+	public String getRisultatoEsattoReversed() {
+		return goalsAway+"-"+goalsHome;
+	}
+	public RISULTATO getRisultatoReversed() {
+		switch(this.risultato) {
+		case X: return RISULTATO.X;
+		case _1: return RISULTATO._2;
+		case _2: return RISULTATO._1;
+		default: return null;
+		}
+	}
+	
 }
