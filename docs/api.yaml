@@ -1,18 +1,78 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Swagger Petstore
+  title: Giocone
   license:
     name: MIT
 servers:
   - url: http://petstore.swagger.io/v1
 paths:
-  /classifica:
+  /tornei:
     get:
+      parameters:
+      - name: offset
+        in: query
+        description: limit
+        required: false
+        schema:
+          type: integer
+          format: int32
+      summary: restituisce le info sul torneo
+      operationId: listTornei
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: l'oggetto torneo
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ListaTornei"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}:
+    get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      summary: restituisce le info sul torneo
+      operationId: getTorneo
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: l'oggetto torneo
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Torneo"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/classifica:
+    get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
       summary: restituisce la classifica generale
       operationId: getClassifica
       tags:
-        - ClassificaGenerale
+        - Torneo
       responses:
         '200':
           description: l'oggetto classifica
@@ -26,12 +86,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /pronostici:
+  /tornei/{id_torneo}/pronostici:
     get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
       summary: restituisce la lista dei pronostici
       operationId: getPronostici
       tags:
-        - ClassificaGenerale
+        - Torneo
       responses:
         '200':
           description: la lista dei pronostici
@@ -45,9 +112,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /partite:
+  /tornei/{id_torneo}/partite:
     get:
       parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: limit
@@ -79,7 +152,7 @@ paths:
       summary: restituisce la lista delle partite filtrate
       operationId: listPartite
       tags:
-        - ProssimiIncontri
+        - Torneo
       responses:
         '200':
           description: la lista delle partite
@@ -93,19 +166,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /partite/{id_partita}:
+  /tornei/{id_torneo}/partite/{id_partita}:
+    parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      - name: id_partita
+        in: path
+        description: identificativo della partita
+        required: true
+        schema:
+          type: string
     get:
-      parameters:
-        - name: id_partita
-          in: path
-          description: identificativo della partita
-          required: true
-          schema:
-            type: string
       summary: restituisce la partita
       operationId: getPartita
       tags:
-        - ProssimiIncontri
+        - Torneo
       responses:
         '200':
           description: la partita
@@ -119,9 +198,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /partite/{id_partita}/pronostici:
+    put:
+      summary: aggiorna il risultato della partita
+      operationId: updateRisultatoPartita
+      tags:
+        - Torneo
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RisultatoPartita"
+      responses:
+        '200':
+          description: la partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partita"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/partite/{id_partita}/pronostici:
     get:
       parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
         - name: id_partita
           in: path
           description: identificativo della partita
@@ -131,7 +239,7 @@ paths:
       summary: restituisce i pronostici relativi alla partita
       operationId: getPronosticiPartita
       tags:
-        - ProssimiIncontri
+        - Torneo
       responses:
         '200':
           description: pronostici per partita
@@ -145,9 +253,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /partite/{id_partita}/distribuzione/{tipo}:
+  /tornei/{id_torneo}/partite/{id_partita}/distribuzione/{tipo}:
     get:
       parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
         - name: id_partita
           in: path
           description: identificativo della partita
@@ -163,7 +277,7 @@ paths:
       summary: restituisce la distribuzione per risultato o risultato esatto su una partita
       operationId: getDistribuzionePartita
       tags:
-        - ProssimiIncontri
+        - Torneo
       responses:
         '200':
           description: distribuzione per partita
@@ -197,6 +311,10 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Partita"
+    ListaTornei:
+      type: array
+      items:
+        $ref: "#/components/schemas/Torneo"
     ListaPronosticiPartita:
       type: array
       items:
@@ -214,6 +332,15 @@ components:
           $ref: "#/components/schemas/PronosticoRisultato"
         giocatore:
           $ref: "#/components/schemas/Giocatore"
+    Torneo:
+      type: object
+      properties:
+        id_torneo:
+          type: string
+        nome:
+          type: string
+        regolamento:
+          type: string
     Giocatore:
       type: object
       properties:
@@ -250,6 +377,23 @@ components:
         data:
           type: string
           format: date-time
+        risultato:
+          $ref: "#/components/schemas/RisultatoPartita"
+    RisultatoPartita:
+      type: object
+      required: 
+       - goal_casa
+       - goal_trasferta
+      properties:
+        goal_casa:
+          type: integer
+          format: int32
+        goal_trasferta:
+          type: integer
+          format: int32
+        risultato_finale:
+          type: string
+          format: boolean
     Stadio:
       type: object
       properties:
