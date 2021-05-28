@@ -1,0 +1,17 @@
+target/generated-sources/java/org/openapitools/configuration/HomeController.java
+target/generated-sources/java/worldcup/api/ApiUtil.java
+target/generated-sources/java/worldcup/api/TorneiApi.java
+target/generated-sources/java/worldcup/impl/RFC3339DateFormat.java
+target/generated-sources/java/worldcup/model/Distribuzione.java
+target/generated-sources/java/worldcup/model/Error.java
+target/generated-sources/java/worldcup/model/Giocatore.java
+target/generated-sources/java/worldcup/model/Grafico.java
+target/generated-sources/java/worldcup/model/Partita.java
+target/generated-sources/java/worldcup/model/Pronostico.java
+target/generated-sources/java/worldcup/model/PronosticoPartita.java
+target/generated-sources/java/worldcup/model/PronosticoRisultato.java
+target/generated-sources/java/worldcup/model/RisultatoPartita.java
+target/generated-sources/java/worldcup/model/Squadra.java
+target/generated-sources/java/worldcup/model/Stadio.java
+target/generated-sources/java/worldcup/model/TipoDistribuzione.java
+target/generated-sources/java/worldcup/model/Torneo.java
