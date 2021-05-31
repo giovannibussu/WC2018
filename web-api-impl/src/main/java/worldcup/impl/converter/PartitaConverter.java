@@ -10,7 +10,7 @@ import worldcup.model.Partita;
 import worldcup.model.Risultato;
 import worldcup.model.RisultatoPartita;
 
-public class PartitaConvert {
+public class PartitaConverter {
 
 	public static Partita toRsModel(Match dto) {
 		Partita rsModel = new Partita();
