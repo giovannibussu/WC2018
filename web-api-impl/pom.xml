@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>worldcup</groupId>
-	<artifactId>web_api</artifactId>
+	<artifactId>web_api_impl</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
-	<name>web_api</name>
-	<description>WEB API</description>
+	<packaging>war</packaging>
+	<name>web_api_impl</name>
+	<description>WEB API IMPL</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -31,6 +31,18 @@
 			<version>1.6.2</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>worldcup</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>worldcup</groupId>
+			<artifactId>web_api</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -152,46 +164,17 @@
 	</dependencies>
 
 	<build>
+		<finalName>api-worldcup</finalName>
 		<plugins>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.springframework.boot</groupId> -->
+<!-- 				<artifactId>spring-boot-maven-plugin</artifactId> -->
+<!-- 			</plugin> -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<release>${javaVersion}</release>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
-							<generatorName>spring</generatorName>
-							<configOptions>
-								<booleanGetterPrefix>is</booleanGetterPrefix>
-								<dateLibrary>joda</dateLibrary>
-								<sourceFolder>target/generated-sources/java/</sourceFolder>
-								<apiPackage>worldcup.api</apiPackage>
-								<useBeanValidation>false</useBeanValidation>
-								<performBeanValidation>false</performBeanValidation>
-								<invokerPackage>worldcup.impl</invokerPackage>
-								<modelPackage>worldcup.model</modelPackage>
-								<skipDefaultInterface>true</skipDefaultInterface>
-							</configOptions>
-							<output>${project.basedir}</output>
-							<interfaceOnly>true</interfaceOnly>
-							<generateApiDocs>false</generateApiDocs>
-							<generateApiTests>false</generateApiTests>
-							<generateModelTests>false</generateModelTests>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
