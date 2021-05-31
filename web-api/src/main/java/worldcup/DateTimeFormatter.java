@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 import java.text.ParseException;
 import java.util.Locale;

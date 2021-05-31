@@ -22,7 +22,7 @@ import worldcup.impl.converter.GraficoConverter;
 import worldcup.impl.converter.PartitaConverter;
 import worldcup.impl.converter.PronosticoConverter;
 import worldcup.impl.converter.PronosticoPartitaConverter;
-import worldcup.main.InternalException;
+import worldcup.InternalException;
 import worldcup.model.Grafico;
 import worldcup.model.Partita;
 import worldcup.model.Pronostico;
@@ -107,7 +107,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				grafico = gioco.distribuzionePronosticiPerMatchRisultatoEsatto(match);
 				break;
 			case _1X2:
-				grafico = gioco.distribuzionePronosticiPerMatchRisultatoEsatto(match);
+				grafico = gioco.distribuzionePronosticiPerMatchRisultato(match);
 				break;
 			}
 		    

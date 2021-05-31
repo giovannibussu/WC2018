@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 import java.io.IOException;
 import java.util.HashSet;

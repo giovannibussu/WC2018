@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 public class InternalException extends RuntimeException {
 

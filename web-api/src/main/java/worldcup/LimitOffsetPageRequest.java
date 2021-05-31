@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

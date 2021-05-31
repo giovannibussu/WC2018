@@ -52,7 +52,7 @@
     </Appenders>
     <Loggers>
  
-        <Logger name="it.toscana.regione.cart.gest.servlets" level="INFO">
+        <Logger name="worldcup" level="INFO">
             <AppenderRef ref="servlets" />
         </Logger>
 

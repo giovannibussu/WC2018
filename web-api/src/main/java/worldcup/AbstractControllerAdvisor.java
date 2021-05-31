@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpHeaders;

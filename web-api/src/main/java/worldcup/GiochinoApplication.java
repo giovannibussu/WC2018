@@ -1,4 +1,4 @@
-package worldcup.main;
+package worldcup;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -13,10 +13,10 @@ import org.springframework.format.Formatter;
 //@EnableJpaRepositories(entityManagerFactoryRef = "entityManager",
 //transactionManagerRef = "transactionManager",
 //basePackages = {"it.toscana.regione.cart.gest.core.dao.repositories"})
-public class PortaleApplication {
+public class GiochinoApplication {
 
 		public static void main(String[] args) {
-			SpringApplication.run(PortaleApplication.class, args);
+			SpringApplication.run(GiochinoApplication.class, args);
 		}
 
         @Value("${spring.mvc.date-format:#{null}}")
