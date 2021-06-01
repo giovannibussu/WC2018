@@ -1,15 +1,10 @@
 package worldcup.core.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.openspcoop2.utils.resources.FileSystemUtilities;
 
 import worldcup.core.Deserializer;
 import worldcup.core.JsonSerializable;
@@ -72,7 +67,7 @@ public class Team extends JsonSerializable {
 		
 		if(!teams.containsKey(id)) {
 			try {
-			teams.put(id, read(id+"-team.json"));
+			teams.put(id, read(WorldCupProperties.getInstance().getPronosticiFolder()+"/"+id+"-team.json"));
 			} catch(Exception e) {
 				System.err.println(e);
 			}
@@ -82,10 +77,7 @@ public class Team extends JsonSerializable {
 
 
 	private static Map<String, Team> read(String resource) throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
-		
-		Collection<Team> teamsColl= Deserializer.deserialize(new String(baos.toByteArray()), Team.class);
+		Collection<Team> teamsColl= Deserializer.deserialize(Deserializer.getJSON(resource), Team.class);
 		
 		return teamsColl.stream().collect(Collectors.toMap(Team::getNome, Function.identity()));
 		

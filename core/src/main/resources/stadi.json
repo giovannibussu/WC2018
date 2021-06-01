@@ -1,0 +1,74 @@
+ [
+    {
+      "id" : 1,
+      "nome" : "Luzhniki Stadium",
+      "citta" : "Mosca",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Lu%C5%BEniki"
+    },
+    {
+      "id" : 2,
+      "nome" : "Otkritie Arena",
+      "citta" : "Mosca",
+      "link" : "https://it.wikipedia.org/wiki/Otkrytie_Arena"
+   },
+    {
+      "id" : 3,
+      "nome" : "Zenit Arena",
+      "citta" : "San Pietroburgo",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_San_Pietroburgo"
+    },
+    {
+      "id" : 4,
+      "nome" : "Arena Baltika",
+      "citta" : "Kaliningrad",
+      "link" : "https://it.wikipedia.org/wiki/Arena_Baltika"
+    },
+    {
+      "id" : 5,
+      "nome" : "Kazan Arena",
+      "citta" : "Kazan'",
+      "link" : "https://it.wikipedia.org/wiki/Kazan_Arena"
+    },
+    {
+      "id" : 6,
+      "nome" : "Stadio Nižnij Novgorod",
+      "citta" : "Nižnij Novgorod",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Ni%C5%BEnij_Novgorod"
+    },
+    {
+      "id" : 7,
+      "nome" : "Cosmos Arena",
+      "citta" : "Samara",
+      "link" : "https://en.wikipedia.org/wiki/Cosmos_Arena"
+    },
+    {
+      "id" : 8,
+      "nome" : "Volgograd Arena",
+      "citta" : "Volgograd",
+      "link" : "https://it.wikipedia.org/wiki/Volgograd_Arena"
+    },
+    {
+      "id" : 9,
+      "nome" : "Mordovija Arena",
+      "citta" : "Saransk",
+      "link" : "https://it.wikipedia.org/wiki/Mordovia_Arena"
+    },
+    {
+      "id" : 10,
+      "nome" : "Rostov Arena",
+      "citta" : "Rostov sul Don",
+      "link" : "https://it.wikipedia.org/wiki/Rostov_Arena"
+    },
+    {
+      "id" : 11,
+      "nome" : "Stadio Olimpico Fišt",
+      "citta" : "Soči",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Olimpico_Fi%C5%A1t"
+    },
+    {
+      "id" : 12,
+      "nome" : "Stadio Centrale",
+      "citta" : "Ekaterinburg",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Centrale_(Ekaterinburg)"
+    }
+  ]

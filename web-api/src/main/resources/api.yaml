@@ -65,8 +65,14 @@ paths:
       parameters:
       - name: id_torneo
         in: path
-        description: limit
+        description: id torneo
         required: true
+        schema:
+          type: string
+      - name: categoria
+        in: query
+        description: categoria
+        required: false
         schema:
           type: string
       summary: restituisce la classifica generale

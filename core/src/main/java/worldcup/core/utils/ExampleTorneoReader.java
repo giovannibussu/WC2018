@@ -1,8 +1,6 @@
 package worldcup.core.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +13,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import worldcup.core.AbstractSubTorneo;
-import worldcup.core.WorldCupProperties;
 import worldcup.core.AbstractSubTorneo.TYPE;
 import worldcup.core.model.Girone;
 import worldcup.core.model.Knockout;
@@ -41,7 +38,7 @@ public class ExampleTorneoReader
 		try {
 			Map<String, Team> teams = Team.readTeams(playerId);
 
-			InputStream isGironi=new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), "/gironi.txt"));
+			InputStream isGironi= ExampleTorneoReader.class.getResourceAsStream("/gironi.txt");
 			BufferedReader breader = new BufferedReader(new InputStreamReader(isGironi));
 			
 			List<String> lines = breader.lines().collect(Collectors.toList());
@@ -81,8 +78,10 @@ public class ExampleTorneoReader
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+		
+		String winner = null;
 		try {
-			InputStream isKnockout=new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), "/knockout.txt"));
+			InputStream isKnockout= ExampleTorneoReader.class.getResourceAsStream("/knockout.txt");
 			BufferedReader breader = new BufferedReader(new InputStreamReader(isKnockout));
 			
 			List<String> lines = breader.lines().collect(Collectors.toList());
@@ -121,6 +120,7 @@ public class ExampleTorneoReader
 				} else if (knockoutPhase.equals("FIN")) {
 					knockouts.put(gameNumber, new Knockout(gameNumber, TYPE.FINALE));
 					descrizione = "Finale";
+					winner = gameNumber;
 				}
 				AbstractSubTorneo prevoiusHomeP = null;				
 				try {
@@ -146,7 +146,7 @@ public class ExampleTorneoReader
 			System.err.println(e);
 		}
 		
-		return new Torneo(matches, "64");
+		return new Torneo(matches, winner);
 	}
 
 	

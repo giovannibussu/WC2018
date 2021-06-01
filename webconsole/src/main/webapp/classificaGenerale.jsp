@@ -1,5 +1,5 @@
 <%@page import="java.util.Map"%>
-<%@page import="worldcup.core.Pronostico"%>
+<%@page import="worldcup.clients.model.Pronostico"%>
 <%@page import="worldcup.core.ClassificaGenerale"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
@@ -28,7 +28,7 @@
     String context = request.getContextPath();
     String categoria = request.getParameter("cat");
     ClassificaGenerale classificaGenerale = new ClassificaGenerale();
-    Map<Pronostico,Integer> classifica = classificaGenerale.getClassificaGenerale(categoria);
+    List<Pronostico> classifica = classificaGenerale.getClassificaGenerale(categoria);
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
   </head>
@@ -57,14 +57,14 @@
                      </li>
                   <% 
                   	int i = 1;
-                  	for(Pronostico pronostico: classifica.keySet()){
+                  	for(Pronostico pronostico: classifica){
                   		String liStyleClass= i % 2 == 0 ? "even" : "odd";
-                  		Integer punteggioGiocatore = classifica.get(pronostico);
+                  		Integer punteggioGiocatore = pronostico.getPunti();
           	%>
                       <li class="<%=liStyleClass %>">
-                          <div class="ec-cell"><span><a target="_blank" href="<%=pronostico.getPlayer().getLink() %>"><%=pronostico.getPlayer().getNome() %></a></span></div>
+                          <div class="ec-cell"><span><a target="_blank" href="<%=pronostico.getGiocatore().getLink() %>"><%=pronostico.getGiocatore().getNome() %></a></span></div>
                           <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
-                          <div class="ec-cell"><span><%=pronostico.getTorneo().getWinner().getNome() %></span></div>
+                          <div class="ec-cell"><span><%=pronostico.getSquadraVincente().getNome() %></span></div>
                       </li>
                   <% 
                   	i++;

@@ -7,9 +7,7 @@ import java.util.Map;
 
 import worldcup.core.model.Player;
 import worldcup.core.utils.FileSystemPronosticoReader;
-import worldcup.core.utils.GoogleApiPronosticoReader;
 import worldcup.core.utils.PronosticoReader;
-import worldcup.core.utils.PronosticoWriter;
 
 public class PronosticiReader {
 
@@ -32,20 +30,20 @@ public class PronosticiReader {
 				reader = new FileSystemPronosticoReader(pronosticoId);
 				readResults = reader.readResults();
 			} catch(FileNotFoundException e) {
-				reader = new GoogleApiPronosticoReader(pronosticoId);
-				
-				PronosticoWriter writer = new PronosticoWriter(pronosticoId);
-				readResults = reader.readResults();
-				writer.write(readResults.values());
-
-				try {
-					reader = new FileSystemPronosticoReader(pronosticoId);	
-				} catch (FileNotFoundException fnfe) {
-					System.err.println("Errore durante la lettura del file:"+fnfe.getMessage());
-					System.err.println("Utente non registrato?");
-					readResults = new HashMap<String, PronosticoInput>();
-				}
-				
+//				reader = new GoogleApiPronosticoReader(pronosticoId);
+//				
+//				PronosticoWriter writer = new PronosticoWriter(pronosticoId);
+//				readResults = reader.readResults();
+//				writer.write(readResults.values());
+//
+//				try {
+//					reader = new FileSystemPronosticoReader(pronosticoId);	
+//				} catch (FileNotFoundException fnfe) {
+//					System.err.println("Errore durante la lettura del file:"+fnfe.getMessage());
+//					System.err.println("Utente non registrato?");
+//					readResults = new HashMap<String, PronosticoInput>();
+//				}
+				throw new RuntimeException("Pronostico con id ["+pronosticoId+"] non trovato");
 				
 			}
 			

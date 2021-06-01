@@ -1,5 +1,7 @@
 package worldcup.core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,5 +41,17 @@ public class Deserializer {
 		
 		IDeserializer deserializer = SerializationFactory.getDeserializer(SERIALIZATION_TYPE.JSON_JACKSON, new SerializationConfig());
 		return (T) deserializer.getObject(json, t);
+	}
+	
+	public static String getJSON(String resource) throws Exception {
+		InputStream is = Deserializer.class.getResourceAsStream(resource);
+		if (is== null) {
+			throw new Exception("Resource ["+resource+"] null");
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		is.transferTo(baos);
+		
+		return new String(baos.toByteArray());
 	}
 }

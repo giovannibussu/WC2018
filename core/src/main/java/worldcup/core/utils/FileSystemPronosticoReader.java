@@ -1,9 +1,8 @@
 package worldcup.core.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.function.Function;
@@ -14,11 +13,9 @@ import worldcup.core.WorldCupProperties;
 
 public class FileSystemPronosticoReader implements PronosticoReader {
 
-	private FileInputStream fis;
+	private InputStream is;
 	public FileSystemPronosticoReader(String spreadsheetId) throws FileNotFoundException {
-		
-		File file = new File(WorldCupProperties.getInstance().getPronosticiFolder(), spreadsheetId + ".csv");
-		this.fis = new FileInputStream(file);
+		this.is = FileSystemPronosticoReader.class.getResourceAsStream(WorldCupProperties.getInstance().getPronosticiFolder() + "/" + spreadsheetId + ".csv");
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -27,7 +24,7 @@ public class FileSystemPronosticoReader implements PronosticoReader {
 	}
 	
 	public Map<String, PronosticoInput> readResults() {
-		BufferedReader breader = new BufferedReader(new InputStreamReader(fis));
+		BufferedReader breader = new BufferedReader(new InputStreamReader(is));
 		return breader.lines().	collect(Collectors.toList()).stream().map(a-> readPronostico(a)).collect(Collectors.toMap(PronosticoInput::getId, Function.identity()));
 	}
 	

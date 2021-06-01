@@ -1,14 +1,10 @@
 package worldcup.core;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import worldcup.core.model.Player;
 import worldcup.core.model.Torneo;
 import worldcup.core.utils.ExampleTorneoReader;
-import worldcup.core.utils.PronosticoWriter;
 
 public class Pronostico {
 
@@ -30,17 +26,17 @@ public class Pronostico {
 		
 		this.pronostico.put(id, input);
 
-		this.salvaPronostico();
+//		this.salvaPronostico();
 		this.aggiornaPronostico();
 
 	}
 	
-	private void salvaPronostico() {
-		PronosticoWriter writer = new PronosticoWriter(this.player.getId());
-		List<PronosticoInput> values = this.pronostico.values().stream().collect(Collectors.toList());
-		Collections.sort(values);
-		writer.write(values);
-	}
+//	private void salvaPronostico() {
+//		PronosticoWriter writer = new PronosticoWriter(this.player.getId());
+//		List<PronosticoInput> values = this.pronostico.values().stream().collect(Collectors.toList());
+//		Collections.sort(values);
+//		writer.write(values);
+//	}
 
 	private void aggiornaPronostico() {
 		this.pronostico = PronosticiReader.leggiPronostico(this.player.getId());

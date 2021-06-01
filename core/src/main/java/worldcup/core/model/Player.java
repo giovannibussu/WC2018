@@ -3,6 +3,7 @@ package worldcup.core.model;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,10 +60,7 @@ public class Player extends JsonSerializable implements Comparable<Player> {
 	}
 
 	private static Map<String, Player> readPlayers(String resource) throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
-		
-		Collection<Player> playerColl= Deserializer.deserialize(new String(baos.toByteArray()), Player.class);
+		Collection<Player> playerColl= Deserializer.deserialize(Deserializer.getJSON(resource), Player.class);
 		
 		return playerColl.stream().collect(Collectors.toMap(Player::getId, Function.identity()));
 		

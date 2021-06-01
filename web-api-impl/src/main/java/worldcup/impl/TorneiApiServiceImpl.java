@@ -46,13 +46,13 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		this.categorieAutorizzate.add("Link");
 	}
 
-	public ResponseEntity<List<Pronostico>> getClassifica(String idTorneo) {
+	public ResponseEntity<List<Pronostico>> getClassifica(String idTorneo, String categoria) {
 		try {
 			Gioco gioco = new Gioco();
 			Map<worldcup.core.Pronostico, Integer> classifica = gioco.getClassifica();
 			List<Pronostico> lst = new ArrayList<>();
 
-			if(idTorneo != null && this.categorieAutorizzate.contains(idTorneo)) {
+			if(categoria != null && this.categorieAutorizzate.contains(categoria)) {
 				// Gestire filtro per visualizzare solo gli utenti indicati
 				// da utilizzare solo per vedere categorie di utenti autorizzate
 				Map<worldcup.core.Pronostico, Integer> toReturn = new HashMap<>();

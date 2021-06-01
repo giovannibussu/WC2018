@@ -1,7 +1,5 @@
 package worldcup.core;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -15,7 +13,6 @@ public class WorldCupProperties {
 	}
 
 	
-	private String worldCupExternalFolder;
 	private String pronosticiFolder;
 	private String idPronosticoUfficiale;
 
@@ -59,20 +56,18 @@ public class WorldCupProperties {
 		try {
 			Properties internalProps = new Properties();
 			internalProps.load(WorldCupProperties.class.getResourceAsStream("/"+PATH));
-			this.worldCupExternalFolder = internalProps.getProperty("worldcup.externalFolder").trim();
+//			this.worldCupExternalFolder = internalProps.getProperty("worldcup.externalFolder").trim();
 
-			Properties externalProps = new Properties();
-			externalProps.load(new FileInputStream(new File(this.worldCupExternalFolder, PATH)));
-			this.pronosticiFolder = externalProps.getProperty("pronostici.folder").trim();
-			this.idPronosticoUfficiale = externalProps.getProperty("pronostici.ufficiale.id").trim();
-			this.username = externalProps.getProperty("username").trim();
-			this.password = externalProps.getProperty("password").trim();
+			this.pronosticiFolder = internalProps.getProperty("pronostici.folder").trim();
+			this.idPronosticoUfficiale = internalProps.getProperty("pronostici.ufficiale.id").trim();
+			this.username = internalProps.getProperty("username").trim();
+			this.password = internalProps.getProperty("password").trim();
 			
-			this.mostraPuntiPassaggioGironi = Boolean.parseBoolean(externalProps.getProperty("mostraPuntiPassaggio.gironi", "false").trim());
-			this.mostraPuntiPassaggioOttavi = Boolean.parseBoolean(externalProps.getProperty("mostraPuntiPassaggio.ottavi", "false").trim());
-			this.mostraPuntiPassaggioQuarti = Boolean.parseBoolean(externalProps.getProperty("mostraPuntiPassaggio.quarti", "false").trim());
-			this.mostraPuntiPassaggioSemifinali = Boolean.parseBoolean(externalProps.getProperty("mostraPuntiPassaggio.semifinali", "false").trim());
-			this.mostraPuntiPassaggioFinale = Boolean.parseBoolean(externalProps.getProperty("mostraPuntiPassaggio.finale", "false").trim());
+			this.mostraPuntiPassaggioGironi = Boolean.parseBoolean(internalProps.getProperty("mostraPuntiPassaggio.gironi", "false").trim());
+			this.mostraPuntiPassaggioOttavi = Boolean.parseBoolean(internalProps.getProperty("mostraPuntiPassaggio.ottavi", "false").trim());
+			this.mostraPuntiPassaggioQuarti = Boolean.parseBoolean(internalProps.getProperty("mostraPuntiPassaggio.quarti", "false").trim());
+			this.mostraPuntiPassaggioSemifinali = Boolean.parseBoolean(internalProps.getProperty("mostraPuntiPassaggio.semifinali", "false").trim());
+			this.mostraPuntiPassaggioFinale = Boolean.parseBoolean(internalProps.getProperty("mostraPuntiPassaggio.finale", "false").trim());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,10 +80,6 @@ public class WorldCupProperties {
 
 	public String getPronosticiFolder() {
 		return pronosticiFolder;
-	}
-
-	public String getWorldCupExternalFolder() {
-		return worldCupExternalFolder;
 	}
 
 	public String getUsername() {

@@ -1,19 +1,13 @@
 package worldcup.core.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.openspcoop2.utils.resources.FileSystemUtilities;
-
 import worldcup.core.Deserializer;
 import worldcup.core.JsonSerializable;
-import worldcup.core.WorldCupProperties;
 
 public class Stadium extends JsonSerializable{
     private int id;
@@ -60,10 +54,7 @@ public class Stadium extends JsonSerializable{
 	}
 
 	private static Map<Integer, Stadium> readStadiums(String resource) throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileSystemUtilities.copy(new FileInputStream(new File(WorldCupProperties.getInstance().getWorldCupExternalFolder(), resource)), baos);
-		
-		Collection<Stadium> teamsColl= Deserializer.deserialize(new String(baos.toByteArray()), Stadium.class);
+		Collection<Stadium> teamsColl= Deserializer.deserialize(Deserializer.getJSON(resource), Stadium.class);
 		
 		return teamsColl.stream().collect(Collectors.toMap(Stadium::getId, Function.identity()));
 		
