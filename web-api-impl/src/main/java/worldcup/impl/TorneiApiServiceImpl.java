@@ -10,9 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,8 @@ import worldcup.impl.converter.GraficoConverter;
 import worldcup.impl.converter.PartitaConverter;
 import worldcup.impl.converter.PronosticoConverter;
 import worldcup.impl.converter.PronosticoPartitaConverter;
+import worldcup.impl.utils.TorneoAuthorizationManager;
+import worldcup.impl.utils.TorneoConfig;
 import worldcup.InternalException;
 import worldcup.model.Grafico;
 import worldcup.model.Partita;
@@ -40,6 +45,8 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	private Logger logger = LoggerFactory.getLogger(TorneiApiServiceImpl.class);
 
 	private List<String> categorieAutorizzate = null;
+	
+	@Autowired private HttpServletRequest request;
 
 	public TorneiApiServiceImpl() {
 		this.categorieAutorizzate = new ArrayList<>();
@@ -47,6 +54,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	}
 
 	public ResponseEntity<List<Pronostico>> getClassifica(String idTorneo, String categoria) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
+		
 		try {
 			Gioco gioco = new Gioco();
 			Map<worldcup.core.Pronostico, Integer> classifica = gioco.getClassifica();
@@ -91,8 +102,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<Grafico> getDistribuzionePartita(String idTorneo, String idPartita, TipoDistribuzione tipo) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
+		
 		try {
 			Gioco gioco = new Gioco();
 		    Match match = gioco.getMatch(idPartita);
@@ -124,8 +138,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<Partita> getPartita(String idTorneo, String idPartita) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
+		
 		try {
 			Gioco gioco = new Gioco();
 		    Match match = gioco.getMatch(idPartita);
@@ -143,8 +160,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<List<Pronostico>> getPronostici(String idTorneo) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
+		
 		try {
 			Gioco gioco = new Gioco();
 			List<worldcup.core.Pronostico> listaPronostici = gioco.getListaPronostici();
@@ -174,8 +194,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<List<PronosticoPartita>> getPronosticiPartita(String idTorneo, String idPartita) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
+		
 		try {
 			Gioco gioco = new Gioco();
 		    Match match = gioco.getMatch(idPartita);
@@ -202,6 +225,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	}
 
 	public ResponseEntity<Torneo> getTorneo(String idTorneo) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
 		try {
 			return null;
 		} catch(RuntimeException e) {
@@ -214,8 +240,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<List<Partita>> listPartite(String idTorneo, Integer limit, Long offset, DateTime dataDa,	DateTime dataA) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
 		try {
 			if(dataDa == null) {
 				Calendar nowCal = new GregorianCalendar();
@@ -270,9 +298,12 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	// TODO identificativo torneo a cosa serve?
 	public ResponseEntity<Partita> updateRisultatoPartita(String idTorneo, String idPartita, RisultatoPartita risultatoPartita) {
+		if(idTorneo == null) {
+			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
+		}
 		try {
+			TorneoAuthorizationManager.autorizza(this.logger, this.request);
 			
 			Gioco gioco = new Gioco();
 			
