@@ -1,3 +1,4 @@
+<%@page import="worldcup.core.SalvaRisultato"%>
 <%@page import="worldcup.core.model.Team"%>
 <%@page import="worldcup.core.model.Stadium"%>
 <%@page import="worldcup.core.model.Match"%>
@@ -33,13 +34,12 @@
 	String inputCasa = request.getParameter("inputCasa");
     String inputTrasferta = request.getParameter("inputTrasferta");
     String context = request.getContextPath();
-    ProssimiIncontri pi = new ProssimiIncontri();
+    SalvaRisultato salvaRisultato = new SalvaRisultato();
     
-    boolean login = pi.login(username, password);
+    boolean login = salvaRisultato.login(username, password);
     	
     if(login) {
-    	Match match = pi.getMatch(idMatch);
-    	pi.setResult(match, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
+    	salvaRisultato.setResult(idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
     }
     %>
     <link rel="icon" href="<%= context %>/favicon.png">

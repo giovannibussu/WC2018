@@ -1,3 +1,7 @@
+<%@page import="worldcup.core.utils.Utilities"%>
+<%@page import="worldcup.clients.model.Squadra"%>
+<%@page import="worldcup.clients.model.Stadio"%>
+<%@page import="worldcup.clients.model.Partita"%>
 <%@page import="worldcup.core.model.Team"%>
 <%@page import="worldcup.core.model.Stadium"%>
 <%@page import="worldcup.core.model.Match"%>
@@ -29,7 +33,7 @@
     <%
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListProssimiIncontri(); 
+    List<Partita> listaPartite = pi.getListProssimiIncontri(); 
     
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
@@ -55,16 +59,17 @@
                     <ul>
                     <% for(int i = 0; i < listaPartite.size() ; i++){ 
                     	String liStyleClass= i % 2 == 0 ? "even" : "odd";
-                    	Match match = listaPartite.get(i);
-                    	int id = match.getStadium();
-                    	Stadium s = Stadium.getStadiums().get(id);
-		          		Team s1 = match.getHome();
-		          		Team s2 = match.getAway();
+                    	Partita match = listaPartite.get(i);
+                    	Stadio s = match.getStadio();
+//                     	int id = match.getStadio();
+//                     	Stadium s = Stadium.getStadiums().get(id);
+		          		Squadra s1 = match.getCasa();
+		          		Squadra s2 = match.getTrasferta();
 		          		String descrizioneMatch = match.getDescrizione();
 		          	%>
                         <li class="<%=liStyleClass %>">
-                        	<div class="imspo_mt__mtc-no scheda_match" id="div_match_<%=match.getMatchId() %>">
-                        		<input type="hidden" value="<%=context %>/incontro.jsp?idMatch=<%=match.getMatchId() %>" id="<%=match.getMatchId() %>"/>
+                        	<div class="imspo_mt__mtc-no scheda_match" id="div_match_<%=match.getIdPartita() %>">
+                        		<input type="hidden" value="<%=context %>/incontro.jsp?idMatch=<%=match.getIdPartita() %>" id="<%=match.getIdPartita() %>"/>
 								<table class="imspo_mt__mit">
 									<tbody>
 										<tr class="imspo_mt__tr-s">
@@ -77,8 +82,8 @@
 													<div>
 														<div class="imspo_mt__ns-pm-s">
 															<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font stadium"><%=s.getNome() %></div>
-															<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font"><%=match.getDataMatchAsString() %></div>
-															<div class="imspo_mt__ndl-p imspo_mt__pm-inf imso-medium-font"><%=match.getOraMatchAsString() %></div>
+															<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font"><%=Utilities.getDataMatchAsString(match.getData()) %></div>
+															<div class="imspo_mt__ndl-p imspo_mt__pm-inf imso-medium-font"><%=Utilities.getOraMatchAsString(match.getData()) %></div>
 														</div>
 														<div style="display: none;"></div>
 													</div>

@@ -25,7 +25,7 @@
     <%
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListProssimiIncontri(); 
+//     List<Match> listaPartite = pi.getListProssimiIncontri(); 
     
     %>
     <link rel="icon" href="<%= context %>/favicon.png">

@@ -1,3 +1,6 @@
+<%@page import="worldcup.core.SalvaRisultato"%>
+<%@page import="worldcup.core.utils.Utilities"%>
+<%@page import="worldcup.clients.model.Partita"%>
 <%@page import="worldcup.core.model.Team"%>
 <%@page import="worldcup.core.model.Stadium"%>
 <%@page import="worldcup.core.model.Match"%>
@@ -32,9 +35,10 @@
 	String password = request.getParameter("password");
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Match> listaPartite = pi.getListaMatch(); 
+    List<Partita> listaPartite = pi.getListaMatch(); 
     
-    boolean login = pi.login(username, password);
+    SalvaRisultato salvaRisultato = new SalvaRisultato();
+    boolean login = salvaRisultato.login(username, password); 
     		
     %>
     <link rel="icon" href="<%= context %>/favicon.png">
@@ -67,9 +71,9 @@
 								    <label for="listaMatch">Match</label>
 								    <select class="form-control" id="listaMatch" name="matchSelezionato">
 								    	<% for(int i = 0 ; i < listaPartite.size() ; i++){ 
-								    			Match match =listaPartite.get(i);
+								    		Partita match =listaPartite.get(i);
 								    	%>
-								    		<option value="<%= match.getMatchId() %>"><%=match.getMatchLabel() %></option>
+								    		<option value="<%= match.getIdPartita() %>"><%=Utilities.getMatchLabel(match) %></option>
 								    	<% }%>
 								    </select>
 							  </div>
