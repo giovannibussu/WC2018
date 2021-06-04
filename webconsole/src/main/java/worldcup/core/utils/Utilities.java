@@ -35,4 +35,5 @@ public class Utilities {
 	public static String getMatchLabel(Partita partita) {
 		return partita.getCasa().getNome() + " - " + partita.getTrasferta().getNome(); 
 	}
+	
 }

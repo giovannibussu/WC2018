@@ -5,7 +5,7 @@
         <p class="float-right" id="pBackOnTop">
           <a class="btn btn-backtotop" role="button" href="#">Back to top</a>
         </p>
-        <p>&copy; Busta Chillin' 2018</p>
+        <p>&copy; Busta Chillin' 2021</p>
       </div>
     </footer>
     

@@ -1,74 +1,68 @@
  [
     {
       "id" : 1,
-      "nome" : "Luzhniki Stadium",
-      "citta" : "Mosca",
-      "link" : "https://it.wikipedia.org/wiki/Stadio_Lu%C5%BEniki"
+      "nome" : "Baku Olympic Stadium",
+      "citta" : "Baku",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_olimpico_di_Baku"
     },
     {
       "id" : 2,
-      "nome" : "Otkritie Arena",
-      "citta" : "Mosca",
-      "link" : "https://it.wikipedia.org/wiki/Otkrytie_Arena"
+      "nome" : "Parken Stadium",
+      "citta" : "Copenaghen",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Parken"
    },
     {
       "id" : 3,
-      "nome" : "Zenit Arena",
+      "nome" : "Allianz Arena",
+      "citta" : "Monaco di Baviera",
+      "link" : "https://it.wikipedia.org/wiki/Allianz_Arena"
+    },
+    {
+      "id" : 4,
+      "nome" : "Wembley Stadium",
+      "citta" : "Londra",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_di_Wembley_(2007)"
+    },
+    {
+      "id" : 5,
+      "nome" : "Stadio Olimpico",
+      "citta" : "Roma",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_Olimpico_(Roma)"
+    },
+    {
+      "id" : 6,
+      "nome" : "Johan Cruijff Arena",
+      "citta" : "Amsterdam",
+      "link" : "https://it.wikipedia.org/wiki/Johan_Cruijff_Arena"
+    },
+    {
+      "id" : 7,
+      "nome" : "Arena Națională",
+      "citta" : "Bucarest",
+      "link" : "https://it.wikipedia.org/wiki/Arena_Na%C8%9Bional%C4%83"
+    },
+    {
+      "id" : 8,
+      "nome" : "Gazprom Arena",
       "citta" : "San Pietroburgo",
       "link" : "https://it.wikipedia.org/wiki/Stadio_San_Pietroburgo"
     },
     {
-      "id" : 4,
-      "nome" : "Arena Baltika",
-      "citta" : "Kaliningrad",
-      "link" : "https://it.wikipedia.org/wiki/Arena_Baltika"
-    },
-    {
-      "id" : 5,
-      "nome" : "Kazan Arena",
-      "citta" : "Kazan'",
-      "link" : "https://it.wikipedia.org/wiki/Kazan_Arena"
-    },
-    {
-      "id" : 6,
-      "nome" : "Stadio Nižnij Novgorod",
-      "citta" : "Nižnij Novgorod",
-      "link" : "https://it.wikipedia.org/wiki/Stadio_Ni%C5%BEnij_Novgorod"
-    },
-    {
-      "id" : 7,
-      "nome" : "Cosmos Arena",
-      "citta" : "Samara",
-      "link" : "https://en.wikipedia.org/wiki/Cosmos_Arena"
-    },
-    {
-      "id" : 8,
-      "nome" : "Volgograd Arena",
-      "citta" : "Volgograd",
-      "link" : "https://it.wikipedia.org/wiki/Volgograd_Arena"
-    },
-    {
       "id" : 9,
-      "nome" : "Mordovija Arena",
-      "citta" : "Saransk",
-      "link" : "https://it.wikipedia.org/wiki/Mordovia_Arena"
+      "nome" : "Hampden Park",
+      "citta" : "Glasgow",
+      "link" : "https://it.wikipedia.org/wiki/Hampden_Park"
     },
     {
       "id" : 10,
-      "nome" : "Rostov Arena",
-      "citta" : "Rostov sul Don",
-      "link" : "https://it.wikipedia.org/wiki/Rostov_Arena"
+      "nome" : "Estadio de La Cartuja",
+      "citta" : "Siviglia",
+      "link" : "https://it.wikipedia.org/wiki/Stadio_de_la_Cartuja"
     },
     {
       "id" : 11,
-      "nome" : "Stadio Olimpico Fišt",
-      "citta" : "Soči",
-      "link" : "https://it.wikipedia.org/wiki/Stadio_Olimpico_Fi%C5%A1t"
-    },
-    {
-      "id" : 12,
-      "nome" : "Stadio Centrale",
-      "citta" : "Ekaterinburg",
-      "link" : "https://it.wikipedia.org/wiki/Stadio_Centrale_(Ekaterinburg)"
+      "nome" : "Puskás Aréna",
+      "citta" : "Budapest",
+      "link" : "https://it.wikipedia.org/wiki/Pusk%C3%A1s_Ar%C3%A9na"
     }
   ]

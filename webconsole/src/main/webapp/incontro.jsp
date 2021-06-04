@@ -1,3 +1,12 @@
+<%@page import="worldcup.core.utils.PartitaUtils"%>
+<%@page import="worldcup.clients.model.PronosticoRisultato"%>
+<%@page import="worldcup.clients.model.Giocatore"%>
+<%@page import="worldcup.core.utils.Utilities"%>
+<%@page import="worldcup.core.utils.JsonSerializable"%>
+<%@page import="worldcup.clients.model.Squadra"%>
+<%@page import="worldcup.clients.model.Stadio"%>
+<%@page import="worldcup.clients.model.PronosticoPartita"%>
+<%@page import="worldcup.clients.model.Partita"%>
 <%@page import="worldcup.core.model.Player"%>
 <%@page import="java.util.Map"%>
 <%@page import="worldcup.core.model.Team"%>
@@ -14,7 +23,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WorldCup 2018</title>
+    <title>UEFA EURO 2020</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -35,14 +44,14 @@
     String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
-    Match match = pi.getMatch(idMatch);
-    Map<Player, Match> listaPronosticiMatch = pi.getPronosticiPerMatch(match);
+    Partita match = pi.getMatch(idMatch);
+    List<PronosticoPartita> listaPronosticiMatch = pi.getPronosticiPerMatch(idMatch);
     boolean visualizzaGrafici = true;
     %>
-    <link rel="icon" href="<%= context %>/favicon.png">
+    <link rel="icon" href="<%= context %>/euro2020.ico">
     
     <script>
-    	var graficoRisultatiEsatti = '<%= pi.distribuzionePronosticiPerMatchRisultatoEsatto(match).serializeToString()%>';
+    	var graficoRisultatiEsatti = '<%= JsonSerializable.serializeToString(pi.distribuzionePronosticiPerMatchRisultatoEsatto(idMatch)) %>';
     </script>
     
   </head>
@@ -62,14 +71,13 @@
          			<div class="ec-fixture-list" style="margin-bottom: 44px;">
                    <ul>
                    <%  
-                   	int id = match.getStadium();
-                   	Stadium s = Stadium.getStadiums().get(id);
-	          		Team s1 = match.getHome();
-	          		Team s2 = match.getAway();
+                   	Stadio s = match.getStadio();
+	          		Squadra s1 = match.getCasa();
+	          		Squadra s2 = match.getTrasferta();
 	          		String descrizioneMatch = match.getDescrizione();
 	          	%>
                        <li>
-						<div class="imspo_mt__mtc-no" id="div_match_<%=match.getMatchId() %>">
+						<div class="imspo_mt__mtc-no" id="div_match_<%=match.getIdPartita() %>">
 							<table class="imspo_mt__mit">
 								<tbody>
 									<tr class="imspo_mt__tr-s">
@@ -84,8 +92,8 @@
 														<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font">
 															<a class= "imspo_mt__pm-inf stadium" target="_blank" title="<%=s.getNome() %>" href="<%=s.getLink() %>"><%=s.getNome() %></a>
 														</div>
-														<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font"><%=match.getDataMatchAsString() %></div>
-														<div class="imspo_mt__ndl-p imspo_mt__pm-inf imso-medium-font"><%=match.getOraMatchAsString() %></div>
+														<div class="imspo_mt__pm-inf imspo_mt__date imso-medium-font"><%=Utilities.getDataMatchAsString(match.getData()) %></div>
+														<div class="imspo_mt__ndl-p imspo_mt__pm-inf imso-medium-font"><%=Utilities.getOraMatchAsString(match.getData()) %></div>
 													</div>
 													<div style="display: none;"></div>
 												</div>
@@ -175,12 +183,15 @@
 	                   <ul>
 	                     <%
 	                     int i = 0;
-	                     for(Player p: listaPronosticiMatch.keySet()){
-	                   	String liStyleClass= i % 2 == 0 ? "even" : "odd";
-	                   	i++;
-	                   	Match m = listaPronosticiMatch.get(p);
-	                   	String risultato = (m.getResult() != null && m.getRisultatoEsatto(match) != null) ? m.getRisultatoEsatto(match) : ""; //TODO bussu ribaltare risultati
-		          	%>
+	                     for(PronosticoPartita pronostico: listaPronosticiMatch){
+	                    	 Giocatore p = pronostico.getGiocatore();
+		                   	 String liStyleClass= i % 2 == 0 ? "even" : "odd";
+			                 i++;
+			                 
+			                 PronosticoRisultato pronosticoRisultato = pronostico.getPronostico();
+			                 Partita m = pronostico.getPartita();
+			                 String risultato = (m.getRisultato() != null && PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) != null) ? PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) : ""; //TODO bussu ribaltare risultati
+				          	%>
 	                       <li class="<%=liStyleClass %>">
 	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
 	                           <div class="ec-cell"><span><%=risultato %></span></div>

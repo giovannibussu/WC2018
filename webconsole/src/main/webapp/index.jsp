@@ -16,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WorldCup 2018 | Prossimi Incontri</title>
+    <title>UEFA EURO 2020 | Prossimi Incontri</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
     List<Partita> listaPartite = pi.getListProssimiIncontri(); 
     
     %>
-    <link rel="icon" href="<%= context %>/favicon.png">
+    <link rel="icon" href="<%= context %>/euro2020.ico">
 
   </head>
 

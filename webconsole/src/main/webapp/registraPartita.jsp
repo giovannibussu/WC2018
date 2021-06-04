@@ -16,7 +16,7 @@
     <meta name="author" content="">
     
 
-    <title>WorldCup 2018 | Registra Partita</title>
+    <title>UEFA EURO 2020 | Registra Partita</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
     boolean login = salvaRisultato.login(username, password); 
     		
     %>
-    <link rel="icon" href="<%= context %>/favicon.png">
+    <link rel="icon" href="<%= context %>/euro2020.ico">
   </head>
 
   <body>

@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WorldCup 2018 | Classifica Generale</title>
+    <title>UEFA EURO 2020 | Classifica Generale</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
     ClassificaGenerale classificaGenerale = new ClassificaGenerale();
     List<Pronostico> classifica = classificaGenerale.getClassificaGenerale(categoria);
     %>
-    <link rel="icon" href="<%= context %>/favicon.png">
+    <link rel="icon" href="<%= context %>/euro2020.ico">
   </head>
 
   <body>

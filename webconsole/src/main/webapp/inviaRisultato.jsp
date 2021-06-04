@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>WorldCup 2018 | Registra Partita Esito</title>
+    <title>UEFA EURO 2020 | Registra Partita Esito</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
     	salvaRisultato.setResult(idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
     }
     %>
-    <link rel="icon" href="<%= context %>/favicon.png">
+    <link rel="icon" href="<%= context %>/euro2020.ico">
   </head>
 
   <body>

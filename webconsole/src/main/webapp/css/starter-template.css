@@ -1,5 +1,6 @@
 .bg-dark {
-    background-color: #0B5F91 !important;
+/*     background-color: #0B5F91 !important; */
+     background-color: #009BB4 !important;
 }
 
 .starter-template {
@@ -9,4 +10,14 @@
 
 .text-centered {
   text-align: center !important;
+}
+
+
+.navbar-brand-button {
+    background-image: url(../images/euro2020_negative.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 50px 38px;
+    width: 50px;
+    height: 38px;
 }
