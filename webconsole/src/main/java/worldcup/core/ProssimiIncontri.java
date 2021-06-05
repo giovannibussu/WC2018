@@ -17,10 +17,13 @@ import worldcup.clients.model.Partita;
 //import worldcup.core.model.Match;
 //import worldcup.core.model.Player;
 import worldcup.clients.model.PronosticoPartita;
-import worldcup.clients.model.TipoDistribuzione; 
+import worldcup.clients.model.TipoDistribuzione;
+import worldcup.core.model.Match; 
 
 public class ProssimiIncontri {
 
+	public static final Integer NUMERO_PARTITE_HOME = 6;
+	
 	//	private Gioco gioco = null; //TODO commentare e implemetare con API
 	private TorneoApi torneoApi = null;
 	private String idTorneo = null;
@@ -40,13 +43,18 @@ public class ProssimiIncontri {
 		nowCal.set(Calendar.HOUR_OF_DAY, 0);
 		nowCal.set(Calendar.MINUTE, 0);
 		Date now = nowCal.getTime();
-		nowCal.add(Calendar.DATE, 2);
+		nowCal.add(Calendar.DATE, 6);
 		Date tomorrow= nowCal.getTime();
 
 		DateTime start = new DateTime(now);
 		DateTime end = new DateTime(tomorrow);
 		try {
-			return this.torneoApi.listPartite(this.idTorneo, null, null, start, end);
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, null, null, start, end);
+			
+			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
+			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
+						
+			return maxPartite < matchPerData.size() ? matchPerData.subList(0, maxPartite) : matchPerData;
 		} catch (Exception e) {
 			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);

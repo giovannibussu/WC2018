@@ -256,7 +256,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				Calendar nowCal = new GregorianCalendar();
 				nowCal.set(Calendar.HOUR_OF_DAY, 0);
 				nowCal.set(Calendar.MINUTE, 0);
-				nowCal.add(Calendar.DATE, 2);
+				nowCal.add(Calendar.DATE, 6);
 				Date tomorrow= nowCal.getTime();
 				dataA = new DateTime(tomorrow.getTime());
 			}
