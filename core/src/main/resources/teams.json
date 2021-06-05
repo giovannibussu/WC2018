@@ -1,176 +1,43 @@
 [
 	{
-		"nome": "Egitto",
-		"id": "EGY",
-		"bandiera": "images/egitto.png",
+		"nome": "Turchia",
+		"id": "TRK",
+		"bandiera": "images/turchia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Inghilterra",
-		"id": "ENG",
-		"bandiera": "images/inghilterra.png",
+		"nome": "Italia",
+		"id": "ITA",
+		"bandiera": "images/italia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Portogallo",
-		"id": "POR",
-		"bandiera": "images/portogallo.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Islanda",
-		"id": "ISL",
-		"bandiera": "images/islanda.png",
-		"fairPlay": 1,
-      	"link" : ""
-	},
-	{
-		"nome": "Russia",
-		"id": "RUS",
-		"bandiera": "images/russia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Costa Rica",
-		"id": "CRC",
-		"bandiera": "images/costa_rica.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Arabia Saudita",
-		"id": "KSA",
-		"bandiera": "images/arabia_saudita.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Svezia",
-		"id": "SWE",
-		"bandiera": "images/svezia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Corea del Sud",
-		"id": "KOR",
-		"bandiera": "images/corea_del_sud.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Marocco",
-		"id": "MAR",
-		"bandiera": "images/marocco.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Iran",
-		"id": "IRN",
-		"bandiera": "images/iran.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Panama",
-		"id": "PAN",
-		"bandiera": "images/panama.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Brasile",
-		"id": "BRA",
-		"bandiera": "images/brazil.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Polonia",
-		"id": "POL",
-		"bandiera": "images/polonia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Francia",
-		"id": "FRA",
-		"bandiera": "images/francia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Nigeria",
-		"id": "NGA",
-		"bandiera": "images/nigeria.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Serbia",
-		"id": "SRB",
-		"bandiera": "images/serbia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Tunisia",
-		"id": "TUN",
-		"bandiera": "images/tunisia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Croazia",
-		"id": "CRO",
-		"bandiera": "images/croatia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Colombia",
-		"id": "COL",
-		"bandiera": "images/colombia.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Argentina",
-		"id": "ARG",
-		"bandiera": "images/argentina.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Uruguay",
-		"id": "URU",
-		"bandiera": "images/uruguay.png",
-		"fairPlay": 0,
-      	"link" : ""
-	},
-	{
-		"nome": "Giappone",
-		"id": "JPN",
-		"bandiera": "images/giappone.png",
+		"nome": "Galles",
+		"id": "WAL",
+		"bandiera": "images/galles.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
 		"nome": "Svizzera",
-		"id": "SUI",
+		"id": "CH",
 		"bandiera": "images/svizzera.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Spagna",
-		"id": "ESP",
-		"bandiera": "images/spagna.png",
+		"nome": "Danimarca",
+		"id": "DAN",
+		"bandiera": "images/danimarca.png",
+		"fairPlay": 1,
+      	"link" : ""
+	},
+	{
+		"nome": "Finlandia",
+		"id": "FIN",
+		"bandiera": "images/finlandia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
@@ -182,37 +49,114 @@
       	"link" : ""
 	},
 	{
-		"nome": "Senegal",
-		"id": "SEN",
-		"bandiera": "images/senegal.png",
+		"nome": "Russia",
+		"id": "RUS",
+		"bandiera": "images/russia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Danimarca",
-		"id": "DEN",
-		"bandiera": "images/danimarca.png",
+		"nome": "Inghilterra",
+		"id": "ENG",
+		"bandiera": "images/inghilterra.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Messico",
-		"id": "MEX",
-		"bandiera": "images/messico.png",
+		"nome": "Croazia",
+		"id": "CRO",
+		"bandiera": "images/croazia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Australia",
+		"nome": "Austria",
 		"id": "AUS",
-		"bandiera": "images/australia.png",
+		"bandiera": "images/austria.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
 	{
-		"nome": "Peru",
-		"id": "PER",
-		"bandiera": "images/peru.png",
+		"nome": "Macedonia del Nord",
+		"id": "MAC",
+		"bandiera": "images/macedonia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Olanda",
+		"id": "NED",
+		"bandiera": "images/olanda.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Ucraina",
+		"id": "UCK",
+		"bandiera": "images/ucraina.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Scozia",
+		"id": "SCO",
+		"bandiera": "images/scozia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Repubblica Ceca",
+		"id": "CEC",
+		"bandiera": "images/repubblica_ceca.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Polonia",
+		"id": "POL",
+		"bandiera": "images/polonia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Slovacchia",
+		"id": "SLO",
+		"bandiera": "images/slovacchia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Spagna",
+		"id": "ESP",
+		"bandiera": "images/spagna.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Svezia",
+		"id": "SVE",
+		"bandiera": "images/svezia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Ungheria",
+		"id": "UNG",
+		"bandiera": "images/ungheria.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Portogallo",
+		"id": "POR",
+		"bandiera": "images/portogallo.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Francia",
+		"id": "FRA",
+		"bandiera": "images/francia.png",
 		"fairPlay": 0,
       	"link" : ""
 	},
