@@ -78,6 +78,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>worldcup</finalName>
+		<finalName>euro2020</finalName>
 	</build>
 </project>
