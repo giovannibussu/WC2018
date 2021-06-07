@@ -1,5 +1,6 @@
 package worldcup.orm.vo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class PronosticoVO {
@@ -8,7 +9,7 @@ public class PronosticoVO {
 	private String idPronostico;
 	private GiocatoreVO giocatore;
 	private TorneoVO torneo;
-	private Set<DatiPartitaVO> datiPartite;
+	private Set<DatiPartitaVO> datiPartite = new HashSet<>();
 	public Long getId() {
 		return id;
 	}

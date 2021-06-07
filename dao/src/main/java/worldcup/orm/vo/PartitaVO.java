@@ -9,6 +9,10 @@ public class PartitaVO {
 	private Date data;
 	private StadioVO stadio;	
 	private String codicePartita;
+	
+	private SquadraVO casa;
+	private SquadraVO trasferta;
+
 	public Long getId() {
 		return id;
 	}
@@ -32,5 +36,17 @@ public class PartitaVO {
 	}
 	public void setCodicePartita(String codicePartita) {
 		this.codicePartita = codicePartita;
+	}
+	public SquadraVO getCasa() {
+		return casa;
+	}
+	public void setCasa(SquadraVO casa) {
+		this.casa = casa;
+	}
+	public SquadraVO getTrasferta() {
+		return trasferta;
+	}
+	public void setTrasferta(SquadraVO trasferta) {
+		this.trasferta = trasferta;
 	}
 }

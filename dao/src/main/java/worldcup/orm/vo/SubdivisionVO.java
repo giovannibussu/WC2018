@@ -1,5 +1,6 @@
 package worldcup.orm.vo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class SubdivisionVO {
@@ -8,8 +9,8 @@ public class SubdivisionVO {
 
 	private Long id;
 
-	private Set<PartitaVO> partite; //= new HashSet<>();
-	private Set<SquadraVO> squadre; //= new HashSet<>();
+	private Set<PartitaVO> partite = new HashSet<>();
+	private Set<SquadraVO> squadre = new HashSet<>();
 	private TIPO tipo;
 	private String nome;
 	

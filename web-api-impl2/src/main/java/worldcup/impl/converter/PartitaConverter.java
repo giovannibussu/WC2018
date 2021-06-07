@@ -7,20 +7,23 @@ import worldcup.model.Partita;
 import worldcup.model.Risultato;
 import worldcup.model.RisultatoPartita;
 import worldcup.orm.vo.DatiPartitaVO;
+import worldcup.orm.vo.PartitaVO;
 
 public class PartitaConverter {
 
-	public static Partita toRsModel(DatiPartitaVO dp) {
+	public static Partita toRsModel(PartitaVO partita, DatiPartitaVO dp) {
 		Partita rsModel = new Partita();
 		
-		rsModel.setCasa(SquadraConverter.toRsModel(dp.getCasa()));
-		rsModel.setData(new DateTime(dp.getPartita().getData()));
-//		rsModel.setDescrizione(dp.getPartita().getDescrizione());
-		rsModel.setIdPartita(dp.getPartita().getCodicePartita());
-		rsModel.setRisultato(toRisultatoPartitaRsModel(dp));
-		rsModel.setStadio(StadioConverter.toRsModel(dp.getPartita().getStadio()));
-		rsModel.setTrasferta(SquadraConverter.toRsModel(dp.getTrasferta()));
+		rsModel.setCasa(SquadraConverter.toRsModel(partita.getCasa()));
+		rsModel.setData(new DateTime(partita.getData()));
+		rsModel.setIdPartita(partita.getCodicePartita());
 		
+		rsModel.setStadio(StadioConverter.toRsModel(partita.getStadio()));
+		rsModel.setTrasferta(SquadraConverter.toRsModel(partita.getTrasferta()));
+
+		if(dp!= null) {
+			rsModel.setRisultato(toRisultatoPartitaRsModel(dp));
+		}
 		return rsModel;
 	}
 	

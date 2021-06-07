@@ -33,12 +33,6 @@
 		
 		<dependency>
 			<groupId>worldcup</groupId>
-			<artifactId>dao</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>worldcup</groupId>
 			<artifactId>web_api</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -53,6 +47,12 @@
 
 	<build>
 		<finalName>api-worldcup</finalName>
+	        <resources>
+                        <resource>
+                                <directory>src/main/resources</directory>
+                        </resource>
+                </resources>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
