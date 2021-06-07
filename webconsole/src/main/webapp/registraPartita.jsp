@@ -9,27 +9,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    
 
-    <title>UEFA EURO 2020 | Registra Partita</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/starter-template.css" rel="stylesheet">
-    
-    <!-- Bootstrap core CSS -->
-    <link href="css/custom.css" rel="stylesheet">
-    
-    <link href="css/partite_google.css" rel="stylesheet">
-    
-     <link href="css/roboto/roboto-fontface.css" rel="stylesheet" type="text/css">
+	<jsp:include page="includes/header.jsp" flush="true">
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Partita" />
+	</jsp:include>
     <%
     String username = request.getParameter("username");
 	String password = request.getParameter("password");
@@ -39,10 +22,7 @@
     
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     boolean login = salvaRisultato.login(username, password); 
-    		
     %>
-    <link rel="icon" href="<%= context %>/euro2020.ico">
-  </head>
 
   <body>
 

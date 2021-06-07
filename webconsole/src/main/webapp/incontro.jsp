@@ -17,29 +17,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>UEFA EURO 2020</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/starter-template.css" rel="stylesheet">
-    
-    <!-- Bootstrap core CSS -->
-    <link href="css/custom.css" rel="stylesheet">
-    
-    <link href="css/partite_google.css" rel="stylesheet">
-    
-    <link href="css/c3.min.css" rel="stylesheet" type="text/css">
-    <link href="css/ChartMap.css" rel="stylesheet" type="text/css">
-    
-    <link href="css/roboto/roboto-fontface.css" rel="stylesheet" type="text/css">
+	<jsp:include page="includes/header.jsp" flush="true">
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Incontro" />
+	</jsp:include>
     <%
     String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
@@ -48,15 +29,11 @@
     List<PronosticoPartita> listaPronosticiMatch = pi.getPronosticiPerMatch(idMatch);
     boolean visualizzaGrafici = true;
     %>
-    <link rel="icon" href="<%= context %>/euro2020.ico">
-    
-    <script>
+  <body>
+  
+   <script>
     	var graficoRisultatiEsatti = '<%= JsonSerializable.serializeToString(pi.distribuzionePronosticiPerMatchRisultatoEsatto(idMatch)) %>';
     </script>
-    
-  </head>
-
-  <body>
 
 	<jsp:include page="includes/navbar.jsp" flush="true"></jsp:include>
 

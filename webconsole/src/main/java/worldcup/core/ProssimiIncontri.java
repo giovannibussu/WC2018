@@ -14,11 +14,8 @@ import worldcup.clients.impl.ApiClient;
 import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.Grafico;
 import worldcup.clients.model.Partita;
-//import worldcup.core.model.Match;
-//import worldcup.core.model.Player;
 import worldcup.clients.model.PronosticoPartita;
-import worldcup.clients.model.TipoDistribuzione;
-import worldcup.core.model.Match; 
+import worldcup.clients.model.TipoDistribuzione; 
 
 public class ProssimiIncontri {
 
