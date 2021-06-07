@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import worldcup.orm.vo.DatiPartitaVO;
-import worldcup.orm.vo.GiocatoreVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.TorneoVO;
 
@@ -16,15 +15,23 @@ public class ClassificaGiocone {
 		
 		Map<Integer, PronosticoVO> map = new HashMap<>();
 		for(PronosticoVO pronostico: torneo.getPronostici()) {
-			RisultatoPronostico risultatoPronostico = getRisultatoPronostico(pronostico, torneo.getPronosticoUfficiale());
 
-			int punti = (risultatoPronostico.getRisultati1x2() * coefficente1x2) +
-					(risultatoPronostico.getRisultati1x2() * coefficenteRisultatiEsatti);
+			int punti = getPuntiPronostico(pronostico, torneo.getPronosticoUfficiale());
 			
 			map.put(punti, pronostico);
 		}
 		
 		return map;
+	}
+
+	public static Integer getPuntiPronostico(PronosticoVO pronostico, PronosticoVO ufficiale) {
+		
+			RisultatoPronostico risultatoPronostico = getRisultatoPronostico(pronostico, ufficiale);
+
+			int punti = (risultatoPronostico.getRisultati1x2() * coefficente1x2) +
+					(risultatoPronostico.getRisultati1x2() * coefficenteRisultatiEsatti);
+			
+		return punti;
 	}
 
 	private static RisultatoPronostico getRisultatoPronostico(PronosticoVO pronostico,

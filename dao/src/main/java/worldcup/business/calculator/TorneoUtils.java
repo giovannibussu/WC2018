@@ -66,9 +66,9 @@ public class TorneoUtils {
 	public static SquadraVO getSquadra(DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
 		if(!isGiocabile(dati)) return null;
 		if(isCasa(casaTrasferta)) {
-			return dati.getCasa();
+			return dati.getPartita().getCasa();
 		} else {
-			return dati.getTrasferta();
+			return dati.getPartita().getTrasferta();
 		}
 	}
 

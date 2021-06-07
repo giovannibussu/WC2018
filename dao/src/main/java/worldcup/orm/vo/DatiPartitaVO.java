@@ -10,18 +10,6 @@ public class DatiPartitaVO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public SquadraVO getCasa() {
-		return casa;
-	}
-	public void setCasa(SquadraVO casa) {
-		this.casa = casa;
-	}
-	public SquadraVO getTrasferta() {
-		return trasferta;
-	}
-	public void setTrasferta(SquadraVO trasferta) {
-		this.trasferta = trasferta;
-	}
 	public Integer getGoalCasa() {
 		return goalCasa;
 	}
@@ -40,8 +28,6 @@ public class DatiPartitaVO {
 	public void setPartita(PartitaVO partita) {
 		this.partita = partita;
 	}
-	private SquadraVO casa;
-	private SquadraVO trasferta;
 	private Integer goalCasa;
 	private Integer goalTrasferta;
 	private PartitaVO partita;

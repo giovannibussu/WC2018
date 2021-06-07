@@ -136,7 +136,7 @@
 			</basic>
 
 			<basic name="tags">
-				<column name="tags" nullable="false"
+				<column name="tags" nullable="true"
 					length="35" />
 			</basic>
 
@@ -162,15 +162,6 @@
 			<basic name="goalTrasferta">
 				<column name="goal_trasferta" nullable="true" />
 			</basic>
-
-
-			<many-to-one name="casa" fetch="LAZY">
-				<join-column name="id_squadra_casa"/>
-			</many-to-one>
-
-			<many-to-one name="trasferta" fetch="LAZY">
-				<join-column name="id_squadra_trasferta"/>
-			</many-to-one>
 
 			<many-to-one name="partita" fetch="LAZY">
 				<join-column name="id_partita"/>
@@ -228,6 +219,15 @@
 			<many-to-one name="stadio" fetch="LAZY">
 				<join-column name="id_stadio"/>
 			</many-to-one>
+
+			<many-to-one name="casa" fetch="LAZY">
+				<join-column name="id_squadra_casa"/>
+			</many-to-one>
+
+			<many-to-one name="trasferta" fetch="LAZY">
+				<join-column name="id_squadra_trasferta"/>
+			</many-to-one>
+
 			
 
 		</attributes>
