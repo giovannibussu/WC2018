@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<entity-mappings
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
+	version="2.2">
+
+	 <persistence-unit-metadata>
+    	<xml-mapping-metadata-complete/>
+  	</persistence-unit-metadata>
+  	
+	<package>worldcup.orm.vo</package>
+
+
+	<entity class="TorneoVO" access="FIELD">
+		<table name="tornei">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_tornei"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_tornei" sequence-name="seq_tornei" />
+			</id>
+			<basic name="nome">
+				<column name="nome" nullable="false"
+					length="35" />
+			</basic>
+
+
+			<one-to-many name="subdivisions" fetch="LAZY">
+				<join-column name="id_torneo"/>
+			</one-to-many>			
+
+			<one-to-one name="pronosticoUfficiale" fetch="LAZY">
+				<join-column name="id_pronostico_ufficiale" />			
+			</one-to-one>			
+
+			<many-to-many name="pronostici" fetch="LAZY">
+				<join-table name="tornei_pronostici">
+					<join-column name="id_torneo"/>
+					<inverse-join-column name="id_pronostico"/>
+				</join-table>
+			</many-to-many>			
+		</attributes>
+	</entity>
+	
+	<entity class="PronosticoVO" access="FIELD">
+		<table name="pronostici">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_pronostici"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_pronostici" sequence-name="seq_pronostici" />
+			</id>
+			
+			<basic name="idPronostico">
+				<column name="id_pronostico" nullable="false"
+					length="35" />
+			</basic>
+
+
+			<many-to-one name="giocatore" fetch="LAZY">
+				<join-column name="id_giocatore"/>
+			</many-to-one>
+			
+			<many-to-one name="torneo" fetch="LAZY">
+				<join-column name="id_torneo"/>
+			</many-to-one>
+			
+			<many-to-many name="datiPartite" fetch="LAZY">
+				<join-table name="dati_partite_pronostici">
+					<join-column name="id_pronostico"/>
+					<inverse-join-column name="id_dati_partita"/>
+				</join-table>
+			</many-to-many>			
+		</attributes>
+	</entity>
+
+	
+	<entity class="SubdivisionVO" access="FIELD">
+		<table name="subdivisions">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_subdivisions"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_subdivisions" sequence-name="seq_subdivisions" />
+			</id>
+			
+			<basic name="nome">
+				<column name="nome" nullable="false"
+					length="35" />
+			</basic>
+
+			<basic name="tipo">
+				<column name="tipo" nullable="false"
+					length="35" />
+					<enumerated>STRING</enumerated>
+			</basic>
+
+			<one-to-many name="partite" fetch="LAZY">
+				<join-column name="id_subdivision"/>
+			</one-to-many>			
+			
+			<many-to-many name="squadre" fetch="LAZY">
+				<join-table name="squadre_subdivisions">
+					<join-column name="id_subdivision"/>
+					<inverse-join-column name="id_squadra"/>
+				</join-table>
+			</many-to-many>			
+		</attributes>
+	</entity>
+
+	<entity class="GiocatoreVO" access="FIELD">
+		<table name="giocatori">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_giocatori"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_giocatori" sequence-name="seq_giocatori" />
+			</id>
+			
+			<basic name="nome">
+				<column name="nome" nullable="false"
+					length="35" />
+			</basic>
+
+			<basic name="tags">
+				<column name="tags" nullable="false"
+					length="35" />
+			</basic>
+
+		</attributes>
+	</entity>
+
+	<entity class="DatiPartitaVO" access="FIELD">
+		<table name="dati_partite">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_dati_partite"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_dati_partite" sequence-name="seq_dati_partite" />
+			</id>
+			
+			<basic name="goalCasa">
+				<column name="goal_casa" nullable="true" />
+			</basic>
+
+			<basic name="goalTrasferta">
+				<column name="goal_trasferta" nullable="true" />
+			</basic>
+
+
+			<many-to-one name="casa" fetch="LAZY">
+				<join-column name="id_squadra_casa"/>
+			</many-to-one>
+
+			<many-to-one name="trasferta" fetch="LAZY">
+				<join-column name="id_squadra_trasferta"/>
+			</many-to-one>
+
+			<many-to-one name="partita" fetch="LAZY">
+				<join-column name="id_partita"/>
+			</many-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="SquadraVO" access="FIELD">
+		<table name="squadre">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_squadre"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_squadre" sequence-name="seq_squadre" />
+			</id>
+			
+			<basic name="nome">
+				<column name="nome" nullable="false" />
+			</basic>
+
+			<basic name="bandiera">
+				<column name="bandiera" nullable="false" />
+			</basic>
+
+			<basic name="rankingFifa">
+				<column name="ranking_fifa" nullable="false" />
+			</basic>
+
+		</attributes>
+	</entity>
+
+	<entity class="PartitaVO" access="FIELD">
+		<table name="partite">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_partite"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_partite" sequence-name="seq_partite" />
+			</id>
+			
+			<basic name="data">
+				<column name="data" nullable="false" />
+			</basic>
+
+			<basic name="codicePartita">
+				<column name="codice_partita" nullable="false" />
+			</basic>
+
+			<many-to-one name="stadio" fetch="LAZY">
+				<join-column name="id_stadio"/>
+			</many-to-one>
+			
+
+		</attributes>
+	</entity>
+
+	<entity class="StadioVO" access="FIELD">
+		<table name="stadi">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_stadi"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_stadi" sequence-name="seq_stadi" />
+			</id>
+			
+			<basic name="nome">
+				<column name="nome" nullable="false" />
+			</basic>
+
+			<basic name="link">
+				<column name="link" nullable="false" />
+			</basic>
+
+			<basic name="citta">
+				<column name="citta" nullable="false" />
+			</basic>
+
+		</attributes>
+	</entity>
+
+</entity-mappings>

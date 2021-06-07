@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%p &lt;%d{dd-MM-yyyy HH:mm:ss.SSS}&gt; %C.%M(%L): %m %n %n</Property>
+	<Property name="APP_LOG_ROOT">/tmp</Property>
+    </Properties>
+    <Appenders>
+<!--         <Console name="Console" target="SYSTEM_OUT" follow="true"> -->
+<!--             <PatternLayout pattern="${LOG_PATTERN}" /> -->
+<!--         </Console> -->
+ 
+        <RollingFile name="hibernate"
+            fileName="${APP_LOG_ROOT}/api-portale_api-monitoraggio_hibernate.log"
+            filePattern="${APP_LOG_ROOT}/api-portale_api-monitoraggio_hibernate.log.%i">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5000KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+ 
+        <RollingFile name="spring"
+            fileName="${APP_LOG_ROOT}/api-portale_api-monitoraggio_spring.log"
+            filePattern="${APP_LOG_ROOT}/api-portale_api-monitoraggio_spring.log.%i">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5000KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+ 
+        <RollingFile name="core"
+            fileName="${APP_LOG_ROOT}/api-portale_api-monitoraggio_core.log"
+            filePattern="${APP_LOG_ROOT}/api-portale_api-monitoraggio_core.log.%i">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5000KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+ 
+        <RollingFile name="servlets"
+            fileName="${APP_LOG_ROOT}/api-portale_api-monitoraggio.log"
+            filePattern="${APP_LOG_ROOT}/api-portale_api-monitoraggio.log.%i">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5000KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+ 
+    </Appenders>
+    <Loggers>
+ 
+        <Logger name="worldcup" level="INFO">
+            <AppenderRef ref="servlets" />
+        </Logger>
+
+        <Logger name="org.springframework" level="ERROR">
+            <AppenderRef ref="spring" />
+        </Logger>
+        
+        <Logger name="org.hibernate.sql" level="ALL">
+            <AppenderRef ref="hibernate" />
+        </Logger>
+        
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="ALL">
+            <AppenderRef ref="hibernate" />
+        </Logger>
+
+        <Logger name="org.hibernate" level="ALL">
+            <AppenderRef ref="hibernate" />
+        </Logger>
+
+        <Root level="debug">
+            <AppenderRef ref="core" />
+        </Root>
+        
+    </Loggers>
+</Configuration>

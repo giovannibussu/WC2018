@@ -1,0 +1,473 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Giocone
+  license:
+    name: MIT
+servers:
+  - url: http://petstore.swagger.io/v1
+paths:
+  /tornei:
+    get:
+      parameters:
+      - name: offset
+        in: query
+        description: limit
+        required: false
+        schema:
+          type: integer
+          format: int32
+      summary: restituisce le info sul torneo
+      operationId: listTornei
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: l'oggetto torneo
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ListaTornei"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}:
+    get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      summary: restituisce le info sul torneo
+      operationId: getTorneo
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: l'oggetto torneo
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Torneo"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/classifica:
+    get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      summary: restituisce la classifica generale
+      operationId: getClassifica
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: l'oggetto classifica
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Classifica"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/pronostici:
+    get:
+      parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      summary: restituisce la lista dei pronostici
+      operationId: getPronostici
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: la lista dei pronostici
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListaPronostici"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/partite:
+    get:
+      parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: offset
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: data_da
+          in: query
+          description: data iniziale
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: data_a
+          in: query
+          description: data finale
+          required: false
+          schema:
+            type: string
+            format: date-time
+      summary: restituisce la lista delle partite filtrate
+      operationId: listPartite
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: la lista delle partite
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListaPartite"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/partite/{id_partita}:
+    parameters:
+      - name: id_torneo
+        in: path
+        description: limit
+        required: true
+        schema:
+          type: string
+      - name: id_partita
+        in: path
+        description: identificativo della partita
+        required: true
+        schema:
+          type: string
+    get:
+      summary: restituisce la partita
+      operationId: getPartita
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: la partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partita"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: aggiorna il risultato della partita
+      operationId: updateRisultatoPartita
+      tags:
+        - Torneo
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RisultatoPartita"
+      responses:
+        '200':
+          description: la partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partita"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/partite/{id_partita}/pronostici:
+    get:
+      parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
+        - name: id_partita
+          in: path
+          description: identificativo della partita
+          required: true
+          schema:
+            type: string
+      summary: restituisce i pronostici relativi alla partita
+      operationId: getPronosticiPartita
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: pronostici per partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListaPronosticiPartita"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/partite/{id_partita}/distribuzione/{tipo}:
+    get:
+      parameters:
+        - name: id_torneo
+          in: path
+          description: limit
+          required: true
+          schema:
+            type: string
+        - name: id_partita
+          in: path
+          description: identificativo della partita
+          required: true
+          schema:
+            type: string
+        - name: tipo
+          in: path
+          description: tipo distribuzione
+          required: true
+          schema:
+            $ref: "#/components/schemas/TipoDistribuzione"
+      summary: restituisce la distribuzione per risultato o risultato esatto su una partita
+      operationId: getDistribuzionePartita
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: distribuzione per partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Grafico"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Classifica:
+      type: array
+      items:
+        $ref: "#/components/schemas/Pronostico"
+    Pronostico:
+      type: object
+      properties:
+        Giocatore:
+          $ref: "#/components/schemas/Giocatore"
+        punti:
+          type: integer
+          format: int32
+        squadra_vincente:
+          $ref: "#/components/schemas/Squadra"
+    ListaPartite:
+      type: array
+      items:
+        $ref: "#/components/schemas/Partita"
+    ListaTornei:
+      type: array
+      items:
+        $ref: "#/components/schemas/Torneo"
+    ListaPronosticiPartita:
+      type: array
+      items:
+        $ref: "#/components/schemas/PronosticoPartita"
+    ListaPronostici:
+      type: array
+      items:
+        $ref: "#/components/schemas/Pronostico"
+    PronosticoPartita:
+      type: object
+      properties:
+        partita:
+          $ref: "#/components/schemas/Partita"
+        pronostico:
+          $ref: "#/components/schemas/PronosticoRisultato"
+        giocatore:
+          $ref: "#/components/schemas/Giocatore"
+    Torneo:
+      type: object
+      properties:
+        id_torneo:
+          type: string
+        nome:
+          type: string
+        regolamento:
+          type: string
+    Giocatore:
+      type: object
+      properties:
+        id_giocatore:
+          type: string
+        nome:
+          type: string
+        link:
+          type: string
+        categoria:
+          type: string
+    PronosticoRisultato:
+      type: object
+      properties:
+        goal_home:
+          type: integer
+          format: int32
+        goal_away:
+          type: integer
+          format: int32
+    Partita:
+      type: object
+      properties:
+        id_partita:
+          type: string
+        descrizione:
+          type: string
+        stadio:
+          $ref: "#/components/schemas/Stadio"
+        casa:
+          $ref: "#/components/schemas/Squadra"
+        trasferta:
+          $ref: "#/components/schemas/Squadra"
+        data:
+          type: string
+          format: date-time
+        risultato:
+          $ref: "#/components/schemas/RisultatoPartita"
+    RisultatoPartita:
+      type: object
+      required: 
+       - goal_casa
+       - goal_trasferta
+      properties:
+        goal_casa:
+          type: integer
+          format: int32
+        goal_trasferta:
+          type: integer
+          format: int32
+        risultato_finale:
+          $ref: "#/components/schemas/Risultato"
+    Risultato:
+      type: string
+      enum:
+        - '1'
+        - '2'
+        - 'X'
+    Stadio:
+      type: object
+      properties:
+        nome:
+          type: string
+        link:
+          type: string
+        citta:
+          type: string
+    Squadra:
+      type: object
+      properties:
+        nome:
+          type: string
+        bandiera:
+          type: string
+    TipoDistribuzione:
+      type: string
+      enum:
+        - 1X2
+        - RISULTATO
+    Grafico:
+      type: object
+      properties:
+        coloriAutomatici:
+          type: boolean
+          default: true
+        xAxisGridLines:
+          type: boolean
+          default: true
+        titolo:
+          type: string
+        sottotitolo:
+          type: string
+        clickItemLegenda:
+          type: boolean
+          default: false
+        valoreRealeTorta:
+          type: boolean
+          default: true
+        colonneLegenda:
+          type: integer
+          format: int32
+          default: 16
+        limiteColonneLegenda:
+          type: integer
+          format: int32
+          default: 16
+        dati:
+          type: array
+          items:
+            $ref: "#/components/schemas/Distribuzione"
+    Distribuzione:
+      type: object
+      properties:
+        nome:
+          type: string
+        tooltip:
+          type: string
+        valore:
+          type: integer
+          format: int32
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
