@@ -60,27 +60,26 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		this.categorieAutorizzate.add("Link");
 	}
 
-	public ResponseEntity<List<Pronostico>> getClassifica(String idTorneo, String categoria) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-		
+	public ResponseEntity<List<Pronostico>> getClassifica(final String idTorneo, String categoria) {
 		try {
 			
-			TorneoVO torneo = torneoBD.findByName(idTorneo);
-			
-			Map<Integer, PronosticoVO> map = ClassificaGiocone.getClassifica(torneo);
-			
-			
-			List<Pronostico> lst = new ArrayList<Pronostico>();
-			
-			map.keySet().stream().sorted(Comparator.reverseOrder()).forEach( k -> {
-			
-				lst.add(PronosticoConverter.toRsModel(map.get(k), k));
+			return this.torneoBD.runTransaction(() -> {
 
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+				
+				Map<Integer, PronosticoVO> map = ClassificaGiocone.getClassifica(torneo);
+				
+				
+				List<Pronostico> lst = new ArrayList<Pronostico>();
+				
+				map.keySet().stream().sorted(Comparator.reverseOrder()).forEach( k -> {
+				
+					lst.add(PronosticoConverter.toRsModel(map.get(k), k));
+	
+				});
+	
+				return ResponseEntity.ok(lst);
 			});
-
-			return ResponseEntity.ok(lst);
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 			throw e;
@@ -109,24 +108,23 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<Partita> getPartita(String idTorneo, String idPartita) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-		
+	public ResponseEntity<Partita> getPartita(final String idTorneo, String idPartita) {
 		try {
-			
-			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-
-			for(SubdivisionVO s: torneo.getSubdivisions()) {
-				for(PartitaVO p: s.getPartite()) {
-					if(p.getCodicePartita().equals(idPartita)) {
-						return ResponseEntity.ok(PartitaConverter.toRsModel(p, null));
+		return this.torneoBD.runTransaction(() -> {
+	
+				
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+	
+				for(SubdivisionVO s: torneo.getSubdivisions()) {
+					for(PartitaVO p: s.getPartite()) {
+						if(p.getCodicePartita().equals(idPartita)) {
+							return ResponseEntity.ok(PartitaConverter.toRsModel(p, null));
+						}
 					}
 				}
-			}
-			
-			throw new BadRequestException("Partita non trovata");
+				
+				throw new BadRequestException("Partita non trovata");
+			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 			throw e;
@@ -210,48 +208,55 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
 		}
 		try {
-			if(dataDa == null) {
-				Calendar nowCal = new GregorianCalendar();
-				nowCal.set(Calendar.HOUR_OF_DAY, 0);
-				nowCal.set(Calendar.MINUTE, 0);
-				dataDa = new DateTime(nowCal.getTime());
-			}
-
-			if(dataA == null) {
-				Calendar nowCal = new GregorianCalendar();
-				nowCal.set(Calendar.HOUR_OF_DAY, 0);
-				nowCal.set(Calendar.MINUTE, 0);
-				nowCal.add(Calendar.DATE, 6);
-				Date tomorrow= nowCal.getTime();
-				dataA = new DateTime(tomorrow.getTime());
-			}
 			
-			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-			List<PartitaVO> matchPerData = new ArrayList<>();
-			
-			final Date datada = dataDa.toDate();
-			final Date dataa = dataA.toDate();
-			for(SubdivisionVO s: torneo.getSubdivisions()) {
-				 matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
-				.collect(Collectors.toList()));
-			}
-			
-			
-			List<Partita> lst = new ArrayList<>();
-		    
-			int rOffset = offset != null ? offset.intValue() : 0;
-			int rLimit = limit != null ? limit: 50;
-		    if(matchPerData != null) {
-		    	for(int i = rOffset; i < rLimit; i++){
-					PartitaVO partitaVO = matchPerData.get(i);
-					DatiPartitaVO dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
-							.filter(p -> p.getPartita().getCodicePartita().equals(partitaVO.getCodicePartita()))
-							.findAny().orElse(null);
-					lst.add(PartitaConverter.toRsModel(partitaVO, dp));
+			final String idTorneo2 = idTorneo;
+			return this.torneoBD.runTransaction(() -> {
+				final Date datada;
+				final Date dataa;
+				if(dataDa == null) {
+					Calendar nowCal = new GregorianCalendar();
+					nowCal.set(Calendar.HOUR_OF_DAY, 0);
+					nowCal.set(Calendar.MINUTE, 0);
+					datada = new DateTime(nowCal.getTime()).toDate();
+				} else {
+					datada = dataDa.toDate();
 				}
-		    }
-		    
-			return ResponseEntity.ok(lst);
+
+				if(dataA == null) {
+					Calendar nowCal = new GregorianCalendar();
+					nowCal.set(Calendar.HOUR_OF_DAY, 0);
+					nowCal.set(Calendar.MINUTE, 0);
+					nowCal.add(Calendar.DATE, 6);
+					Date tomorrow= nowCal.getTime();
+					dataa = new DateTime(tomorrow.getTime()).toDate();
+				} else {
+					dataa = dataA.toDate();
+				}
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo2);
+				List<PartitaVO> matchPerData = new ArrayList<>();
+				
+				for(SubdivisionVO s: torneo.getSubdivisions()) {
+					 matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
+					.collect(Collectors.toList()));
+				}
+				
+				
+				List<Partita> lst = new ArrayList<>();
+			    
+				int rOffset = offset != null ? offset.intValue() : 0;
+				int rLimit = limit != null ? limit: 50;
+			    if(matchPerData != null) {
+			    	for(int i = rOffset; i < rLimit && i < matchPerData.size(); i++){
+						PartitaVO partitaVO = matchPerData.get(i);
+						DatiPartitaVO dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
+								.filter(p -> p.getPartita().getCodicePartita().equals(partitaVO.getCodicePartita()))
+								.findAny().orElse(null);
+						lst.add(PartitaConverter.toRsModel(partitaVO, dp));
+					}
+			    }
+			    
+				return ResponseEntity.ok(lst);
+			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 			throw e;

@@ -13,6 +13,7 @@ public class SubdivisionVO {
 	private Set<SquadraVO> squadre = new HashSet<>();
 	private TIPO tipo;
 	private String nome;
+	private TorneoVO torneo;
 	
 	public Set<PartitaVO> getPartite() {
 		return partite;
@@ -52,5 +53,13 @@ public class SubdivisionVO {
 
 	public void setSquadre(Set<SquadraVO> squadre) {
 		this.squadre = squadre;
+	}
+
+	public TorneoVO getTorneo() {
+		return torneo;
+	}
+
+	public void setTorneo(TorneoVO torneo) {
+		this.torneo = torneo;
 	}
 }

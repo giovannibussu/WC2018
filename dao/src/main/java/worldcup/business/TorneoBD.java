@@ -8,6 +8,7 @@ import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SquadraVO;
 import worldcup.orm.vo.StadioVO;
+import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
 
 @Service
@@ -54,5 +55,9 @@ public class TorneoBD extends AbstractBD {
 
 	public void create(StadioVO stadio1) {
 		this.stadioRepository.save(stadio1);
+	}
+
+	public void create(SubdivisionVO girone) {
+		this.subdivisionRepository.save(girone);
 	}
 }

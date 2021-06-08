@@ -105,6 +105,10 @@
 					<enumerated>STRING</enumerated>
 			</basic>
 
+			<many-to-one name="torneo" fetch="LAZY">
+				<join-column name="id_torneo"/>
+			</many-to-one>
+
 			<one-to-many name="partite" fetch="LAZY">
 				<join-column name="id_subdivision"/>
 			</one-to-many>			
@@ -226,6 +230,10 @@
 
 			<many-to-one name="trasferta" fetch="LAZY">
 				<join-column name="id_squadra_trasferta"/>
+			</many-to-one>
+
+			<many-to-one name="subdivision" fetch="LAZY">
+				<join-column name="id_subdivision"/>
 			</many-to-one>
 
 			
