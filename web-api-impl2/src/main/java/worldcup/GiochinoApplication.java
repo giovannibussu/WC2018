@@ -103,143 +103,144 @@ public class GiochinoApplication {
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;		  
 	}
-	
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-        return builder -> {
-            builder.simpleDateFormat(datetimePattern);
-            builder.serializers(new LocalDateSerializer(java.time.format.DateTimeFormatter.ofPattern(datePattern)));
-            builder.serializers(new LocalDateTimeSerializer(java.time.format.DateTimeFormatter.ofPattern(datetimePattern)));
-        };
-    }
+
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+		return builder -> {
+			builder.simpleDateFormat(datetimePattern);
+			builder.serializers(new LocalDateSerializer(java.time.format.DateTimeFormatter.ofPattern(datePattern)));
+			builder.serializers(new LocalDateTimeSerializer(java.time.format.DateTimeFormatter.ofPattern(datetimePattern)));
+		};
+	}
 
 
 
-//	@Bean
+	@Bean
 	public String initDB(TorneoBD torneoBD) throws IOException {
 
-//		if(!torneoBD.existsByName("EURO2021")) {
-		torneoBD.runTransaction(() -> {
-			TorneoVO torneo = new TorneoVO();
+		if(!torneoBD.existsByName("EURO2021")) {
+			torneoBD.runTransaction(() -> {
+				TorneoVO torneo = new TorneoVO();
 
-			torneo.setNome("EURO2021");
+				torneo.setNome("EURO2021");
 
-            InputStream is = GiochinoApplication.class.getResourceAsStream("/gironiEuro2020.csv");
+				InputStream is = GiochinoApplication.class.getResourceAsStream("/gironiEuro2020.csv");
 
-            String gironi;
-			try {
-				gironi = new String(is.readAllBytes());
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+				String gironi;
+				try {
+					gironi = new String(is.readAllBytes());
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 
-            String[] gironiLines = gironi.split("\n");
-            Map<String, SubdivisionVO> gironiMap = new HashMap<>();
-            
-            Map<String, SquadraVO> squadre = new HashMap<>();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.hh:mm");
+				String[] gironiLines = gironi.split("\n");
+				Map<String, SubdivisionVO> gironiMap = new HashMap<>();
 
-            for(String partita: gironiLines) {
-                    String[] partitaFields = partita.split(";");
+				Map<String, SquadraVO> squadre = new HashMap<>();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.hh:mm");
 
-                    String dataKey = partitaFields[2];
-                    String gironeKey = partitaFields[1];
-                    String codicePartita = partitaFields[0];
-                    String nomeSquadraCasa = partitaFields[3];
-                    String nomeSquadraTrasferta = partitaFields[4];
+				for(String partita: gironiLines) {
+					String[] partitaFields = partita.split(";");
 
-                    SubdivisionVO girone = null;
-                    if(!gironiMap.containsKey(gironeKey)) {
-                            girone = new SubdivisionVO();
-                            girone.setNome(gironeKey);
-                            girone.setTipo(TIPO.GIRONE);
-                            gironiMap.put(gironeKey, girone);
-                    } else {
-                            girone = gironiMap.get(gironeKey);
-                    }
+					String dataKey = partitaFields[2];
+					String gironeKey = partitaFields[1];
+					String codicePartita = partitaFields[0];
+					String nomeSquadraCasa = partitaFields[3];
+					String nomeSquadraTrasferta = partitaFields[4];
+
+					SubdivisionVO girone = null;
+					if(!gironiMap.containsKey(gironeKey)) {
+						girone = new SubdivisionVO();
+						girone.setNome(gironeKey);
+						girone.setTipo(TIPO.GIRONE);
+						gironiMap.put(gironeKey, girone);
+					} else {
+						girone = gironiMap.get(gironeKey);
+					}
 
 
-                    PartitaVO partitaVO = new PartitaVO();
-                    partitaVO.setCodicePartita(codicePartita);
-                    
-                    if(squadre.containsKey(nomeSquadraCasa)) {
-                        partitaVO.setCasa(squadre.get(nomeSquadraCasa));
-                    } else {
-                        SquadraVO squadraCasa = new SquadraVO();
-                        squadraCasa.setNome(nomeSquadraCasa);
-                        squadraCasa.setBandiera("BANDIERA"); //TODO
-                        squadraCasa.setRankingFifa(0); //TODO
-                        partitaVO.setCasa(squadraCasa);
-            			torneoBD.create(squadraCasa);
-            			
-            			squadre.put(nomeSquadraCasa, squadraCasa);
-            			
-                    }
-                    
-                    if(squadre.containsKey(nomeSquadraTrasferta)) {
-                        partitaVO.setTrasferta(squadre.get(nomeSquadraTrasferta));
-                    } else {
-                        SquadraVO squadraTrasferta = new SquadraVO();
-                        squadraTrasferta.setNome(nomeSquadraTrasferta);
-                        squadraTrasferta.setBandiera("BANDIERA"); //TODO
-                        squadraTrasferta.setRankingFifa(0); //TODO
-                        partitaVO.setTrasferta(squadraTrasferta);
-            			torneoBD.create(squadraTrasferta);
-            			squadre.put(nomeSquadraTrasferta, squadraTrasferta);
-                    }
-                    
-                    try {
+					PartitaVO partitaVO = new PartitaVO();
+					partitaVO.setCodicePartita(codicePartita);
+
+					if(squadre.containsKey(nomeSquadraCasa)) {
+						partitaVO.setCasa(squadre.get(nomeSquadraCasa));
+					} else {
+						SquadraVO squadraCasa = new SquadraVO();
+						squadraCasa.setNome(nomeSquadraCasa);
+						squadraCasa.setBandiera("BANDIERA"); //TODO
+						squadraCasa.setRankingFifa(0); //TODO
+						partitaVO.setCasa(squadraCasa);
+						torneoBD.create(squadraCasa);
+
+						squadre.put(nomeSquadraCasa, squadraCasa);
+
+					}
+
+					if(squadre.containsKey(nomeSquadraTrasferta)) {
+						partitaVO.setTrasferta(squadre.get(nomeSquadraTrasferta));
+					} else {
+						SquadraVO squadraTrasferta = new SquadraVO();
+						squadraTrasferta.setNome(nomeSquadraTrasferta);
+						squadraTrasferta.setBandiera("BANDIERA"); //TODO
+						squadraTrasferta.setRankingFifa(0); //TODO
+						partitaVO.setTrasferta(squadraTrasferta);
+						torneoBD.create(squadraTrasferta);
+						squadre.put(nomeSquadraTrasferta, squadraTrasferta);
+					}
+
+					try {
 						partitaVO.setData(sdf.parse(dataKey));
 					} catch (ParseException e) {
 						System.err.println(e.getMessage());
 						e.printStackTrace(System.err);
 						partitaVO.setData(new Date());
 					}
-                    StadioVO stadio1 = new StadioVO(); //TODO
-                    stadio1.setCitta("ROMA");
-                    stadio1.setNome("NOME");
-                    stadio1.setLink("http://");
+					StadioVO stadio1 = new StadioVO(); //TODO
+					stadio1.setCitta("ROMA");
+					stadio1.setNome("NOME");
+					stadio1.setLink("http://");
 
-        			torneoBD.create(stadio1);
+					torneoBD.create(stadio1);
 
-                    partitaVO.setStadio(stadio1);
-                    girone.getPartite().add(partitaVO);
-                    
-                    partitaVO.setSubdivision(girone);
-            }
+					partitaVO.setStadio(stadio1);
+					girone.getPartite().add(partitaVO);
 
-			PronosticoVO pronosticoUfficiale = new PronosticoVO();
-			GiocatoreVO giocatore = new GiocatoreVO();
-			giocatore.setNome("UFFICIALE");
-			
-			pronosticoUfficiale.setGiocatore(giocatore);
-			pronosticoUfficiale.setIdPronostico("ufficiale");
-			
-			torneo.setPronosticoUfficiale(pronosticoUfficiale);
-			
-			torneoBD.create(giocatore);
-			torneoBD.create(pronosticoUfficiale);
-			torneoBD.create(torneo);
-			
-			for(SubdivisionVO girone: gironiMap.values()) {
-                Map<String, SquadraVO> squadreGirone = new HashMap<>();
-                for(PartitaVO p: girone.getPartite()) {
-                        squadreGirone.put(p.getCasa().getNome(), p.getCasa());
-                        squadreGirone.put(p.getTrasferta().getNome(), p.getTrasferta());
-                }
+					partitaVO.setSubdivision(girone);
+				}
 
-                girone.setSquadre(squadreGirone.values().stream().collect(Collectors.toSet()));
-                
-                for(PartitaVO p: girone.getPartite()) {
-                	torneoBD.create(p);
-                }
-                girone.setTorneo(torneo);
-                torneoBD.create(girone);
-        }
+				PronosticoVO pronosticoUfficiale = new PronosticoVO();
+				GiocatoreVO giocatore = new GiocatoreVO();
+				giocatore.setNome("UFFICIALE");
 
-		});
+				pronosticoUfficiale.setGiocatore(giocatore);
+				pronosticoUfficiale.setIdPronostico("ufficiale");
+
+				torneo.setPronosticoUfficiale(pronosticoUfficiale);
+
+				torneoBD.create(giocatore);
+				torneoBD.create(pronosticoUfficiale);
+				torneoBD.create(torneo);
+
+				for(SubdivisionVO girone: gironiMap.values()) {
+					Map<String, SquadraVO> squadreGirone = new HashMap<>();
+					for(PartitaVO p: girone.getPartite()) {
+						squadreGirone.put(p.getCasa().getNome(), p.getCasa());
+						squadreGirone.put(p.getTrasferta().getNome(), p.getTrasferta());
+					}
+
+					girone.setSquadre(squadreGirone.values().stream().collect(Collectors.toSet()));
+
+					for(PartitaVO p: girone.getPartite()) {
+						torneoBD.create(p);
+					}
+					girone.setTorneo(torneo);
+					torneoBD.create(girone);
+				}
+
+			});
+		}
 		return "";
 	}
-	
-	
+
+
 }

@@ -74,6 +74,10 @@
 				<join-column name="id_torneo"/>
 			</many-to-one>
 			
+			<many-to-one name="vincente" fetch="LAZY">
+				<join-column name="id_squadra_vincente"/>
+			</many-to-one>
+			
 			<one-to-many name="datiPartite" fetch="LAZY">
 				<join-column name="id_pronostico"/>
 			</one-to-many>			
