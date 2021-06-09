@@ -1,7 +1,10 @@
 package worldcup.business;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
+import worldcup.dao.filters.GiocatoreFilter;
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.GiocatoreVO;
 import worldcup.orm.vo.PartitaVO;
@@ -27,10 +30,6 @@ public class TorneoBD extends AbstractBD {
 		}
 	}
 	
-	public void updateRisultatoPartita(TorneoVO torneo, DatiPartitaVO dpVO) {
-		this.partitaRepository.save(dpVO.getPartita());
-	}
-
 	public void create(TorneoVO torneo) {
 		this.torneoRepository.save(torneo);
 	}
@@ -59,5 +58,21 @@ public class TorneoBD extends AbstractBD {
 
 	public void create(SubdivisionVO girone) {
 		this.subdivisionRepository.save(girone);
+	}
+
+	public GiocatoreVO getGiocatore(String idGiocatore) {
+		GiocatoreFilter gf = new GiocatoreFilter();
+		gf.setNome(Optional.of(idGiocatore));
+		Optional<GiocatoreVO> findOne = this.giocatoreRepository.findOne(gf);
+		
+		if(findOne.isPresent()) {
+			return findOne.get();
+		} else {
+			GiocatoreVO giocatore = new GiocatoreVO();
+			giocatore.setNome(idGiocatore);
+			this.giocatoreRepository.save(giocatore);
+			
+			return giocatore;
+		}
 	}
 }

@@ -21,7 +21,7 @@ public class ClassificaGenerale {
 		client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
 		this.torneoApi = new TorneoApi(client);
 		
-		this.idTorneo = "idTorneo"; //TODO properties
+		this.idTorneo = "EURO2021"; //TODO properties
 	}
 
 	public List<Pronostico> getClassificaGenerale(String categoria) {

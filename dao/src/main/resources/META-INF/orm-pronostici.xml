@@ -37,12 +37,10 @@
 				<join-column name="id_pronostico_ufficiale" />			
 			</one-to-one>			
 
-			<many-to-many name="pronostici" fetch="LAZY">
-				<join-table name="tornei_pronostici">
-					<join-column name="id_torneo"/>
-					<inverse-join-column name="id_pronostico"/>
-				</join-table>
-			</many-to-many>			
+			<one-to-many name="pronostici" fetch="LAZY">
+				<join-column name="id_torneo"/>
+			</one-to-many>			
+
 		</attributes>
 	</entity>
 	
@@ -63,6 +61,10 @@
 					length="35" />
 			</basic>
 
+			<basic name="pronosticoOriginale">
+				<column name="pronostico_originale" />
+			</basic>
+
 
 			<many-to-one name="giocatore" fetch="LAZY">
 				<join-column name="id_giocatore"/>
@@ -72,12 +74,10 @@
 				<join-column name="id_torneo"/>
 			</many-to-one>
 			
-			<many-to-many name="datiPartite" fetch="LAZY">
-				<join-table name="dati_partite_pronostici">
-					<join-column name="id_pronostico"/>
-					<inverse-join-column name="id_dati_partita"/>
-				</join-table>
-			</many-to-many>			
+			<one-to-many name="datiPartite" fetch="LAZY">
+				<join-column name="id_pronostico"/>
+			</one-to-many>			
+			
 		</attributes>
 	</entity>
 
@@ -160,16 +160,21 @@
 			</id>
 			
 			<basic name="goalCasa">
-				<column name="goal_casa" nullable="true" />
+				<column name="goal_casa" nullable="false" />
 			</basic>
 
 			<basic name="goalTrasferta">
-				<column name="goal_trasferta" nullable="true" />
+				<column name="goal_trasferta" nullable="false" />
 			</basic>
 
-			<many-to-one name="partita" fetch="LAZY">
-				<join-column name="id_partita"/>
+			<basic name="codicePartita">
+				<column name="codice_partita" nullable="false" />
+			</basic>
+
+			<many-to-one name="pronostico" fetch="LAZY">
+				<join-column name="id_pronostico"/>
 			</many-to-one>
+
 		</attributes>
 	</entity>
 

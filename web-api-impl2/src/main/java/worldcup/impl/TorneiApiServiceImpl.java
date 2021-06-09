@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,7 @@ import worldcup.InternalException;
 import worldcup.api.TorneiApi;
 import worldcup.business.TorneoBD;
 import worldcup.business.calculator.ClassificaGiocone;
+import worldcup.business.calculator.TorneoUtils;
 import worldcup.impl.converter.PartitaConverter;
 import worldcup.impl.converter.PronosticoConverter;
 import worldcup.impl.converter.PronosticoPartitaConverter;
@@ -37,6 +39,7 @@ import worldcup.model.RisultatoPartita;
 import worldcup.model.TipoDistribuzione;
 import worldcup.model.Torneo;
 import worldcup.orm.vo.DatiPartitaVO;
+import worldcup.orm.vo.GiocatoreVO;
 import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SubdivisionVO;
@@ -48,10 +51,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	private Logger logger = LoggerFactory.getLogger(TorneiApiServiceImpl.class);
 
 	private List<String> categorieAutorizzate = null;
-	
+
 	@Autowired
 	private HttpServletRequest request;
-	
+
 	@Autowired
 	private TorneoBD torneoBD;
 
@@ -62,22 +65,22 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	public ResponseEntity<List<Pronostico>> getClassifica(final String idTorneo, String categoria) {
 		try {
-			
+
 			return this.torneoBD.runTransaction(() -> {
 
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-				
+
 				Map<Integer, PronosticoVO> map = ClassificaGiocone.getClassifica(torneo);
-				
-				
+
+
 				List<Pronostico> lst = new ArrayList<Pronostico>();
-				
+
 				map.keySet().stream().sorted(Comparator.reverseOrder()).forEach( k -> {
-				
+
 					lst.add(PronosticoConverter.toRsModel(map.get(k), k));
-	
+
 				});
-	
+
 				return ResponseEntity.ok(lst);
 			});
 		} catch(RuntimeException e) {
@@ -94,9 +97,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		if(idTorneo == null) {
 			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
 		}
-		
+
 		try {
-			
+
 			return ResponseEntity.unprocessableEntity().build(); //TODO
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
@@ -110,11 +113,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	public ResponseEntity<Partita> getPartita(final String idTorneo, String idPartita) {
 		try {
-		return this.torneoBD.runTransaction(() -> {
-	
-				
+			return this.torneoBD.runTransaction(() -> {
+
+
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-	
+
 				for(SubdivisionVO s: torneo.getSubdivisions()) {
 					for(PartitaVO p: s.getPartite()) {
 						if(p.getCodicePartita().equals(idPartita)) {
@@ -122,7 +125,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 						}
 					}
 				}
-				
+
 				throw new BadRequestException("Partita non trovata");
 			});
 		} catch(RuntimeException e) {
@@ -135,19 +138,43 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<Pronostico>> getPronostici(String idTorneo) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-		
+	public ResponseEntity<List<Pronostico>> getPronostici(final String idTorneo) {
+		return this.torneoBD.runTransaction(() -> {
+
+			try {
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+
+				List<Pronostico> lst = new ArrayList<>();
+				for(PronosticoVO p : torneo.getPronostici()) {
+					lst.add(PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p, torneo.getPronosticoUfficiale())));
+				}
+
+				return ResponseEntity.ok(lst);
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
+	}
+
+
+	public ResponseEntity<List<PronosticoPartita>> getPronosticiPartita(String idTorneo, String idPartita) {
 		try {
+
 			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
-		    List<Pronostico> lst = new ArrayList<>();
+			List<PronosticoPartita> lst = new ArrayList<>();
 			for(PronosticoVO p : torneo.getPronostici()) {
-				lst.add(PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p, torneo.getPronosticoUfficiale())));
+
+				DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
+				PartitaVO partita = findPartita(idPartita, torneo);
+				lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore()));
 			}
-		    
+
 			return ResponseEntity.ok(lst);
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
@@ -159,37 +186,19 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<PronosticoPartita>> getPronosticiPartita(String idTorneo, String idPartita) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-		
-		try {
-			
-			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-
-		    List<PronosticoPartita> lst = new ArrayList<>();
-			for(PronosticoVO p : torneo.getPronostici()) {
-	    		
-				DatiPartitaVO dp = p.getDatiPartite().stream().filter(pa -> pa.getPartita().getCodicePartita().equals(idPartita)).findAny().orElseThrow(() -> new BadRequestException("Partita non trovata"));
-				lst.add(PronosticoPartitaConverter.toRsModel(dp .getPartita(), dp, p.getGiocatore()));
+	private PartitaVO findPartita(String idPartita, TorneoVO torneo) {
+		for(SubdivisionVO s: torneo.getSubdivisions()) {
+			for(PartitaVO p: s.getPartite()) {
+				if(p.getCodicePartita().equals(idPartita)) {
+					return p;
+				}
 			}
-		    
-			return ResponseEntity.ok(lst);
-		} catch(RuntimeException e) {
-			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
-			throw e;
 		}
-		catch(Throwable e) {
-			this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
-			throw new InternalException(e);
-		}
+
+		throw new BadRequestException("Partita non trovata");
 	}
 
 	public ResponseEntity<Torneo> getTorneo(String idTorneo) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
 		try {
 			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 			return ResponseEntity.ok(TorneoConverter.getTorneo(torneo));
@@ -204,11 +213,8 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	}
 
 	public ResponseEntity<List<Partita>> listPartite(String idTorneo, Integer limit, Long offset, DateTime dataDa,	DateTime dataA) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
 		try {
-			
+
 			final String idTorneo2 = idTorneo;
 			return this.torneoBD.runTransaction(() -> {
 				final Date datada;
@@ -234,27 +240,27 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				}
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo2);
 				List<PartitaVO> matchPerData = new ArrayList<>();
-				
+
 				for(SubdivisionVO s: torneo.getSubdivisions()) {
-					 matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
-					.collect(Collectors.toList()));
+					matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
+							.collect(Collectors.toList()));
 				}
-				
-				
+
+
 				List<Partita> lst = new ArrayList<>();
-			    
+
 				int rOffset = offset != null ? offset.intValue() : 0;
 				int rLimit = limit != null ? limit: 50;
-			    if(matchPerData != null) {
-			    	for(int i = rOffset; i < rLimit && i < matchPerData.size(); i++){
+				if(matchPerData != null) {
+					for(int i = rOffset; i < rLimit && i < matchPerData.size(); i++){
 						PartitaVO partitaVO = matchPerData.get(i);
 						DatiPartitaVO dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
-								.filter(p -> p.getPartita().getCodicePartita().equals(partitaVO.getCodicePartita()))
+								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()))
 								.findAny().orElse(null);
 						lst.add(PartitaConverter.toRsModel(partitaVO, dp));
 					}
-			    }
-			    
+				}
+
 				return ResponseEntity.ok(lst);
 			});
 		} catch(RuntimeException e) {
@@ -280,34 +286,71 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<Partita> updateRisultatoPartita(String idTorneo, String idPartita, RisultatoPartita risultatoPartita) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-		try {
-			TorneoAuthorizationManager.autorizza(this.logger, this.request);
-			
-			TorneoVO torneo = torneoBD.findByName(idTorneo);
-			
-			final String codPartita = idPartita;
-			DatiPartitaVO dpVO = torneo.getPronosticoUfficiale().getDatiPartite().stream().filter(dp -> {return dp.getPartita().getCodicePartita().equals(codPartita);})
-					.findAny().orElseThrow(() -> new RuntimeException("Partita non trovata"));
+	public ResponseEntity<Partita> updateRisultatoPartita(final String idTorneo, final String idPartita, RisultatoPartita risultatoPartita) {
+		return this.torneoBD.runTransaction(() -> {
+			try {
+				TorneoAuthorizationManager.autorizza(this.logger, this.request);
 
-			dpVO.setGoalCasa(risultatoPartita.getGoalCasa());
+				return this.torneoBD.runTransaction(() -> {
+					TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
-			dpVO.setGoalTrasferta(risultatoPartita.getGoalTrasferta());
-			
-			this.torneoBD.save(dpVO);
-			Partita rsModel = PartitaConverter.toRsModel(dpVO.getPartita(),dpVO);
-			
-			return ResponseEntity.ok(rsModel);
-		} catch(RuntimeException e) {
-			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
-			throw e;
-		}
-		catch(Throwable e) {
-			this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
-			throw new InternalException(e);
-		}
+					DatiPartitaVO dpVO = TorneoUtils.getOptDatiPartita(idPartita, torneo.getPronosticoUfficiale()).orElseGet(() -> {
+						DatiPartitaVO dp = new DatiPartitaVO();	
+						dp.setCodicePartita(idPartita);
+						dp.setPronostico(torneo.getPronosticoUfficiale());
+						return dp;
+					}); 
+
+					dpVO.setGoalCasa(risultatoPartita.getGoalCasa());
+
+					dpVO.setGoalTrasferta(risultatoPartita.getGoalTrasferta());
+
+					this.torneoBD.save(dpVO);
+
+					PartitaVO partita = findPartita(idPartita, torneo);
+
+					Partita rsModel = PartitaConverter.toRsModel(partita,dpVO);
+
+					return ResponseEntity.ok(rsModel);
+				});
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
+	}
+
+	@Override
+	public ResponseEntity<Pronostico> postPronostico(final String idTorneo, final String idGiocatore, Resource body) {
+		return this.torneoBD.runTransaction(() -> {
+			try {
+				TorneoAuthorizationManager.autorizza(this.logger, this.request);
+
+
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+
+				GiocatoreVO giocatore = this.torneoBD.getGiocatore(idGiocatore);
+				PronosticoVO p = PronosticoConverter.toPronosticoVO(torneo, giocatore, body);
+
+				for(DatiPartitaVO dp: p.getDatiPartite()) {
+					this.torneoBD.save(dp);
+				}
+				this.torneoBD.create(p);
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p, torneo.getPronosticoUfficiale()));
+
+				return ResponseEntity.ok(rsModel);
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
 	}
 }

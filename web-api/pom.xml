@@ -132,12 +132,6 @@
 			<artifactId>log4j-1.2-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>worldcup</groupId>
-			<artifactId>dao</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
 	</dependencies>
 
 	<build>

@@ -27,6 +27,7 @@ public class PartitaConverter {
 	}
 	
 	public static RisultatoPartita toRsModel(MatchResult dto) {
+		if(dto == null) return null;
 		RisultatoPartita rsModel = new RisultatoPartita();
 		
 		rsModel.setGoalCasa(dto.getGoalsHome());

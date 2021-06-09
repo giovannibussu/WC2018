@@ -101,7 +101,7 @@ public class GiochinoApplication {
 	}
 
 
-	@Bean
+//	@Bean
 	public String initDB(TorneoBD torneoBD) throws IOException {
 
 //		if(!torneoBD.existsByName("EURO2021")) {
