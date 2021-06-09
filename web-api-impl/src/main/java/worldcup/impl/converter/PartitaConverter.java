@@ -16,7 +16,7 @@ public class PartitaConverter {
 		Partita rsModel = new Partita();
 		
 		rsModel.setCasa(SquadraConverter.toRsModel(dto.getHome()));
-		rsModel.setData(new DateTime(dto.getDataMatch()));
+//		rsModel.setData(new DateTime(dto.getDataMatch()));
 		rsModel.setDescrizione(dto.getDescrizione());
 		rsModel.setIdPartita(dto.getMatchId());
 		rsModel.setRisultato(toRsModel(dto.getResult()));

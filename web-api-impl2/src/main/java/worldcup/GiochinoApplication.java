@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.Formatter;
@@ -26,6 +27,9 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import worldcup.business.TorneoBD;
 import worldcup.orm.vo.GiocatoreVO;
@@ -99,6 +103,16 @@ public class GiochinoApplication {
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;		  
 	}
+	
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+        return builder -> {
+            builder.simpleDateFormat(datetimePattern);
+            builder.serializers(new LocalDateSerializer(java.time.format.DateTimeFormatter.ofPattern(datePattern)));
+            builder.serializers(new LocalDateTimeSerializer(java.time.format.DateTimeFormatter.ofPattern(datetimePattern)));
+        };
+    }
+
 
 
 //	@Bean

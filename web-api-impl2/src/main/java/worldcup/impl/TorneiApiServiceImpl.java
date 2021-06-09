@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.format.Formatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,6 +58,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	@Autowired
 	private TorneoBD torneoBD;
+
+	@Autowired
+	private Formatter<DateTime> formatter;
+	
 
 	public TorneiApiServiceImpl() {
 		this.categorieAutorizzate = new ArrayList<>();
@@ -121,7 +126,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				for(SubdivisionVO s: torneo.getSubdivisions()) {
 					for(PartitaVO p: s.getPartite()) {
 						if(p.getCodicePartita().equals(idPartita)) {
-							return ResponseEntity.ok(PartitaConverter.toRsModel(p, null));
+							return ResponseEntity.ok(PartitaConverter.toRsModel(p, null, formatter));
 						}
 					}
 				}
@@ -172,7 +177,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
 				PartitaVO partita = findPartita(idPartita, torneo);
-				lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore()));
+				lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
 			}
 
 			return ResponseEntity.ok(lst);
@@ -257,7 +262,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 						DatiPartitaVO dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
 								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()))
 								.findAny().orElse(null);
-						lst.add(PartitaConverter.toRsModel(partitaVO, dp));
+						lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
 					}
 				}
 
@@ -309,7 +314,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					PartitaVO partita = findPartita(idPartita, torneo);
 
-					Partita rsModel = PartitaConverter.toRsModel(partita,dpVO);
+					Partita rsModel = PartitaConverter.toRsModel(partita,dpVO, formatter);
 
 					return ResponseEntity.ok(rsModel);
 				});
