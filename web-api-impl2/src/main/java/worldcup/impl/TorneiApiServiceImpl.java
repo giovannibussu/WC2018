@@ -25,13 +25,14 @@ import worldcup.InternalException;
 import worldcup.api.TorneiApi;
 import worldcup.business.TorneoBD;
 import worldcup.business.calculator.ClassificaGiocone;
+import worldcup.business.calculator.Distribuzione;
 import worldcup.business.calculator.TorneoUtils;
+import worldcup.impl.converter.GraficoConverter;
 import worldcup.impl.converter.PartitaConverter;
 import worldcup.impl.converter.PronosticoConverter;
 import worldcup.impl.converter.PronosticoPartitaConverter;
 import worldcup.impl.converter.TorneoConverter;
 import worldcup.impl.utils.TorneoAuthorizationManager;
-import worldcup.impl.utils.TorneoConfig;
 import worldcup.model.Grafico;
 import worldcup.model.Partita;
 import worldcup.model.Pronostico;
@@ -80,7 +81,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				List<Pronostico> lst = new ArrayList<Pronostico>();
 
-				map.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				map.entrySet().stream()
+				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				.filter(e -> categoria == null || categoria.equals(e.getKey().getGiocatore().getTags()))
 				.forEach( k -> {
 
 					lst.add(PronosticoConverter.toRsModel(k.getKey(), k.getValue()));
@@ -99,14 +102,14 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<Grafico> getDistribuzionePartita(String idTorneo, String idPartita, TipoDistribuzione tipo) {
-		if(idTorneo == null) {
-			idTorneo = TorneoConfig.ID_TORNEO_DEFAULT;
-		}
-
+	public ResponseEntity<Grafico> getDistribuzionePartita(final String idTorneo, String idPartita, TipoDistribuzione tipo) {
 		try {
 
-			return ResponseEntity.unprocessableEntity().build(); //TODO
+			return this.torneoBD.runTransaction(() -> {
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+				List<Distribuzione> distr = TorneoUtils.getDistribuzione(torneo, idPartita, tipo.equals(TipoDistribuzione._1X2));
+				return ResponseEntity.ok(GraficoConverter.toRsModelGrafico(distr));
+			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 			throw e;

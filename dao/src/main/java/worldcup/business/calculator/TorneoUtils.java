@@ -1,9 +1,14 @@
 package worldcup.business.calculator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.PronosticoVO;
+import worldcup.orm.vo.TorneoVO;
 
 public class TorneoUtils {
 
@@ -86,6 +91,42 @@ public class TorneoUtils {
 		if(goal1 == goal2) return 1;
 		if(goal1 > goal2) return 3;
 		return 0;
-		
 	}
+
+	public static List<Distribuzione> getDistribuzione(TorneoVO torneo, String idPartita, boolean distr1x2) {
+		List<Distribuzione> distr = new ArrayList<>();
+		
+		Map<String, List<String>> mappaNomi = new HashMap<>();
+		for(PronosticoVO p: torneo.getPronostici()) {
+			
+			String key = null;
+			if(distr1x2) {
+				key = getRisultato1x2(getDatiPartita(idPartita, p));
+			} else {
+				key = getRisultatoEsatto(getDatiPartita(idPartita, p));
+			}
+			if(!mappaNomi.containsKey(key)) {
+				List<String> lst = new ArrayList<>();
+				lst.add(p.getGiocatore().getNome());
+				mappaNomi.put(key, lst);
+			} else {
+				List<String> lst = mappaNomi.get(key);
+				lst.add(p.getGiocatore().getNome());
+				mappaNomi.put(key, lst);
+			}
+		}
+		
+		for(String p: mappaNomi.keySet()) {
+			Distribuzione distribuzione = new Distribuzione();
+			distribuzione.setLabel(p);
+			List<String> value = mappaNomi.get(p);
+			distribuzione.setValue(value.size());
+			distribuzione.setTooltip(String.join("<br/>", value));
+			distr.add(distribuzione);
+		}
+
+		return distr;
+	}
+	
+	
 }
