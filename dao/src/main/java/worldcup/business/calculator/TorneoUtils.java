@@ -1,25 +1,29 @@
 package worldcup.business.calculator;
 
+import java.util.Optional;
+
 import worldcup.orm.vo.DatiPartitaVO;
-import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
-import worldcup.orm.vo.SquadraVO;
 
 public class TorneoUtils {
 
 	public enum CasaTrasfertaEnum {CASA, TRASFERTA}
 
-	public static DatiPartitaVO getDatiPartita(PartitaVO partita, PronosticoVO pronostico) {
-		return pronostico.getDatiPartite().stream().filter(dp -> dp.getPartita().getCodicePartita().equals(partita.getCodicePartita()))
-				.findAny().orElseThrow(() -> new RuntimeException("Partita ["+partita.getCodicePartita()+"] non trovata nel pronostico ["+pronostico.getIdPronostico()+"]"));
-		
+//	public static DatiPartitaVO getDatiPartita(PartitaVO partita, PronosticoVO pronostico) {
+//		return pronostico.getDatiPartite().stream().filter(dp -> dp.getPartita().getCodicePartita().equals(partita.getCodicePartita()))
+//				.findAny().orElseThrow(() -> new RuntimeException("Partita ["+partita.getCodicePartita()+"] non trovata nel pronostico ["+pronostico.getIdPronostico()+"]"));
+//		
+//	}
+//
+	
+	public static DatiPartitaVO getDatiPartita(String idPartita, PronosticoVO p) {
+		return getOptDatiPartita(idPartita, p).orElseThrow(() -> new RuntimeException("Partita non trovata"));
 	}
 
-	public static DatiPartitaVO getDatiPartita(DatiPartitaVO datiPartita, PronosticoVO pronostico) {
-		return pronostico.getDatiPartite().stream().filter(dp -> dp.getPartita().getCodicePartita().equals(datiPartita.getPartita().getCodicePartita()))
-				.findAny().orElseThrow(() -> new RuntimeException("Partita ["+datiPartita.getPartita().getCodicePartita()+"] non trovata nel pronostico ["+pronostico.getIdPronostico()+"]"));
-		
+	public static Optional<DatiPartitaVO> getOptDatiPartita(String idPartita, PronosticoVO p) {
+		return p.getDatiPartite().stream().filter(pa -> pa.getCodicePartita().equals(idPartita)).findAny();
 	}
+
 	public static boolean isCasa(CasaTrasfertaEnum casaTrasferta) {
 		return casaTrasferta.equals(CasaTrasfertaEnum.CASA);
 	}
@@ -60,15 +64,6 @@ public class TorneoUtils {
 			return getPunti(dati.getGoalCasa(),dati.getGoalTrasferta());
 		} else {
 			return getPunti(dati.getGoalTrasferta(),dati.getGoalCasa());
-		}
-	}
-
-	public static SquadraVO getSquadra(DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
-		if(!isGiocabile(dati)) return null;
-		if(isCasa(casaTrasferta)) {
-			return dati.getPartita().getCasa();
-		} else {
-			return dati.getPartita().getTrasferta();
 		}
 	}
 

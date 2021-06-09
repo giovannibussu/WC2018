@@ -29,7 +29,7 @@ public class ClassificaGiocone {
 			RisultatoPronostico risultatoPronostico = getRisultatoPronostico(pronostico, ufficiale);
 
 			int punti = (risultatoPronostico.getRisultati1x2() * coefficente1x2) +
-					(risultatoPronostico.getRisultati1x2() * coefficenteRisultatiEsatti);
+					(risultatoPronostico.getRisultatiEsatti() * coefficenteRisultatiEsatti);
 			
 		return punti;
 	}
@@ -39,9 +39,9 @@ public class ClassificaGiocone {
 
 		RisultatoPronostico rp = new RisultatoPronostico();
 		for(DatiPartitaVO datiPartitaUfficiale: pronosticoUfficiale.getDatiPartite()) {
-			DatiPartitaVO datiPartita = TorneoUtils.getDatiPartita(datiPartitaUfficiale, pronostico);
+			DatiPartitaVO datiPartita = TorneoUtils.getDatiPartita(datiPartitaUfficiale.getCodicePartita(), pronostico);
 			if(TorneoUtils.getRisultatoEsatto(datiPartita).equals(TorneoUtils.getRisultatoEsatto(datiPartitaUfficiale))) {
-				rp.addRisultati1x2();
+//				rp.addRisultati1x2();
 				rp.addRisultatiEsatti();
 			} else if(TorneoUtils.getRisultato1x2(datiPartita).equals(TorneoUtils.getRisultato1x2(datiPartitaUfficiale))) {
 				rp.addRisultati1x2();

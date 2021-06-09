@@ -2,6 +2,8 @@ package worldcup;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.Formatter;
@@ -24,6 +27,9 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import worldcup.business.TorneoBD;
 import worldcup.orm.vo.GiocatoreVO;
@@ -97,29 +103,46 @@ public class GiochinoApplication {
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;		  
 	}
+	
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+        return builder -> {
+            builder.simpleDateFormat(datetimePattern);
+            builder.serializers(new LocalDateSerializer(java.time.format.DateTimeFormatter.ofPattern(datePattern)));
+            builder.serializers(new LocalDateTimeSerializer(java.time.format.DateTimeFormatter.ofPattern(datetimePattern)));
+        };
+    }
 
 
-	@Bean
+
+//	@Bean
 	public String initDB(TorneoBD torneoBD) throws IOException {
 
 //		if(!torneoBD.existsByName("EURO2021")) {
-
+		torneoBD.runTransaction(() -> {
 			TorneoVO torneo = new TorneoVO();
 
 			torneo.setNome("EURO2021");
 
             InputStream is = GiochinoApplication.class.getResourceAsStream("/gironiEuro2020.csv");
 
-            String gironi = new String(is.readAllBytes());
+            String gironi;
+			try {
+				gironi = new String(is.readAllBytes());
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 
             String[] gironiLines = gironi.split("\n");
             Map<String, SubdivisionVO> gironiMap = new HashMap<>();
             
             Map<String, SquadraVO> squadre = new HashMap<>();
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.hh:mm");
+
             for(String partita: gironiLines) {
                     String[] partitaFields = partita.split(";");
 
+                    String dataKey = partitaFields[2];
                     String gironeKey = partitaFields[1];
                     String codicePartita = partitaFields[0];
                     String nomeSquadraCasa = partitaFields[3];
@@ -152,6 +175,7 @@ public class GiochinoApplication {
             			squadre.put(nomeSquadraCasa, squadraCasa);
             			
                     }
+                    
                     if(squadre.containsKey(nomeSquadraTrasferta)) {
                         partitaVO.setTrasferta(squadre.get(nomeSquadraTrasferta));
                     } else {
@@ -163,7 +187,14 @@ public class GiochinoApplication {
             			torneoBD.create(squadraTrasferta);
             			squadre.put(nomeSquadraTrasferta, squadraTrasferta);
                     }
-                    partitaVO.setData(new Date()); //TODO
+                    
+                    try {
+						partitaVO.setData(sdf.parse(dataKey));
+					} catch (ParseException e) {
+						System.err.println(e.getMessage());
+						e.printStackTrace(System.err);
+						partitaVO.setData(new Date());
+					}
                     StadioVO stadio1 = new StadioVO(); //TODO
                     stadio1.setCitta("ROMA");
                     stadio1.setNome("NOME");
@@ -174,18 +205,7 @@ public class GiochinoApplication {
                     partitaVO.setStadio(stadio1);
                     girone.getPartite().add(partitaVO);
                     
-        			torneoBD.create(partitaVO);
-
-            }
-
-            for(SubdivisionVO girone: gironiMap.values()) {
-                    Map<String, SquadraVO> squadreGirone = new HashMap<>();
-                    for(PartitaVO p: girone.getPartite()) {
-                            squadreGirone.put(p.getCasa().getNome(), p.getCasa());
-                            squadreGirone.put(p.getTrasferta().getNome(), p.getTrasferta());
-                    }
-
-                    girone.setSquadre(squadreGirone.values().stream().collect(Collectors.toSet()));
+                    partitaVO.setSubdivision(girone);
             }
 
 			PronosticoVO pronosticoUfficiale = new PronosticoVO();
@@ -200,7 +220,24 @@ public class GiochinoApplication {
 			torneoBD.create(giocatore);
 			torneoBD.create(pronosticoUfficiale);
 			torneoBD.create(torneo);
-//		}
+			
+			for(SubdivisionVO girone: gironiMap.values()) {
+                Map<String, SquadraVO> squadreGirone = new HashMap<>();
+                for(PartitaVO p: girone.getPartite()) {
+                        squadreGirone.put(p.getCasa().getNome(), p.getCasa());
+                        squadreGirone.put(p.getTrasferta().getNome(), p.getTrasferta());
+                }
+
+                girone.setSquadre(squadreGirone.values().stream().collect(Collectors.toSet()));
+                
+                for(PartitaVO p: girone.getPartite()) {
+                	torneoBD.create(p);
+                }
+                girone.setTorneo(torneo);
+                torneoBD.create(girone);
+        }
+
+		});
 		return "";
 	}
 	

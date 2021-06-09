@@ -10,6 +10,7 @@ public class PronosticoVO {
 	private GiocatoreVO giocatore;
 	private TorneoVO torneo;
 	private Set<DatiPartitaVO> datiPartite = new HashSet<>();
+	private byte[] pronosticoOriginale;
 	public Long getId() {
 		return id;
 	}
@@ -39,6 +40,12 @@ public class PronosticoVO {
 	}
 	public void setDatiPartite(Set<DatiPartitaVO> datiPartite) {
 		this.datiPartite = datiPartite;
+	}
+	public byte[] getPronosticoOriginale() {
+		return pronosticoOriginale;
+	}
+	public void setPronosticoOriginale(byte[] pronosticoOriginale) {
+		this.pronosticoOriginale = pronosticoOriginale;
 	}
 	
 }

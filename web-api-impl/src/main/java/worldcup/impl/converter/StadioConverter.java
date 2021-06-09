@@ -7,6 +7,7 @@ public class StadioConverter {
 
 
 	public static Stadio toRsModel(Stadium dto) {
+		if(dto==null) return null;
 		Stadio rsModel = new Stadio();
 		
 		rsModel.setLink(dto.getLink());

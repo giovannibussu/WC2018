@@ -1,6 +1,9 @@
 package worldcup.impl.converter;
 
+import java.util.Locale;
+
 import org.joda.time.DateTime;
+import org.springframework.format.Formatter;
 
 import worldcup.business.calculator.TorneoUtils;
 import worldcup.model.Partita;
@@ -11,11 +14,11 @@ import worldcup.orm.vo.PartitaVO;
 
 public class PartitaConverter {
 
-	public static Partita toRsModel(PartitaVO partita, DatiPartitaVO dp) {
+	public static Partita toRsModel(PartitaVO partita, DatiPartitaVO dp, Formatter<DateTime> formatter) {
 		Partita rsModel = new Partita();
 		
 		rsModel.setCasa(SquadraConverter.toRsModel(partita.getCasa()));
-		rsModel.setData(new DateTime(partita.getData()));
+		rsModel.setData(formatter.print(new DateTime(partita.getData()), Locale.getDefault()));
 		rsModel.setIdPartita(partita.getCodicePartita());
 		
 		rsModel.setStadio(StadioConverter.toRsModel(partita.getStadio()));

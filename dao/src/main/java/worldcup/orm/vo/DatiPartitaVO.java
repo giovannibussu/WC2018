@@ -22,14 +22,21 @@ public class DatiPartitaVO {
 	public void setGoalTrasferta(Integer goalTrasferta) {
 		this.goalTrasferta = goalTrasferta;
 	}
-	public PartitaVO getPartita() {
-		return partita;
+	public String getCodicePartita() {
+		return codicePartita;
 	}
-	public void setPartita(PartitaVO partita) {
-		this.partita = partita;
+	public void setCodicePartita(String codicePartita) {
+		this.codicePartita = codicePartita;
+	}
+	public PronosticoVO getPronostico() {
+		return pronostico;
+	}
+	public void setPronostico(PronosticoVO pronostico) {
+		this.pronostico = pronostico;
 	}
 	private Integer goalCasa;
 	private Integer goalTrasferta;
-	private PartitaVO partita;
+	private String codicePartita;
+	private PronosticoVO pronostico;
 
 }

@@ -1,9 +1,6 @@
 package worldcup.core;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +23,6 @@ public class ProssimiIncontri {
 	private String idTorneo = null;
 
 	public ProssimiIncontri() {
-		//	this.gioco = new Gioco();
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
 		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 		this.torneoApi = new TorneoApi(client);
@@ -34,22 +30,22 @@ public class ProssimiIncontri {
 	}
 
 	public List<Partita> getListProssimiIncontri(){
-		Calendar nowCal = new GregorianCalendar();
-		nowCal.set(Calendar.HOUR_OF_DAY, 0);
-		nowCal.set(Calendar.MINUTE, 0);
-		Date now = nowCal.getTime();
-		nowCal.add(Calendar.DATE, 6);
-		Date tomorrow= nowCal.getTime();
-
-		DateTime start = new DateTime(now);
-		DateTime end = new DateTime(tomorrow);
+//		Calendar nowCal = new GregorianCalendar();
+//		nowCal.set(Calendar.HOUR_OF_DAY, 0);
+//		nowCal.set(Calendar.MINUTE, 0);
+//		Date now = nowCal.getTime();
+//		nowCal.add(Calendar.DATE, 6);
+//		Date tomorrow= nowCal.getTime();
+//
+		DateTime start = null;//new DateTime(now);
+		DateTime end = null; //new DateTime(tomorrow);
 		try {
-			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, null, null, start, end);
-			
-			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
-			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
-						
-			return maxPartite < matchPerData.size() ? matchPerData.subList(0, maxPartite) : matchPerData;
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end);
+//			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
+//			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
+//						
+//			return maxPartite < matchPerData.size() ? matchPerData.subList(0, maxPartite) : matchPerData;
+			return matchPerData;
 		} catch (Exception e) {
 			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);

@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -324,5 +325,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
 			throw new InternalException(e);
 		}
+	}
+
+	@Override
+	public ResponseEntity<Pronostico> postPronostico(String idTorneo, String idGiocatore, Resource body) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

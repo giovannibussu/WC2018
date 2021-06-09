@@ -2,17 +2,19 @@ package worldcup.clients.impl;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.joda.time.format.DateTimeFormatter;
+
 import worldcup.clients.api.TorneoApi;
-import worldcup.clients.impl.ApiClient;
-import worldcup.clients.model.Pronostico;
+import worldcup.clients.model.Partita;
 
 public class PatchedApiClient extends ApiClient {
 
 	public static void main(String[] args) {
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1");
+		client.setBasePath("http://127.0.0.1:8081/api-worldcup/api/v1");
 
 		TorneoApi torneoApi = new TorneoApi(client);
 //		ApplicativiApi applicativiApi = new ApplicativiApi(client);
@@ -21,11 +23,19 @@ public class PatchedApiClient extends ApiClient {
 //
 		try {
 			
-			List<Pronostico> classifica = torneoApi.getClassifica("idtorneo", null);
+//			List<Pronostico> classifica = torneoApi.getClassifica("EURO2021", null);
+//			
+//			for(Pronostico pronostico: classifica) {
+//				System.out.println(pronostico.getGiocatore().getNome() + ": " + pronostico.getPunti());
+//			}
 			
-			for(Pronostico pronostico: classifica) {
-				System.out.println(pronostico.getGiocatore().getNome());
+		
+			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, null, null);
+			
+			for(Partita partita: lst) {
+				System.out.println(partita.getIdPartita() + " " + partita.getData());
 			}
+			
 		} catch(Exception e) {
 			e.printStackTrace(System.err);
 			System.err.println(e.getMessage());
@@ -40,7 +50,9 @@ public class PatchedApiClient extends ApiClient {
 			this.addDefaultHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((username.get()+":"+password.get()).getBytes())));
 		}
 		
-		this.setJSON(new ExtendedJSON());
+		ExtendedJSON json = new ExtendedJSON();
+//		json.setDateTimeFormat(java.time.format.DateTimeFormatter.ofPattern(""));
+		this.setJSON(json);
 		
 	}
 

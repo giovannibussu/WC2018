@@ -13,6 +13,8 @@ public class PartitaVO {
 	private SquadraVO casa;
 	private SquadraVO trasferta;
 
+	private SubdivisionVO subdivision;
+
 	public Long getId() {
 		return id;
 	}
@@ -48,5 +50,11 @@ public class PartitaVO {
 	}
 	public void setTrasferta(SquadraVO trasferta) {
 		this.trasferta = trasferta;
+	}
+	public SubdivisionVO getSubdivision() {
+		return subdivision;
+	}
+	public void setSubdivision(SubdivisionVO subdivision) {
+		this.subdivision = subdivision;
 	}
 }

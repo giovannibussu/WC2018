@@ -16,7 +16,7 @@ public class PartitaConverter {
 		Partita rsModel = new Partita();
 		
 		rsModel.setCasa(SquadraConverter.toRsModel(dto.getHome()));
-		rsModel.setData(new DateTime(dto.getDataMatch()));
+//		rsModel.setData(new DateTime(dto.getDataMatch()));
 		rsModel.setDescrizione(dto.getDescrizione());
 		rsModel.setIdPartita(dto.getMatchId());
 		rsModel.setRisultato(toRsModel(dto.getResult()));
@@ -27,6 +27,7 @@ public class PartitaConverter {
 	}
 	
 	public static RisultatoPartita toRsModel(MatchResult dto) {
+		if(dto == null) return null;
 		RisultatoPartita rsModel = new RisultatoPartita();
 		
 		rsModel.setGoalCasa(dto.getGoalsHome());
