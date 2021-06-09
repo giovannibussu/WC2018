@@ -1,11 +1,15 @@
 package worldcup.core;
 
+import java.io.File;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
 import worldcup.clients.impl.ApiClient;
 import worldcup.clients.impl.PatchedApiClient;
+import worldcup.clients.model.Partita;
+import worldcup.clients.model.Pronostico;
 import worldcup.clients.model.RisultatoPartita;
+import worldcup.core.utils.TorneoConfig;
 
 public class SalvaRisultato {
 
@@ -16,27 +20,28 @@ public class SalvaRisultato {
 	private String password;
 	
 	public SalvaRisultato() {
-		//	this.gioco = new Gioco();
-		this.idTorneo = "idTorneo"; //TODO properties
-
+		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 	
-	public void setResult(String idPartita, int goalHome, int goalAway) {
+	public Partita setResult(String username, String password, String idPartita, int goalHome, int goalAway) throws Exception {
 		try {
+			this.username = username;
+			this.password = password;
+			
 			RisultatoPartita risultatoPartita = new RisultatoPartita();
 			risultatoPartita.setGoalCasa(goalHome);
 			risultatoPartita.setGoalTrasferta(goalAway);
 	
 			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
-			client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
+			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 			this.torneoApi = new TorneoApi(client);
 			
-			this.torneoApi.updateRisultatoPartita(this.idTorneo, idPartita, risultatoPartita );
+			return this.torneoApi.updateRisultatoPartita(this.idTorneo, idPartita, risultatoPartita );
 		} catch (Exception e) {
 			System.err.println("Errore setResult torneo["+this.idTorneo+"] partita["+idPartita+"] GoalCasa[ " + goalHome+"] GoalAway [" + goalAway+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);
+			throw e;
 		}
-//		this.gioco.setResult(match, goalHome, goalAway);
 	}
 
 	public boolean login(String username, String password) {
@@ -45,5 +50,22 @@ public class SalvaRisultato {
 		
 		Gioco gioco = new Gioco();
 		return gioco.check(username, password);
+	}
+	
+	public Pronostico inviaPronostico(String username, String password, String idGiocatore, File pronostico) throws Exception{
+		try {
+			this.username = username;
+			this.password = password;
+			
+			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
+			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+			this.torneoApi = new TorneoApi(client);
+			
+			return this.torneoApi.postPronostico(this.idTorneo, idGiocatore, pronostico);
+		} catch (Exception e) {
+			System.err.println("Errore setResult torneo["+this.idTorneo+"] idGiocatore["+idGiocatore+"]: "+ e.getMessage());
+			e.printStackTrace(System.err);
+			throw e;
+		}
 	}
 }

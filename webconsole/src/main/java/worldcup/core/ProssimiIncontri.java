@@ -1,9 +1,6 @@
 package worldcup.core;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +12,8 @@ import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.Grafico;
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.PronosticoPartita;
-import worldcup.clients.model.TipoDistribuzione; 
+import worldcup.clients.model.TipoDistribuzione;
+import worldcup.core.utils.TorneoConfig; 
 
 public class ProssimiIncontri {
 
@@ -26,11 +24,9 @@ public class ProssimiIncontri {
 
 	public ProssimiIncontri() {
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
+		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 		this.torneoApi = new TorneoApi(client);
-
-		this.idTorneo = "EURO2021"; //TODO properties
-
+		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 
 	public List<Partita> getListProssimiIncontri(){

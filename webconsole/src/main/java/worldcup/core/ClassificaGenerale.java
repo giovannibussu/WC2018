@@ -8,20 +8,19 @@ import worldcup.clients.api.TorneoApi;
 import worldcup.clients.impl.ApiClient;
 import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.Pronostico;
+import worldcup.core.utils.TorneoConfig;
 
 public class ClassificaGenerale {
 
-//	private Gioco gioco = null;
 	private TorneoApi torneoApi = null;
 	private String idTorneo = null;
 	
 	public ClassificaGenerale() {
-//		this.gioco = new Gioco();
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
+		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 		this.torneoApi = new TorneoApi(client);
 		
-		this.idTorneo = "EURO2021"; //TODO properties
+		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 
 	public List<Pronostico> getClassificaGenerale(String categoria) {

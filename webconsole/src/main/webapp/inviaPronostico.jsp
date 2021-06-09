@@ -1,5 +1,9 @@
-<%@page import="worldcup.clients.model.Squadra"%>
-<%@page import="worldcup.clients.model.Partita"%>
+<%@page import="worldcup.clients.model.Giocatore"%>
+<%@page import="worldcup.clients.model.Pronostico"%>
+<%@page import="org.apache.commons.io.IOUtils"%>
+<%@page import="java.io.FileOutputStream"%>
+<%@page import="java.io.File"%>
+<%@page import="java.io.InputStream"%>
 <%@page import="worldcup.core.SalvaRisultato"%>
 <%@page import="worldcup.core.model.Team"%>
 <%@page import="worldcup.core.model.Stadium"%>
@@ -11,22 +15,30 @@
 <html lang="en">
 
 	<jsp:include page="includes/header.jsp" flush="true">
-		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Partita Esito" />
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Pronostico Esito" />
 	</jsp:include>
     <%
     String username = request.getParameter("username");
 	String password = request.getParameter("password");
-    String idMatch = request.getParameter("matchSelezionato");
-	String inputCasa = request.getParameter("inputCasa");
-    String inputTrasferta = request.getParameter("inputTrasferta");
+    String idGiocatore = request.getParameter("idGiocatore");
     String context = request.getContextPath();
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     
-    Partita partita = null;
+    InputStream fs = request.getPart("filePronostico").getInputStream();
+    
+    File tmp = File.createTempFile("pronostico", idGiocatore);
+    
+    try(FileOutputStream fos = new FileOutputStream(tmp);){
+    	IOUtils.copy(fs, fos);
+    }
+    
+    Pronostico pronostico =	 null;
+    Giocatore giocatore = null;
     String errore = null;
   	try{
-    	partita = salvaRisultato.setResult(username, password, idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
-	}catch (Exception e){
+    	pronostico = salvaRisultato.inviaPronostico(username, password, idGiocatore, tmp);
+    	giocatore = pronostico.getGiocatore();
+  	}catch (Exception e){
   		errore = e.getMessage();
   	}
     %>
@@ -41,13 +53,7 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
-			<% if(partita != null) { 
-			
-				Squadra s1 = partita.getCasa();
-          		Squadra s2 = partita.getTrasferta();
-          		String descrizioneMatch = partita.getDescrizione();
-			
-			%>
+			<% if(pronostico != null) { %>
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
@@ -57,7 +63,7 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span><%=descrizioneMatch %>: Risultato Registrato</span>
+	                			<span>Pronostico <%=giocatore.getNome() %> Registrato</span>
                 			</div>
                 		</li>
                		</ul>
