@@ -11,12 +11,12 @@
 <html lang="en">
 
 	<jsp:include page="includes/header.jsp" flush="true">
-		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Partita" />
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Pronostico" />
 	</jsp:include>
     <%
     String username = request.getParameter("username");
 	String password = request.getParameter("password");
-    
+	 String context = request.getContextPath();
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     boolean login = true; // salvaRisultato.login(username, password); 
     %>
@@ -41,7 +41,7 @@
                 	<ul>
                  		<li>
                          <div class="ec-cell">
-		                	<form action="<%= context %>/inviaRisultato.jsp" method="post" enctype="multipart/form-data"> 
+		                	<form action="<%= context %>/inviaPronostico" method="post" enctype="multipart/form-data"> 
 		                		<input type="hidden" name="username" value="<%=username%>" >
 		                		<input type="hidden" name="password" value="<%=password%>">
 							  	<div class="form-group">
@@ -50,6 +50,8 @@
 								    		<label for="inputCasa">Giocatore</label>
 								    		<input type="text" class="form-control" id="idGiocatore" aria-describedby="Giocatore" placeholder="Inserire Nome Giocatore" name="idGiocatore" >
 								  		</div>
+								  	</div>
+								  	<div class="form-row">
 								  		<div class="col-md-6">
 								    		<label for="inputTrasferta">Excel</label>
 								    		<input type="file" class="form-control" id="filePronostico" aria-describedby="Pronostico" placeholder="Pronostico" name="filePronostico">

@@ -1,3 +1,5 @@
+<%@page import="worldcup.clients.model.Giocatore"%>
+<%@page import="worldcup.clients.model.Pronostico"%>
 <%@page import="org.apache.commons.io.IOUtils"%>
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.File"%>
@@ -13,7 +15,7 @@
 <html lang="en">
 
 	<jsp:include page="includes/header.jsp" flush="true">
-		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Partita Esito" />
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Registra Pronostico Esito" />
 	</jsp:include>
     <%
     String username = request.getParameter("username");
@@ -30,11 +32,15 @@
     	IOUtils.copy(fs, fos);
     }
     
-    boolean login = salvaRisultato.login(username, password);
-    	
-    if(login) {
-    	salvaRisultato.inviaPronostico(idGiocatore, tmp); 
-    }
+    Pronostico pronostico =	 null;
+    Giocatore giocatore = null;
+    String errore = null;
+  	try{
+    	pronostico = salvaRisultato.inviaPronostico(username, password, idGiocatore, tmp);
+    	giocatore = pronostico.getGiocatore();
+  	}catch (Exception e){
+  		errore = e.getMessage();
+  	}
     %>
 
   <body>
@@ -47,7 +53,7 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
-			<% if(login) { %>
+			<% if(pronostico != null) { %>
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
@@ -57,7 +63,7 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span>Pronostico Registrato</span>
+	                			<span>Pronostico <%=giocatore.getNome() %> Registrato</span>
                 			</div>
                 		</li>
                		</ul>
@@ -74,7 +80,7 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span>Utente non autorizzato</span>
+	                			<span><%=errore %></span>
                 			</div>
                 		</li>
                		</ul>

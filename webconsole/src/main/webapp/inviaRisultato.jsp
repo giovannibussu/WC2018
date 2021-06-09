@@ -1,3 +1,5 @@
+<%@page import="worldcup.clients.model.Squadra"%>
+<%@page import="worldcup.clients.model.Partita"%>
 <%@page import="worldcup.core.SalvaRisultato"%>
 <%@page import="worldcup.core.model.Team"%>
 <%@page import="worldcup.core.model.Stadium"%>
@@ -20,11 +22,13 @@
     String context = request.getContextPath();
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     
-    boolean login = salvaRisultato.login(username, password);
-    	
-    if(login) {
-    	salvaRisultato.setResult(idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
-    }
+    Partita partita = null;
+    String errore = null;
+  	try{
+    	partita = salvaRisultato.setResult(username, password, idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
+	}catch (Exception e){
+  		errore = e.getMessage();
+  	}
     %>
 
   <body>
@@ -37,7 +41,13 @@
         <h1>&nbsp;&nbsp;</h1>
      </div>
 	<div class="album">
-			<% if(login) { %>
+			<% if(partita != null) { 
+			
+				Squadra s1 = partita.getCasa();
+          		Squadra s2 = partita.getTrasferta();
+          		String descrizioneMatch = partita.getDescrizione();
+			
+			%>
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
@@ -47,7 +57,7 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span>Risultato Registrato</span>
+	                			<span><%=descrizioneMatch %>: Risultato Registrato</span>
                 			</div>
                 		</li>
                		</ul>
@@ -64,7 +74,7 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span>Utente non autorizzato</span>
+	                			<span><%=errore %></span>
                 			</div>
                 		</li>
                		</ul>

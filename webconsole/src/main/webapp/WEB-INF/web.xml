@@ -7,12 +7,16 @@
 	<display-name>WC2018-Webconsole</display-name>
 
 	<servlet>
-		<servlet-name>jsp</servlet-name>
-		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-		<load-on-startup>3</load-on-startup>
+		<servlet-name>inviaPronostico</servlet-name>
+		<jsp-file>/inviaPronostico.jsp</jsp-file>
 		<multipart-config>
-			<max-file-size>3145728</max-file-size>
-			<max-request-size>5242880</max-request-size>
+		
 		</multipart-config>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>inviaPronostico</servlet-name>
+		<url-pattern>/inviaPronostico</url-pattern>
+	</servlet-mapping>
+
 </web-app>	
