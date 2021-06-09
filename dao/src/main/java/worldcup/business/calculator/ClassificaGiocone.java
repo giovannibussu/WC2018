@@ -11,14 +11,14 @@ public class ClassificaGiocone {
 
 	private static int coefficente1x2 = 1;
 	private static int coefficenteRisultatiEsatti = 3;
-	public static Map<Integer, PronosticoVO> getClassifica(TorneoVO torneo) {
+	public static Map<PronosticoVO, Integer> getClassifica(TorneoVO torneo) {
 		
-		Map<Integer, PronosticoVO> map = new HashMap<>();
+		Map<PronosticoVO, Integer> map = new HashMap<>();
 		for(PronosticoVO pronostico: torneo.getPronostici()) {
 
 			int punti = getPuntiPronostico(pronostico, torneo.getPronosticoUfficiale());
 			
-			map.put(punti, pronostico);
+			map.put(pronostico, punti);
 		}
 		
 		return map;
