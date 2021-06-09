@@ -1,5 +1,6 @@
 package worldcup.core;
 
+import java.io.File;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
@@ -43,5 +44,18 @@ public class SalvaRisultato {
 		
 		Gioco gioco = new Gioco();
 		return gioco.check(username, password);
+	}
+	
+	public void inviaPronostico(String idGiocatore, File pronostico) {
+		try {
+			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
+			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+			this.torneoApi = new TorneoApi(client);
+			
+			this.torneoApi.postPronostico(this.idTorneo, idGiocatore, pronostico);
+		} catch (Exception e) {
+			System.err.println("Errore setResult torneo["+this.idTorneo+"] idGiocatore["+idGiocatore+"]: "+ e.getMessage());
+			e.printStackTrace(System.err);
+		}
 	}
 }
