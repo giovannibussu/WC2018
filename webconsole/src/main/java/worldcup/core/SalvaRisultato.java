@@ -6,6 +6,7 @@ import worldcup.clients.api.TorneoApi;
 import worldcup.clients.impl.ApiClient;
 import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.RisultatoPartita;
+import worldcup.core.utils.TorneoConfig;
 
 public class SalvaRisultato {
 
@@ -16,9 +17,7 @@ public class SalvaRisultato {
 	private String password;
 	
 	public SalvaRisultato() {
-		//	this.gioco = new Gioco();
-		this.idTorneo = "idTorneo"; //TODO properties
-
+		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 	
 	public void setResult(String idPartita, int goalHome, int goalAway) {
@@ -28,7 +27,7 @@ public class SalvaRisultato {
 			risultatoPartita.setGoalTrasferta(goalAway);
 	
 			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
-			client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
+			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 			this.torneoApi = new TorneoApi(client);
 			
 			this.torneoApi.updateRisultatoPartita(this.idTorneo, idPartita, risultatoPartita );
@@ -36,7 +35,6 @@ public class SalvaRisultato {
 			System.err.println("Errore setResult torneo["+this.idTorneo+"] partita["+idPartita+"] GoalCasa[ " + goalHome+"] GoalAway [" + goalAway+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);
 		}
-//		this.gioco.setResult(match, goalHome, goalAway);
 	}
 
 	public boolean login(String username, String password) {

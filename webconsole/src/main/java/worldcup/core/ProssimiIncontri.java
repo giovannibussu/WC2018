@@ -15,24 +15,22 @@ import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.Grafico;
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.PronosticoPartita;
-import worldcup.clients.model.TipoDistribuzione; 
+import worldcup.clients.model.TipoDistribuzione;
+import worldcup.core.utils.TorneoConfig; 
 
 public class ProssimiIncontri {
 
 	public static final Integer NUMERO_PARTITE_HOME = 6;
 	
-	//	private Gioco gioco = null; //TODO commentare e implemetare con API
 	private TorneoApi torneoApi = null;
 	private String idTorneo = null;
 
 	public ProssimiIncontri() {
 		//	this.gioco = new Gioco();
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath("http://127.0.0.1:8080/api-worldcup/api/v1"); //TODO properties
+		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
 		this.torneoApi = new TorneoApi(client);
-
-		this.idTorneo = "idTorneo"; //TODO properties
-
+		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 
 	public List<Partita> getListProssimiIncontri(){
