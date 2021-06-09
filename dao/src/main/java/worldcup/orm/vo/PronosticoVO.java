@@ -9,6 +9,7 @@ public class PronosticoVO {
 	private String idPronostico;
 	private GiocatoreVO giocatore;
 	private TorneoVO torneo;
+	private SquadraVO vincente;
 	private Set<DatiPartitaVO> datiPartite = new HashSet<>();
 	private byte[] pronosticoOriginale;
 	public Long getId() {
@@ -46,6 +47,12 @@ public class PronosticoVO {
 	}
 	public void setPronosticoOriginale(byte[] pronosticoOriginale) {
 		this.pronosticoOriginale = pronosticoOriginale;
+	}
+	public SquadraVO getVincente() {
+		return vincente;
+	}
+	public void setVincente(SquadraVO vincente) {
+		this.vincente = vincente;
 	}
 	
 }

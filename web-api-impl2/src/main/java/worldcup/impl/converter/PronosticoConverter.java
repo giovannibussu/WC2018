@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.core.io.Resource;
 
+import worldcup.business.TorneoBD;
 import worldcup.model.Pronostico;
 import worldcup.model.PronosticoRisultato;
 import worldcup.orm.vo.DatiPartitaVO;
@@ -25,7 +26,7 @@ public class PronosticoConverter {
 		
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(dto.getGiocatore()));
 		rsModel.setPunti(punti);
-//		rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getTorneo().getPronosticoUfficiale())); //TODO SQUADRA VINCENTE
+		rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getVincente()));
 		
 		return rsModel;
 	}
@@ -39,10 +40,10 @@ public class PronosticoConverter {
 		return rsModel;
 	}
 
-	public static PronosticoVO toPronosticoVO(TorneoVO torneo, GiocatoreVO giocatore, Resource body) throws IOException {
+	public static PronosticoVO toPronosticoVO(TorneoVO torneo, GiocatoreVO giocatore, Resource body, TorneoBD torneoBD) throws IOException {
 		byte[] b = body.getInputStream().readAllBytes();
 		
-		PronosticoVO p = getPronostico(b);
+		PronosticoVO p = getPronostico(b, torneoBD);
 
 		p.setGiocatore(giocatore);
 		p.setIdPronostico(giocatore.getNome() + "_"  +torneo.getNome());
@@ -52,23 +53,7 @@ public class PronosticoConverter {
 	}
 	
 	
-//	public static void main(String[] args) throws IOException {
-//		byte[] pr = Files.readAllBytes(Paths.get("/home/bussu/Downloads/tabellone-euro2020_Porta.xlsx"));
-//		
-//		PronosticoVO p = getPronostico(pr);
-//		
-//		p.getDatiPartite().stream().sorted(new Comparator<DatiPartitaVO>() {
-//
-//			@Override
-//			public int compare(DatiPartitaVO o1, DatiPartitaVO o2) {
-//				return (Integer.parseInt(o1.getCodicePartita()) - (Integer.parseInt(o2.getCodicePartita())));
-//			}
-//		}).forEach(dp -> {
-////		for(DatiPartitaVO dp: p.getDatiPartite()) {
-//			System.out.println("Incontro " + dp.getCodicePartita() + ":" + dp.getGoalCasa() + "-"+dp.getGoalTrasferta());
-//		});
-//	}
-	public static PronosticoVO getPronostico(byte[] pronosticoRaw) throws EncryptedDocumentException, IOException {
+	public static PronosticoVO getPronostico(byte[] pronosticoRaw, TorneoBD torneoBD) throws EncryptedDocumentException, IOException {
 		PronosticoVO p = new PronosticoVO();
 		p.setPronosticoOriginale(pronosticoRaw);
 		
@@ -82,6 +67,7 @@ public class PronosticoConverter {
 				setIncontro(p, mySheet, i);
 			}
 		}
+		p.setVincente(torneoBD.getSquadra(mySheet.getRow(47).getCell(16).getStringCellValue()));
 		return p;
 	}
 	private static void setIncontro(PronosticoVO p, Sheet sheet, int rowNum) {

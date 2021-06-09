@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import worldcup.dao.filters.GiocatoreFilter;
+import worldcup.dao.filters.SquadraFilter;
+import worldcup.dao.filters.TorneoFilter;
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.GiocatoreVO;
 import worldcup.orm.vo.PartitaVO;
@@ -22,12 +24,9 @@ public class TorneoBD extends AbstractBD {
 	}
 	
 	public boolean existsByName(String nome) {
-		try {
-			this.torneoRepository.findByNome(nome);
-			return true;
-		} catch(RuntimeException e) {
-			return false;
-		}
+		TorneoFilter filter = new TorneoFilter();
+		filter.setNome(Optional.of(nome));
+		return this.torneoRepository.count(filter) > 0;
 	}
 	
 	public void create(TorneoVO torneo) {
@@ -74,5 +73,11 @@ public class TorneoBD extends AbstractBD {
 			
 			return giocatore;
 		}
+	}
+
+	public SquadraVO getSquadra(String squadra) {
+		SquadraFilter sf = new SquadraFilter();
+		sf.setNomeLike(Optional.of(squadra));
+		return this.squadraRepository.findOne(sf).orElseThrow(() -> new RuntimeException("Squadra ["+squadra+"] non trovata"));
 	}
 }

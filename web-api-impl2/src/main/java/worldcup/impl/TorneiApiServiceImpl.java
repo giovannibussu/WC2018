@@ -339,7 +339,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
 				GiocatoreVO giocatore = this.torneoBD.getGiocatore(idGiocatore);
-				PronosticoVO p = PronosticoConverter.toPronosticoVO(torneo, giocatore, body);
+				PronosticoVO p = PronosticoConverter.toPronosticoVO(torneo, giocatore, body, this.torneoBD);
 
 				for(DatiPartitaVO dp: p.getDatiPartite()) {
 					this.torneoBD.save(dp);
