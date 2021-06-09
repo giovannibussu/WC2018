@@ -75,14 +75,15 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
-				Map<Integer, PronosticoVO> map = ClassificaGiocone.getClassifica(torneo);
+				Map<PronosticoVO, Integer> map = ClassificaGiocone.getClassifica(torneo);
 
 
 				List<Pronostico> lst = new ArrayList<Pronostico>();
 
-				map.keySet().stream().sorted(Comparator.reverseOrder()).forEach( k -> {
+				map.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				.forEach( k -> {
 
-					lst.add(PronosticoConverter.toRsModel(map.get(k), k));
+					lst.add(PronosticoConverter.toRsModel(k.getKey(), k.getValue()));
 
 				});
 
