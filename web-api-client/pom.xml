@@ -50,16 +50,16 @@
   <version>3.0.2</version>
 </dependency>
 
-	    <dependency>
-	      <groupId>com.google.code.gson</groupId>
-	      <artifactId>gson</artifactId>
-			<version>2.8.1</version>
-	    </dependency>
-		<dependency>
-			<groupId>io.gsonfire</groupId>
-			<artifactId>gson-fire</artifactId>
-			<version>1.0.1</version>
-		</dependency>
+<!-- 	    <dependency> -->
+<!-- 	      <groupId>com.google.code.gson</groupId> -->
+<!-- 	      <artifactId>gson</artifactId> -->
+<!-- 			<version>2.8.1</version> -->
+<!-- 	    </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>io.gsonfire</groupId> -->
+<!-- 			<artifactId>gson-fire</artifactId> -->
+<!-- 			<version>1.0.1</version> -->
+<!-- 		</dependency> -->
 <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 <dependency>
     <groupId>javax.validation</groupId>
@@ -93,6 +93,25 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
         <version>2.11.0</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-joda -->
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-joda</artifactId>
+    <version>2.11.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.11.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+<dependency>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>javax.ws.rs-api</artifactId>
+    <version>2.0</version>
+</dependency>
 
 	</dependencies>
 
@@ -124,6 +143,7 @@
 							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
 							<generatorName>java</generatorName>
 							<configOptions>
+								<library>native</library>
 								<dateLibrary>joda</dateLibrary>
 								<sourceFolder>target/generated-sources/java/</sourceFolder>
 								<apiPackage>worldcup.clients.api</apiPackage>

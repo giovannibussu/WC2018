@@ -18,7 +18,7 @@ public class PartitaConverter {
 		Partita rsModel = new Partita();
 		
 		rsModel.setCasa(SquadraConverter.toRsModel(partita.getCasa()));
-		rsModel.setData(formatter.print(new DateTime(partita.getData()), Locale.getDefault()));
+		rsModel.setData(new DateTime(partita.getData()));//, Locale.getDefault());
 		rsModel.setIdPartita(partita.getCodicePartita());
 		
 		rsModel.setStadio(StadioConverter.toRsModel(partita.getStadio()));

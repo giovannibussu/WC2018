@@ -420,7 +420,7 @@ components:
           $ref: "#/components/schemas/Squadra"
         data:
           type: string
-          # format: date-time
+          format: date-time
         risultato:
           $ref: "#/components/schemas/RisultatoPartita"
     RisultatoPartita:

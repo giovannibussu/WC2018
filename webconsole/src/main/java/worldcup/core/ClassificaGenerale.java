@@ -17,7 +17,11 @@ public class ClassificaGenerale {
 	
 	public ClassificaGenerale() {
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+//		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+		client.setHost("127.0.0.1");
+		client.setPort(8081);
+		client.setBasePath("/api-worldcup/api/v1");
+
 		this.torneoApi = new TorneoApi(client);
 		
 		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
