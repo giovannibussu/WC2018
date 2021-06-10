@@ -173,6 +173,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	public ResponseEntity<List<PronosticoPartita>> getPronosticiPartita(String idTorneo, String idPartita) {
 		try {
+			return this.torneoBD.runTransaction(() -> {
 
 			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
@@ -180,11 +181,12 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			for(PronosticoVO p : torneo.getPronostici()) {
 
 				DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
-				PartitaVO partita = findPartita(idPartita, torneo);
+				PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 				lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
 			}
 
 			return ResponseEntity.ok(lst);
+			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 			throw e;
@@ -193,18 +195,6 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
 			throw new InternalException(e);
 		}
-	}
-
-	private PartitaVO findPartita(String idPartita, TorneoVO torneo) {
-		for(SubdivisionVO s: torneo.getSubdivisions()) {
-			for(PartitaVO p: s.getPartite()) {
-				if(p.getCodicePartita().equals(idPartita)) {
-					return p;
-				}
-			}
-		}
-
-		throw new BadRequestException("Partita non trovata");
 	}
 
 	public ResponseEntity<Torneo> getTorneo(String idTorneo) {
@@ -221,10 +211,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<Partita>> listPartite(String idTorneo, Integer limit, Long offset, DateTime dataDa,	DateTime dataA) {
+	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, DateTime dataDa, DateTime dataA) {
 		try {
 
-			final String idTorneo2 = idTorneo;
 			return this.torneoBD.runTransaction(() -> {
 				final Date datada;
 				final Date dataa;
@@ -247,13 +236,20 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				} else {
 					dataa = dataA.toDate();
 				}
-				TorneoVO torneo = this.torneoBD.findByName(idTorneo2);
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 				List<PartitaVO> matchPerData = new ArrayList<>();
 
 				for(SubdivisionVO s: torneo.getSubdivisions()) {
 					matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
 							.collect(Collectors.toList()));
 				}
+
+				matchPerData = matchPerData.stream().sorted(new Comparator<PartitaVO>() {
+
+					@Override
+					public int compare(PartitaVO o1, PartitaVO o2) {
+						return o1.getData().compareTo(o2.getData());
+					}}).collect(Collectors.toList());
 
 
 				List<Partita> lst = new ArrayList<>();
@@ -316,7 +312,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					this.torneoBD.save(dpVO);
 
-					PartitaVO partita = findPartita(idPartita, torneo);
+					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 
 					Partita rsModel = PartitaConverter.toRsModel(partita,dpVO, formatter);
 

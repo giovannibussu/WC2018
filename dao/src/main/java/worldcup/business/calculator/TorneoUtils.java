@@ -7,19 +7,28 @@ import java.util.Map;
 import java.util.Optional;
 
 import worldcup.orm.vo.DatiPartitaVO;
+import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
+import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
 
 public class TorneoUtils {
 
 	public enum CasaTrasfertaEnum {CASA, TRASFERTA}
 
-//	public static DatiPartitaVO getDatiPartita(PartitaVO partita, PronosticoVO pronostico) {
-//		return pronostico.getDatiPartite().stream().filter(dp -> dp.getPartita().getCodicePartita().equals(partita.getCodicePartita()))
-//				.findAny().orElseThrow(() -> new RuntimeException("Partita ["+partita.getCodicePartita()+"] non trovata nel pronostico ["+pronostico.getIdPronostico()+"]"));
-//		
-//	}
-//
+	public static PartitaVO findPartita(String idPartita, TorneoVO torneo) {
+		for(SubdivisionVO s: torneo.getSubdivisions()) {
+			for(PartitaVO p: s.getPartite()) {
+				if(p.getCodicePartita().equals(idPartita)) {
+					return p;
+				}
+			}
+		}
+
+		throw new RuntimeException("Partita ["+idPartita+"] non trovata nel torneo ["+torneo.getNome()+"]");
+	}
+
+
 	
 	public static DatiPartitaVO getDatiPartita(String idPartita, PronosticoVO p) {
 		return getOptDatiPartita(idPartita, p).orElseThrow(() -> new RuntimeException("Partita non trovata"));

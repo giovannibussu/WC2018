@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -125,7 +128,35 @@ public class GiochinoApplication {
 				torneo.setNome("EURO2021");
 
 				InputStream is = GiochinoApplication.class.getResourceAsStream("/gironiEuro2020.csv");
+				InputStream isSquadre = GiochinoApplication.class.getResourceAsStream("/teams.json");
 
+				ObjectMapper om = new ObjectMapper();
+				
+				Map<String, SquadraVO> squadre = new HashMap<>();
+				try {
+					JsonNode tree = om.reader().readTree(isSquadre);
+					
+					Iterator<JsonNode> itSq = tree.elements();
+					while(itSq.hasNext()) {
+						JsonNode squadraNode = itSq.next();
+						
+						String nomeSquadra = squadraNode.get("nome").asText();
+						String bandieraSquadra = squadraNode.get("bandiera").asText();
+						Integer rankingSquadra = Integer.parseInt(squadraNode.get("fairPlay").asText());
+						SquadraVO squadra = new SquadraVO();
+						squadra.setNome(nomeSquadra);
+						squadra.setBandiera(bandieraSquadra);
+						squadra.setRankingFifa(rankingSquadra);
+						torneoBD.create(squadra);
+
+						squadre.put(nomeSquadra, squadra);
+						
+					}
+
+				} catch (IOException e1) {
+					throw new RuntimeException("Errore durante la lettura delle squadre: " + e1.getMessage(), e1);
+				}
+				
 				String gironi;
 				try {
 					gironi = new String(is.readAllBytes());
@@ -136,7 +167,6 @@ public class GiochinoApplication {
 				String[] gironiLines = gironi.split("\n");
 				Map<String, SubdivisionVO> gironiMap = new HashMap<>();
 
-				Map<String, SquadraVO> squadre = new HashMap<>();
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.hh:mm");
 
 				for(String partita: gironiLines) {
@@ -165,27 +195,13 @@ public class GiochinoApplication {
 					if(squadre.containsKey(nomeSquadraCasa)) {
 						partitaVO.setCasa(squadre.get(nomeSquadraCasa));
 					} else {
-						SquadraVO squadraCasa = new SquadraVO();
-						squadraCasa.setNome(nomeSquadraCasa);
-						squadraCasa.setBandiera("BANDIERA"); //TODO
-						squadraCasa.setRankingFifa(0); //TODO
-						partitaVO.setCasa(squadraCasa);
-						torneoBD.create(squadraCasa);
-
-						squadre.put(nomeSquadraCasa, squadraCasa);
-
+						throw new RuntimeException("Squadra ["+nomeSquadraCasa+"] non registrata");
 					}
 
 					if(squadre.containsKey(nomeSquadraTrasferta)) {
 						partitaVO.setTrasferta(squadre.get(nomeSquadraTrasferta));
 					} else {
-						SquadraVO squadraTrasferta = new SquadraVO();
-						squadraTrasferta.setNome(nomeSquadraTrasferta);
-						squadraTrasferta.setBandiera("BANDIERA"); //TODO
-						squadraTrasferta.setRankingFifa(0); //TODO
-						partitaVO.setTrasferta(squadraTrasferta);
-						torneoBD.create(squadraTrasferta);
-						squadre.put(nomeSquadraTrasferta, squadraTrasferta);
+						throw new RuntimeException("Squadra ["+nomeSquadraTrasferta+"] non registrata");
 					}
 
 					try {

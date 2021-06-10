@@ -1,0 +1,170 @@
+[
+	{
+		"nome": "Turchia",
+		"id": "TRK",
+		"bandiera": "images/turchia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Italia",
+		"id": "ITA",
+		"bandiera": "images/italia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Galles",
+		"id": "WAL",
+		"bandiera": "images/galles.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Svizzera",
+		"id": "CH",
+		"bandiera": "images/svizzera.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Danimarca",
+		"id": "DAN",
+		"bandiera": "images/danimarca.png",
+		"fairPlay": 1,
+      	"link" : ""
+	},
+	{
+		"nome": "Finlandia",
+		"id": "FIN",
+		"bandiera": "images/finlandia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Belgio",
+		"id": "BEL",
+		"bandiera": "images/belgio.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Russia",
+		"id": "RUS",
+		"bandiera": "images/russia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Inghilterra",
+		"id": "ENG",
+		"bandiera": "images/inghilterra.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Croazia",
+		"id": "CRO",
+		"bandiera": "images/croazia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Austria",
+		"id": "AUS",
+		"bandiera": "images/austria.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Macedonia del Nord",
+		"id": "MAC",
+		"bandiera": "images/macedonia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Olanda",
+		"id": "NED",
+		"bandiera": "images/olanda.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Ucraina",
+		"id": "UCK",
+		"bandiera": "images/ucraina.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Scozia",
+		"id": "SCO",
+		"bandiera": "images/scozia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Repubblica Ceca",
+		"id": "CEC",
+		"bandiera": "images/repubblica_ceca.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Polonia",
+		"id": "POL",
+		"bandiera": "images/polonia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Slovacchia",
+		"id": "SLO",
+		"bandiera": "images/slovacchia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Spagna",
+		"id": "ESP",
+		"bandiera": "images/spagna.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Svezia",
+		"id": "SVE",
+		"bandiera": "images/svezia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Ungheria",
+		"id": "UNG",
+		"bandiera": "images/ungheria.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Portogallo",
+		"id": "POR",
+		"bandiera": "images/portogallo.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Francia",
+		"id": "FRA",
+		"bandiera": "images/francia.png",
+		"fairPlay": 0,
+      	"link" : ""
+	},
+	{
+		"nome": "Germania",
+		"id": "GER",
+		"bandiera": "images/germania.png",
+		"fairPlay": 0,
+      	"link" : ""
+	}
+]
