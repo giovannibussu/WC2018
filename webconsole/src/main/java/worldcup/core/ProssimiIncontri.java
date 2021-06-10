@@ -74,11 +74,28 @@ public class ProssimiIncontri {
 		//		return this.gioco.pronosticiPerMatch(match);
 	}
 
-	public List<Partita> getListaMatch(){  //TODO Bussu
-		//		return this.torneoApi.listaPartiteDaRegistrare();
-
-
-		return null;
+	public List<Partita> getListaMatch(){   
+//		Calendar nowCal = new GregorianCalendar();
+//		nowCal.set(Calendar.HOUR_OF_DAY, 0);
+//		nowCal.set(Calendar.MINUTE, 0);
+//		Date now = nowCal.getTime();
+//		nowCal.add(Calendar.DATE, 6);
+//		Date tomorrow= nowCal.getTime();
+//
+		DateTime start = null;//new DateTime(now);
+		DateTime end = null; //new DateTime(tomorrow);
+		try {
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true);
+//			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
+//			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
+//						
+//			return maxPartite < matchPerData.size() ? matchPerData.subList(0, maxPartite) : matchPerData;
+			return matchPerData;
+		} catch (Exception e) {
+			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
+			e.printStackTrace(System.err);
+		}
+		return new ArrayList<>();
 	}
 
 	public Grafico distribuzionePronosticiPerMatchRisultatoEsatto(String idPartita) {
