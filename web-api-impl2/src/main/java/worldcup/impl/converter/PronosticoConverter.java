@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.core.io.Resource;
 
+import worldcup.BadRequestException;
 import worldcup.business.TorneoBD;
 import worldcup.model.Pronostico;
 import worldcup.model.PronosticoRisultato;
@@ -62,21 +63,35 @@ public class PronosticoConverter {
 
 		Sheet mySheet = myWorkBook.getSheet("Matches");
 		
-		for(int i = 6; i < 58; i++) {
-			if(i != 42) {
-				setIncontro(p, mySheet, i);
-			}
+		for(int i = 6; i < 42; i++) {
+			setIncontro(p, mySheet, i, true);
 		}
+		for(int i = 43; i < 58; i++) {
+			setIncontro(p, mySheet, i, false);
+		}
+		
 		p.setVincente(torneoBD.getSquadra(mySheet.getRow(47).getCell(16).getStringCellValue()));
 		return p;
 	}
-	private static void setIncontro(PronosticoVO p, Sheet sheet, int rowNum) {
+	private static void setIncontro(PronosticoVO p, Sheet sheet, int rowNum, boolean pareggioAmmesso) {
 
 		Row row = sheet.getRow(rowNum);
 		
 		String incontro = getStringValue(row.getCell(1));
 		int goalCasa = Integer.parseInt(getStringValue(row.getCell(8)));
 		int goalTrasferta = Integer.parseInt(getStringValue(row.getCell(9)));
+		
+		if(goalCasa < 0) {
+			throw new BadRequestException("La squadra in casa deve fare almeno 0 goal, inseriti ["+goalCasa+"]");
+		}
+		if(goalTrasferta < 0) {
+			throw new BadRequestException("La squadra in trasferta deve fare almeno 0 goal, inseriti ["+goalTrasferta+"]");
+		}
+		
+		if(!pareggioAmmesso && goalCasa == goalTrasferta) {
+			throw new BadRequestException("Pareggio ["+goalCasa+"-"+goalTrasferta+"] non ammesso per la partita ["+incontro+"]");
+		}
+
 		
 		DatiPartitaVO dp = new DatiPartitaVO();
 		dp.setGoalCasa(goalCasa);
