@@ -5,12 +5,16 @@ import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 
 public class TorneoAuthorizationManager {
 
+	@Value("${torneo.username}")
+	String username;
+	@Value("${torneo.password}")
+	String password;
 	
-	
-	public static void autorizza(Logger logger, HttpServletRequest request) throws RuntimeException {
+	public void autorizza(Logger logger, HttpServletRequest request) throws RuntimeException {
 		// this.addDefaultHeader("Authorization", "Basic " + new String(Base64.getEncoder().encode((username.get()+":"+password.get()).getBytes())));
 		
 		String authHeader = request.getHeader("Authorization");
@@ -23,9 +27,10 @@ public class TorneoAuthorizationManager {
 			logger.debug("Contenuto header auth decodificato: " + coppia);
 			String[] valori = coppia.split(":");
 			
-			// check utenze
-//			Gioco gioco = new Gioco();
-			boolean autorizzato = true; //TODO gioco.check(valori[0], valori[1]);
+			String usernameInput = valori[0];
+			String passwordInput = valori[1];
+			boolean autorizzato = this.username.equals(usernameInput) && this.password.equals(passwordInput);
+			
 			if(autorizzato) {
 				return;
 			}

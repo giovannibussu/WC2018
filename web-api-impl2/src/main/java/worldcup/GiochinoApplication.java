@@ -36,6 +36,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import worldcup.business.TorneoBD;
+import worldcup.impl.utils.TorneoAuthorizationManager;
 import worldcup.orm.vo.GiocatoreVO;
 import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
@@ -76,6 +77,10 @@ public class GiochinoApplication {
 	@Value("${spring.datasource.jndiName}")
 	String jndiName;
 
+	@Bean
+	public TorneoAuthorizationManager torneoAuthorizationManager() {
+		return new TorneoAuthorizationManager();
+	}
 	@Bean(name ="entityManager") 
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 

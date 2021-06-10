@@ -63,6 +63,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	private TorneoBD torneoBD;
 
 	@Autowired
+	private TorneoAuthorizationManager torneoAuthorizationManager;
+
+	@Autowired
 	private Formatter<DateTime> formatter;
 	
 
@@ -301,7 +304,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	public ResponseEntity<Partita> updateRisultatoPartita(final String idTorneo, final String idPartita, RisultatoPartita risultatoPartita) {
 		return this.torneoBD.runTransaction(() -> {
 			try {
-				TorneoAuthorizationManager.autorizza(this.logger, this.request);
+				this.torneoAuthorizationManager.autorizza(this.logger, this.request);
 
 				return this.torneoBD.runTransaction(() -> {
 					TorneoVO torneo = this.torneoBD.findByName(idTorneo);
@@ -340,7 +343,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	public ResponseEntity<Pronostico> postPronostico(final String idTorneo, final String idGiocatore, Resource body) {
 		return this.torneoBD.runTransaction(() -> {
 			try {
-				TorneoAuthorizationManager.autorizza(this.logger, this.request);
+				this.torneoAuthorizationManager.autorizza(this.logger, this.request);
 
 
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
