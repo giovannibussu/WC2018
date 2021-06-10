@@ -9,6 +9,7 @@ public class PartitaVO {
 	private Date data;
 	private StadioVO stadio;	
 	private String codicePartita;
+	private String descrizione;
 	
 	private String codiceCalcoloCasa;
 	private String codiceCalcoloTrasferta;
@@ -70,5 +71,11 @@ public class PartitaVO {
 	}
 	public void setCodiceCalcoloCasa(String codiceCalcoloCasa) {
 		this.codiceCalcoloCasa = codiceCalcoloCasa;
+	}
+	public String getDescrizione() {
+		return descrizione;
+	}
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 }

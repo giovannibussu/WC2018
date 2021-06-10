@@ -207,6 +207,7 @@ public class GiochinoApplication {
 					String codicePartita = partitaFields[0];
 					String nomeSquadraCasa = partitaFields[3];
 					String nomeSquadraTrasferta = partitaFields[4];
+					String giornata = partitaFields[5];
 					String nomestadio = partitaFields[6];
 
 					SubdivisionVO girone = null;
@@ -222,6 +223,7 @@ public class GiochinoApplication {
 
 					PartitaVO partitaVO = new PartitaVO();
 					partitaVO.setCodicePartita(codicePartita);
+					partitaVO.setDescrizione("Fase a gironi - Gruppo " + gironeKey + " - Giornata "+giornata+"/4");
 
 					if(squadre.containsKey(nomeSquadraCasa)) {
 						partitaVO.setCasa(squadre.get(nomeSquadraCasa));
@@ -289,6 +291,7 @@ public class GiochinoApplication {
 
 					PartitaVO partitaVO = new PartitaVO();
 					partitaVO.setCodicePartita(codicePartita);
+					partitaVO.setDescrizione(subdivision.getNome());
 					partitaVO.setCodiceCalcoloCasa(codiceCalcoloSquadraCasa);
 					partitaVO.setCodiceCalcoloTrasferta(codiceCalcoloSquadraTrasferta);
 

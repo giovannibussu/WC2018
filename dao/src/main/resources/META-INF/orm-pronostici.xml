@@ -229,6 +229,10 @@
 				<column name="codice_partita" nullable="false" />
 			</basic>
 
+			<basic name="descrizione">
+				<column name="descrizione" nullable="false" />
+			</basic>
+
 			<basic name="codiceCalcoloCasa">
 				<column name="codice_calcolo_casa" nullable="true" />
 			</basic>
