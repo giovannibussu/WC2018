@@ -223,7 +223,7 @@ public class GiochinoApplication {
 
 					PartitaVO partitaVO = new PartitaVO();
 					partitaVO.setCodicePartita(codicePartita);
-					partitaVO.setDescrizione("Fase a gironi - Gruppo " + gironeKey + " - Giornata "+giornata+"/4");
+					partitaVO.setDescrizione("Fase a gironi - Gruppo " + gironeKey + " - Giornata "+giornata+"/3");
 
 					if(squadre.containsKey(nomeSquadraCasa)) {
 						partitaVO.setCasa(squadre.get(nomeSquadraCasa));
