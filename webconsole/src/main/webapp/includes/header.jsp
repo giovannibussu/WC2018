@@ -26,7 +26,8 @@
     
     <link href="css/partite_google.css" rel="stylesheet">
     
-     
+      <link href="css/c3.min.css" rel="stylesheet" type="text/css">
+    <link href="css/ChartMap.css" rel="stylesheet" type="text/css">
    
     <link rel="icon" href="<%= context %>/euro2020.ico">
 
