@@ -10,8 +10,7 @@ public class GiocatoreConverter {
 		Giocatore rsModel = new Giocatore();
 		
 		rsModel.setCategoria(dto.getTags());
-//		rsModel.setIdGiocatore(dto.getId());
-//		rsModel.setLink(dto.getLink()); //TODO ID GIOCATORE
+		rsModel.setIdGiocatore(dto.getNome());
 		rsModel.setNome(dto.getNome());
 		
 		return rsModel;

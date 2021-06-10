@@ -136,6 +136,10 @@ public class TorneoUtils {
 
 		return distr;
 	}
+
+	public static boolean daGiocare(TorneoVO torneo, String codicePartita) {
+		return !torneo.getPronosticoUfficiale().getDatiPartite().stream().anyMatch(dp -> dp.getCodicePartita().equals(codicePartita));
+	}
 	
 	
 }

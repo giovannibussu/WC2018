@@ -244,8 +244,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				List<PartitaVO> matchPerData = new ArrayList<>();
 
 				for(SubdivisionVO s: torneo.getSubdivisions()) {
-					matchPerData.addAll(s.getPartite().stream().filter(p -> p.getData().after(datada) && p.getData().before(dataa))
+					matchPerData.addAll(s.getPartite().stream()
+							.filter(p -> p.getData().after(datada) && p.getData().before(dataa) 
+									&& (daGiocare == null || TorneoUtils.daGiocare(torneo, p.getCodicePartita()) == daGiocare))
 							.collect(Collectors.toList()));
+					
 				}
 
 				matchPerData = matchPerData.stream().sorted(new Comparator<PartitaVO>() {
