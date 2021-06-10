@@ -17,8 +17,7 @@
     ProssimiIncontri pi = new ProssimiIncontri();
     List<Partita> listaPartite = pi.getListaMatch(); 
     
-    SalvaRisultato salvaRisultato = new SalvaRisultato();
-    boolean login = true; // salvaRisultato.login(username, password); 
+    boolean login = true;
     %>
 
   <body>
