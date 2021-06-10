@@ -110,7 +110,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			return this.torneoBD.runTransaction(() -> {
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 				List<Distribuzione> distr = TorneoUtils.getDistribuzione(torneo, idPartita, tipo.equals(TipoDistribuzione._1X2));
-				return ResponseEntity.ok(GraficoConverter.toRsModelGrafico(distr));
+				String titolo ="TITOLO";
+				String sottotitolo = "SOTTOTITOLO";
+				return ResponseEntity.ok(GraficoConverter.toRsModelGrafico(distr, titolo, sottotitolo));
 			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);

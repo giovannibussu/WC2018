@@ -7,11 +7,7 @@
 <%@page import="worldcup.clients.model.Stadio"%>
 <%@page import="worldcup.clients.model.PronosticoPartita"%>
 <%@page import="worldcup.clients.model.Partita"%>
-<%@page import="worldcup.core.model.Player"%>
 <%@page import="java.util.Map"%>
-<%@page import="worldcup.core.model.Team"%>
-<%@page import="worldcup.core.model.Stadium"%>
-<%@page import="worldcup.core.model.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>

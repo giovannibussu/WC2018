@@ -8,7 +8,7 @@ import worldcup.model.Distribuzione;
 
 public class GraficoConverter {
 
-	public static Grafico toRsModelGrafico(List<worldcup.business.calculator.Distribuzione> dto) {
+	public static Grafico toRsModelGrafico(List<worldcup.business.calculator.Distribuzione> dto, String titolo, String sottotitolo) {
 		Grafico rsModel = new Grafico();
 
 		rsModel.setClickItemLegenda(false);
@@ -17,6 +17,8 @@ public class GraficoConverter {
 		rsModel.setLimiteColonneLegenda(16);
 		rsModel.setValoreRealeTorta(true);
 		rsModel.setxAxisGridLines(true);
+		rsModel.setSottotitolo(sottotitolo);
+		rsModel.setTitolo(titolo);
 		
 		rsModel.setDati(toRsModel(dto));
 		

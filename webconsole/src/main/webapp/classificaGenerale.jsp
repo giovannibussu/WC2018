@@ -45,7 +45,7 @@
                   		Integer punteggioGiocatore = pronostico.getPunti();
           	%>
                       <li class="<%=liStyleClass %>">
-                          <div class="ec-cell"><span><a target="_blank" href="<%=pronostico.getGiocatore().getLink() %>"><%=pronostico.getGiocatore().getNome() %></a></span></div>
+                          <div class="ec-cell"><span><a target="_blank" href="<%= context %>/scaricaPronostico.jsp?idGiocatore=<%=pronostico.getGiocatore().getIdGiocatore() %>"><%=pronostico.getGiocatore().getNome() %></a></span></div>
                           <div class="ec-cell"><span><%=punteggioGiocatore %></span></div>
                           <div class="ec-cell">
                           <span class="ec-cell-bandiera"><img style="width: 24px; height: 24px; margin-right:8px;" src="<%=pronostico.getSquadraVincente().getBandiera() %>" alt=""/></span>
