@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.format.Formatter;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import worldcup.BadRequestException;
 import worldcup.InternalException;
+import worldcup.NotFoundException;
 import worldcup.api.TorneiApi;
 import worldcup.business.TorneoBD;
 import worldcup.business.calculator.ClassificaGiocone;
@@ -361,7 +363,24 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	@Override
 	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.torneoBD.runTransaction(() -> {
+			try {
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+
+				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
+					return pr.getGiocatore().getNome().equals(idGiocatore);
+				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
+				
+
+				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
 	}
 }
