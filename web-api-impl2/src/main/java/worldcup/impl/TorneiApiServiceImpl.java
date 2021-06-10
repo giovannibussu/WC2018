@@ -358,4 +358,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 			}
 		});
 	}
+
+	@Override
+	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -229,6 +229,14 @@
 				<column name="codice_partita" nullable="false" />
 			</basic>
 
+			<basic name="codiceCalcoloCasa">
+				<column name="codice_calcolo_casa" nullable="true" />
+			</basic>
+
+			<basic name="codiceCalcoloTrasferta">
+				<column name="codice_calcolo_trasferta" nullable="true" />
+			</basic>
+
 			<many-to-one name="stadio" fetch="LAZY">
 				<join-column name="id_stadio"/>
 			</many-to-one>

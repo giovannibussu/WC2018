@@ -10,6 +10,8 @@ public class PartitaVO {
 	private StadioVO stadio;	
 	private String codicePartita;
 	
+	private String codiceCalcoloCasa;
+	private String codiceCalcoloTrasferta;
 	private SquadraVO casa;
 	private SquadraVO trasferta;
 
@@ -56,5 +58,17 @@ public class PartitaVO {
 	}
 	public void setSubdivision(SubdivisionVO subdivision) {
 		this.subdivision = subdivision;
+	}
+	public String getCodiceCalcoloTrasferta() {
+		return codiceCalcoloTrasferta;
+	}
+	public void setCodiceCalcoloTrasferta(String codiceCalcoloTrasferta) {
+		this.codiceCalcoloTrasferta = codiceCalcoloTrasferta;
+	}
+	public String getCodiceCalcoloCasa() {
+		return codiceCalcoloCasa;
+	}
+	public void setCodiceCalcoloCasa(String codiceCalcoloCasa) {
+		this.codiceCalcoloCasa = codiceCalcoloCasa;
 	}
 }

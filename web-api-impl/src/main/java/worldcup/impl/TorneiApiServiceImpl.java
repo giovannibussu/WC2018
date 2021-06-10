@@ -332,4 +332,12 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
+	@Override
+	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -164,11 +165,13 @@ public class GiochinoApplication {
 					throw new RuntimeException(e);
 				}
 
-				String[] gironiLines = gironi.split("\n");
-				Map<String, SubdivisionVO> gironiMap = new HashMap<>();
+				String[] partiteLines = gironi.split("\n");
+				Map<String, SubdivisionVO> subdivisionMap = new HashMap<>();
 
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.hh:mm");
 
+				String[] gironiLines = Arrays.copyOfRange(partiteLines, 0, 36);
+				String[] knockoutLines = Arrays.copyOfRange(partiteLines, 36, partiteLines.length);
 				for(String partita: gironiLines) {
 					String[] partitaFields = partita.split(";");
 
@@ -179,13 +182,13 @@ public class GiochinoApplication {
 					String nomeSquadraTrasferta = partitaFields[4];
 
 					SubdivisionVO girone = null;
-					if(!gironiMap.containsKey(gironeKey)) {
+					if(!subdivisionMap.containsKey(gironeKey)) {
 						girone = new SubdivisionVO();
 						girone.setNome(gironeKey);
 						girone.setTipo(TIPO.GIRONE);
-						gironiMap.put(gironeKey, girone);
+						subdivisionMap.put(gironeKey, girone);
 					} else {
-						girone = gironiMap.get(gironeKey);
+						girone = subdivisionMap.get(gironeKey);
 					}
 
 
@@ -223,6 +226,68 @@ public class GiochinoApplication {
 
 					partitaVO.setSubdivision(girone);
 				}
+				
+				for(String partita: knockoutLines) {
+					String[] partitaFields = partita.split(";");
+
+					String dataKey = partitaFields[2];
+					String gironeKey = partitaFields[5];
+					String codicePartita = partitaFields[0];
+					String codiceCalcoloSquadraCasa = partitaFields[3];
+					String codiceCalcoloSquadraTrasferta = partitaFields[4];
+
+					SubdivisionVO subdivision = null;
+					if(!subdivisionMap.containsKey(gironeKey)) {
+						String nome = null;
+						TIPO tipo = null;
+						
+						if(gironeKey.equals("4")) {
+							nome = "Ottavi";
+							tipo = TIPO.OTTAVI;
+						} else if(gironeKey.equals("5")) {
+							nome = "Quarti";
+							tipo = TIPO.QUARTI;
+						} else if(gironeKey.equals("6")) {
+							nome = "Semifinale";
+							tipo = TIPO.SEMIFINALE;
+						} else if(gironeKey.equals("7")) {
+							nome = "Finale";
+							tipo = TIPO.FINALE;
+						} 
+
+						subdivision = new SubdivisionVO();
+						subdivision.setNome(nome);
+						subdivision.setTipo(tipo);
+						subdivisionMap.put(gironeKey, subdivision);
+					} else {
+						subdivision = subdivisionMap.get(gironeKey);
+					}
+
+
+					PartitaVO partitaVO = new PartitaVO();
+					partitaVO.setCodicePartita(codicePartita);
+					partitaVO.setCodiceCalcoloCasa(codiceCalcoloSquadraCasa);
+					partitaVO.setCodiceCalcoloTrasferta(codiceCalcoloSquadraTrasferta);
+
+					try {
+						partitaVO.setData(sdf.parse(dataKey));
+					} catch (ParseException e) {
+						System.err.println(e.getMessage());
+						e.printStackTrace(System.err);
+						partitaVO.setData(new Date());
+					}
+					StadioVO stadio1 = new StadioVO(); //TODO
+					stadio1.setCitta("ROMA");
+					stadio1.setNome("NOME");
+					stadio1.setLink("http://");
+
+					torneoBD.create(stadio1);
+
+					partitaVO.setStadio(stadio1);
+					subdivision.getPartite().add(partitaVO);
+
+					partitaVO.setSubdivision(subdivision);
+				}
 
 				PronosticoVO pronosticoUfficiale = new PronosticoVO();
 				GiocatoreVO giocatore = new GiocatoreVO();
@@ -237,20 +302,22 @@ public class GiochinoApplication {
 				torneoBD.create(pronosticoUfficiale);
 				torneoBD.create(torneo);
 
-				for(SubdivisionVO girone: gironiMap.values()) {
-					Map<String, SquadraVO> squadreGirone = new HashMap<>();
-					for(PartitaVO p: girone.getPartite()) {
-						squadreGirone.put(p.getCasa().getNome(), p.getCasa());
-						squadreGirone.put(p.getTrasferta().getNome(), p.getTrasferta());
+				for(SubdivisionVO subdivision: subdivisionMap.values()) {
+					if(subdivision.getTipo().equals(TIPO.GIRONE)) {
+						Map<String, SquadraVO> squadreSubdivision = new HashMap<>();
+						for(PartitaVO p: subdivision.getPartite()) {
+							squadreSubdivision.put(p.getCasa().getNome(), p.getCasa());
+							squadreSubdivision.put(p.getTrasferta().getNome(), p.getTrasferta());
+						}
+	
+						subdivision.setSquadre(squadreSubdivision.values().stream().collect(Collectors.toSet()));
 					}
 
-					girone.setSquadre(squadreGirone.values().stream().collect(Collectors.toSet()));
-
-					for(PartitaVO p: girone.getPartite()) {
+					for(PartitaVO p: subdivision.getPartite()) {
 						torneoBD.create(p);
 					}
-					girone.setTorneo(torneo);
-					torneoBD.create(girone);
+					subdivision.setTorneo(torneo);
+					torneoBD.create(subdivision);
 				}
 
 			});
