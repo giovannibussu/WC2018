@@ -34,9 +34,9 @@ public class GraficoConverter {
 			for (worldcup.business.calculator.Distribuzione dDto : dto) {
 				Distribuzione dRsModel = new Distribuzione();
 				
-				dRsModel.setNome(dDto.getLabel());
+				dRsModel.setLabel(dDto.getLabel());
 				dRsModel.setTooltip(dDto.getTooltip());
-				dRsModel.setValore(dDto.getValue());
+				dRsModel.setValue(dDto.getValue());
 				
 				rsModelS.add(dRsModel);
 			}

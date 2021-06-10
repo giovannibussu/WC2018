@@ -40,7 +40,7 @@ public class ProssimiIncontri {
 		DateTime start = null;//new DateTime(now);
 		DateTime end = null; //new DateTime(tomorrow);
 		try {
-			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end);
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, null);
 //			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
 //			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
 //						

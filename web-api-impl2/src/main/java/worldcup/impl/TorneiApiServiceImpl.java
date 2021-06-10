@@ -215,7 +215,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, DateTime dataDa, DateTime dataA) {
+	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, DateTime dataDa, DateTime dataA, Boolean daGiocare) {
 		try {
 
 			return this.torneoBD.runTransaction(() -> {

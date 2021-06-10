@@ -30,7 +30,7 @@ public class PatchedApiClient extends ApiClient {
 //			}
 			
 		
-			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, null, null);
+			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, null, null, null);
 			
 			for(Partita partita: lst) {
 				System.out.println(partita.getIdPartita() + " " + partita.getData());
