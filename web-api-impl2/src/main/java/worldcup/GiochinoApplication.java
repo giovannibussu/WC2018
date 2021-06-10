@@ -130,6 +130,7 @@ public class GiochinoApplication {
 
 				InputStream is = GiochinoApplication.class.getResourceAsStream("/gironiEuro2020.csv");
 				InputStream isSquadre = GiochinoApplication.class.getResourceAsStream("/teams.json");
+				InputStream isStadi = GiochinoApplication.class.getResourceAsStream("/stadi.json");
 
 				ObjectMapper om = new ObjectMapper();
 				
@@ -157,7 +158,33 @@ public class GiochinoApplication {
 				} catch (IOException e1) {
 					throw new RuntimeException("Errore durante la lettura delle squadre: " + e1.getMessage(), e1);
 				}
-				
+
+				Map<String, StadioVO> stadiMap = new HashMap<>();
+
+				try {
+					JsonNode tree = om.reader().readTree(isStadi);
+					
+					Iterator<JsonNode> itSq = tree.elements();
+					while(itSq.hasNext()) {
+						JsonNode squadraNode = itSq.next();
+						
+						String idStadio = squadraNode.get("id").asText();
+						String nomeStadio = squadraNode.get("nome").asText();
+						String cittaStadio = squadraNode.get("citta").asText();
+						String linkStadio = squadraNode.get("link").asText();
+						StadioVO stadio1 = new StadioVO();
+						stadio1.setCitta(cittaStadio);
+						stadio1.setNome(nomeStadio);
+						stadio1.setLink(linkStadio);
+
+						torneoBD.create(stadio1);
+						stadiMap.put(idStadio, stadio1);
+						
+					}
+
+				} catch (IOException e1) {
+					throw new RuntimeException("Errore durante la lettura degli stadi: " + e1.getMessage(), e1);
+				}
 				String gironi;
 				try {
 					gironi = new String(is.readAllBytes());
@@ -180,6 +207,7 @@ public class GiochinoApplication {
 					String codicePartita = partitaFields[0];
 					String nomeSquadraCasa = partitaFields[3];
 					String nomeSquadraTrasferta = partitaFields[4];
+					String nomestadio = partitaFields[6];
 
 					SubdivisionVO girone = null;
 					if(!subdivisionMap.containsKey(gironeKey)) {
@@ -214,14 +242,8 @@ public class GiochinoApplication {
 						e.printStackTrace(System.err);
 						partitaVO.setData(new Date());
 					}
-					StadioVO stadio1 = new StadioVO(); //TODO
-					stadio1.setCitta("ROMA");
-					stadio1.setNome("NOME");
-					stadio1.setLink("http://");
 
-					torneoBD.create(stadio1);
-
-					partitaVO.setStadio(stadio1);
+					partitaVO.setStadio(stadiMap.get(nomestadio));
 					girone.getPartite().add(partitaVO);
 
 					partitaVO.setSubdivision(girone);
@@ -235,6 +257,7 @@ public class GiochinoApplication {
 					String codicePartita = partitaFields[0];
 					String codiceCalcoloSquadraCasa = partitaFields[3];
 					String codiceCalcoloSquadraTrasferta = partitaFields[4];
+					String nomestadio = partitaFields[6];
 
 					SubdivisionVO subdivision = null;
 					if(!subdivisionMap.containsKey(gironeKey)) {
@@ -276,14 +299,7 @@ public class GiochinoApplication {
 						e.printStackTrace(System.err);
 						partitaVO.setData(new Date());
 					}
-					StadioVO stadio1 = new StadioVO(); //TODO
-					stadio1.setCitta("ROMA");
-					stadio1.setNome("NOME");
-					stadio1.setLink("http://");
-
-					torneoBD.create(stadio1);
-
-					partitaVO.setStadio(stadio1);
+					partitaVO.setStadio(stadiMap.get(nomestadio));
 					subdivision.getPartite().add(partitaVO);
 
 					partitaVO.setSubdivision(subdivision);
