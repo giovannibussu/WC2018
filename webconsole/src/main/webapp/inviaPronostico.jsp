@@ -5,9 +5,6 @@
 <%@page import="java.io.File"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="worldcup.core.SalvaRisultato"%>
-<%@page import="worldcup.core.model.Team"%>
-<%@page import="worldcup.core.model.Stadium"%>
-<%@page import="worldcup.core.model.Match"%>
 <%@page import="worldcup.core.ProssimiIncontri"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>

@@ -44,14 +44,6 @@ public class SalvaRisultato {
 		}
 	}
 
-	public boolean login(String username, String password) {
-		this.username = username;
-		this.password = password;
-		
-		Gioco gioco = new Gioco();
-		return gioco.check(username, password);
-	}
-	
 	public Pronostico inviaPronostico(String username, String password, String idGiocatore, File pronostico) throws Exception{
 		try {
 			this.username = username;

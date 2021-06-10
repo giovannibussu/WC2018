@@ -8,10 +8,10 @@
 	<name>worldcup</name>
 
 	<modules>
-		<module>core</module>
+		<!--module>core</module-->
 		<module>dao</module>
 		<module>web-api</module>
-		<module>web-api-impl</module>
+		<!--module>web-api-impl</module-->
 		<module>web-api-impl2</module>
 		<module>web-api-client</module>
 		<module>webconsole</module>
