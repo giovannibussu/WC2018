@@ -89,7 +89,10 @@ public class PronosticoConverter {
 		}
 		
 		if(!pareggioAmmesso && goalCasa == goalTrasferta) {
-			throw new BadRequestException("Pareggio ["+goalCasa+"-"+goalTrasferta+"] non ammesso per la partita ["+incontro+"]");
+			goalCasa = Integer.parseInt(getStringValue(row.getCell(12)));
+			goalTrasferta = Integer.parseInt(getStringValue(row.getCell(13)));
+			
+//			throw new BadRequestException("Pareggio ["+goalCasa+"-"+goalTrasferta+"] non ammesso per la partita ["+incontro+"]");
 		}
 
 		
