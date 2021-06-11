@@ -22,11 +22,11 @@ public class ProssimiIncontri {
 	private TorneoApi torneoApi = null;
 	private String idTorneo = null;
 
-	public ProssimiIncontri() {
+	public ProssimiIncontri() throws Exception {
 		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
-		client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+		client.setBasePath(TorneoConfig.getInstance().getApiBaseUrl());
 		this.torneoApi = new TorneoApi(client);
-		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
+		this.idTorneo =  TorneoConfig.getInstance().getIdTorneo(); 
 	}
 
 	public List<Partita> getListProssimiIncontri(){

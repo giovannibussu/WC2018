@@ -20,20 +20,20 @@ public class SalvaRisultato {
 	private String password;
 	
 	public SalvaRisultato() {
-		this.idTorneo =  TorneoConfig.ID_TORNEO_DEFAULT;
 	}
 	
 	public Partita setResult(String username, String password, String idPartita, int goalHome, int goalAway) throws Exception {
 		try {
 			this.username = username;
 			this.password = password;
+			this.idTorneo =  TorneoConfig.getInstance().getIdTorneo();
 			
 			RisultatoPartita risultatoPartita = new RisultatoPartita();
 			risultatoPartita.setGoalCasa(goalHome);
 			risultatoPartita.setGoalTrasferta(goalAway);
 	
 			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
-			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+			client.setBasePath(TorneoConfig.getInstance().getApiBaseUrl());
 			this.torneoApi = new TorneoApi(client);
 			
 			return this.torneoApi.updateRisultatoPartita(this.idTorneo, idPartita, risultatoPartita );
@@ -48,9 +48,10 @@ public class SalvaRisultato {
 		try {
 			this.username = username;
 			this.password = password;
+			this.idTorneo =  TorneoConfig.getInstance().getIdTorneo();
 			
 			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
-			client.setBasePath(TorneoConfig.API_BASE_URL); //TODO properties
+			client.setBasePath(TorneoConfig.getInstance().getApiBaseUrl());
 			this.torneoApi = new TorneoApi(client);
 			
 			return this.torneoApi.postPronostico(this.idTorneo, idGiocatore, pronostico);
