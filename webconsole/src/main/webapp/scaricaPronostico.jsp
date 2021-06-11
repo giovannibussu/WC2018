@@ -1,4 +1,5 @@
 <%@page import="java.io.OutputStream"%>
+<%@page import="java.io.ByteArrayOutputStream"%>
 <%@page import="java.io.FileInputStream"%>
 <%@page import="worldcup.core.ClassificaGenerale"%>
 <%@page import="worldcup.clients.model.Giocatore"%>
@@ -28,16 +29,19 @@
     
     if(pronostico != null){
     	String fileName = "pronostico_" + idGiocatore + ".xlsx";
-    	response.setContentType("APPLICATION/OCTET-STREAM");   
+//     	response.setContentType("application/octet-stream");   
     	response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");   
     	response.setStatus(200);
     	
     	FileInputStream fis = new FileInputStream(pronostico);
     	
-    	IOUtils.copy(fis, out);
-    	
+    	byte[] b = fis.readAllBytes();
     	fis.close();
-    	out.flush();
+    	
+    	response.getOutputStream().write(b);
+
+    	response.getOutputStream().flush();
+    	response.getOutputStream().close();
     	
     	
     } else {
