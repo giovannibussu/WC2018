@@ -28,7 +28,7 @@ public class PronosticoConverter {
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(dto.getGiocatore()));
 		rsModel.setPunti(punti);
 		rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getVincente()));
-		
+		rsModel.setLink(dto.getLink());
 		return rsModel;
 	}
 	
@@ -41,7 +41,7 @@ public class PronosticoConverter {
 		return rsModel;
 	}
 
-	public static PronosticoVO toPronosticoVO(TorneoVO torneo, GiocatoreVO giocatore, Resource body, TorneoBD torneoBD) throws IOException {
+	public static PronosticoVO toPronosticoVO(TorneoVO torneo, GiocatoreVO giocatore, Resource body, String link, TorneoBD torneoBD) throws IOException {
 		byte[] b = body.getInputStream().readAllBytes();
 		
 		PronosticoVO p = getPronostico(b, torneoBD);
@@ -49,6 +49,7 @@ public class PronosticoConverter {
 		p.setGiocatore(giocatore);
 		p.setIdPronostico(giocatore.getNome() + "_"  +torneo.getNome());
 		p.setTorneo(torneo);
+		p.setLink(link);
 		return p;
 		
 	}
@@ -56,7 +57,7 @@ public class PronosticoConverter {
 	
 	public static PronosticoVO getPronostico(byte[] pronosticoRaw, TorneoBD torneoBD) throws EncryptedDocumentException, IOException {
 		PronosticoVO p = new PronosticoVO();
-		p.setPronosticoOriginale(pronosticoRaw);
+//		p.setPronosticoOriginale(pronosticoRaw);
 		
 		Workbook myWorkBook = WorkbookFactory.create(new ByteArrayInputStream(pronosticoRaw));
 		

@@ -340,4 +340,17 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		return null;
 	}
 
+	@Override
+	public ResponseEntity<Pronostico> getPronostico(String idTorneo, String idGiocatore) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<Partita>> listPartite(String idTorneo, Integer limit, Long offset, DateTime dataDa,
+			DateTime dataA, Boolean daGiocare) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

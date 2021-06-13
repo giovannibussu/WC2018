@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -340,7 +341,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 	}
 
 	@Override
-	public ResponseEntity<Pronostico> postPronostico(final String idTorneo, final String idGiocatore, Resource body) {
+	public ResponseEntity<Pronostico> postPronostico(final String idTorneo, final String idGiocatore, String link, Resource body) {
 		return this.torneoBD.runTransaction(() -> {
 			try {
 				this.torneoAuthorizationManager.autorizza(this.logger, this.request);
@@ -349,7 +350,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
 				GiocatoreVO giocatore = this.torneoBD.getGiocatore(idGiocatore);
-				PronosticoVO p = PronosticoConverter.toPronosticoVO(torneo, giocatore, body, this.torneoBD);
+				PronosticoVO p = PronosticoConverter.toPronosticoVO(torneo, giocatore, body, link, this.torneoBD);
 
 				for(DatiPartitaVO dp: p.getDatiPartite()) {
 					this.torneoBD.save(dp);
@@ -369,18 +370,42 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		});
 	}
 
+//	@Override
+//	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
+//		return this.torneoBD.runTransaction(() -> {
+//			try {
+//				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+//
+//				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
+//					return pr.getGiocatore().getNome().equals(idGiocatore);
+//				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
+//				
+//
+//				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
+//			} catch(RuntimeException e) {
+//				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+//				throw e;
+//			}
+//			catch(Throwable e) {
+//				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+//				throw new InternalException(e);
+//			}
+//		});
+//	}
+//
 	@Override
-	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
+	public ResponseEntity<Pronostico> getPronostico(String idTorneo, String idGiocatore) {
 		return this.torneoBD.runTransaction(() -> {
 			try {
+
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
-				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
-					return pr.getGiocatore().getNome().equals(idGiocatore);
-				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
+				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {return pr.getGiocatore().getNome().equals(idGiocatore);}).findAny()
+						.orElseThrow(() -> new BadRequestException("Richiesta non valida"));
 				
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p, torneo.getPronosticoUfficiale()));
 
-				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
+				return ResponseEntity.ok(rsModel);
 			} catch(RuntimeException e) {
 				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
 				throw e;

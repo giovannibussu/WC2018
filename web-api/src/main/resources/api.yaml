@@ -119,16 +119,23 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /tornei/{id_torneo}/pronostici/{id_giocatore}:
+    parameters:
+    - name: id_torneo
+      in: path
+      description: limit
+      required: true
+      schema:
+        type: string
+    - name: id_giocatore
+      in: path
+      description: limit
+      required: true
+      schema:
+        type: string
     post:
       parameters:
-      - name: id_torneo
-        in: path
-        description: limit
-        required: true
-        schema:
-          type: string
-      - name: id_giocatore
-        in: path
+      - name: link
+        in: header
         description: limit
         required: true
         schema:
@@ -156,39 +163,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /tornei/{id_torneo}/pronostici/{id_giocatore}/raw:
     get:
-      parameters:
-      - name: id_torneo
-        in: path
-        description: limit
-        required: true
-        schema:
-          type: string
-      - name: id_giocatore
-        in: path
-        description: limit
-        required: true
-        schema:
-          type: string
-      summary: crea un pronostico per un giocatore
-      operationId: getPronosticoRaw
+      summary: restituisce un pronostico per un giocatore
+      operationId: getPronostico
       tags:
         - Torneo
       responses:
         '200':
           description: pronostico
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                $ref: "#/components/schemas/Pronostico"
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  # /tornei/{id_torneo}/pronostici/{id_giocatore}/raw:
+  #   get:
+  #     parameters:
+  #     - name: id_torneo
+  #       in: path
+  #       description: limit
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: id_giocatore
+  #       in: path
+  #       description: limit
+  #       required: true
+  #       schema:
+  #         type: string
+  #     summary: crea un pronostico per un giocatore
+  #     operationId: getPronosticoRaw
+  #     tags:
+  #       - Torneo
+  #     responses:
+  #       '200':
+  #         description: pronostico
+  #         content:
+  #           application/octet-stream:
+  #             schema:
+  #               type: string
+  #               format: binary
+  #       default:
+  #         description: unexpected error
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
   /tornei/{id_torneo}/partite:
     get:
       parameters:
@@ -390,6 +415,8 @@ components:
           format: int32
         squadra_vincente:
           $ref: "#/components/schemas/Squadra"
+        link:
+          type: string
     ListaPartite:
       type: array
       items:

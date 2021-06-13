@@ -7,11 +7,12 @@ public class PronosticoVO {
 
 	private Long id;
 	private String idPronostico;
+	private String link;
 	private GiocatoreVO giocatore;
 	private TorneoVO torneo;
 	private SquadraVO vincente;
 	private Set<DatiPartitaVO> datiPartite = new HashSet<>();
-	private byte[] pronosticoOriginale;
+//	private byte[] pronosticoOriginale;
 	public Long getId() {
 		return id;
 	}
@@ -42,17 +43,23 @@ public class PronosticoVO {
 	public void setDatiPartite(Set<DatiPartitaVO> datiPartite) {
 		this.datiPartite = datiPartite;
 	}
-	public byte[] getPronosticoOriginale() {
-		return pronosticoOriginale;
-	}
-	public void setPronosticoOriginale(byte[] pronosticoOriginale) {
-		this.pronosticoOriginale = pronosticoOriginale;
-	}
+//	public byte[] getPronosticoOriginale() {
+//		return pronosticoOriginale;
+//	}
+//	public void setPronosticoOriginale(byte[] pronosticoOriginale) {
+//		this.pronosticoOriginale = pronosticoOriginale;
+//	}
 	public SquadraVO getVincente() {
 		return vincente;
 	}
 	public void setVincente(SquadraVO vincente) {
 		this.vincente = vincente;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 }
