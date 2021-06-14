@@ -44,7 +44,7 @@ public class SalvaRisultato {
 		}
 	}
 
-	public Pronostico inviaPronostico(String username, String password, String idGiocatore, File pronostico) throws Exception{
+	public Pronostico inviaPronostico(String username, String password, String idGiocatore, File pronostico, String linkPronostico) throws Exception{
 		try {
 			this.username = username;
 			this.password = password;
@@ -54,7 +54,7 @@ public class SalvaRisultato {
 			client.setBasePath(TorneoConfig.getInstance().getApiBaseUrl());
 			this.torneoApi = new TorneoApi(client);
 			
-			return this.torneoApi.postPronostico(this.idTorneo, idGiocatore, pronostico);
+			return this.torneoApi.postPronostico(this.idTorneo, idGiocatore, linkPronostico, pronostico);
 		} catch (Exception e) {
 			System.err.println("Errore setResult torneo["+this.idTorneo+"] idGiocatore["+idGiocatore+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);
