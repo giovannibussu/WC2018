@@ -18,6 +18,7 @@
     String username = request.getParameter("username");
 	String password = request.getParameter("password");
     String idGiocatore = request.getParameter("idGiocatore");
+    String linkPronostico = request.getParameter("linkPronostico");
     String context = request.getContextPath();
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     
@@ -33,7 +34,7 @@
     Giocatore giocatore = null;
     String errore = null;
   	try{
-    	pronostico = salvaRisultato.inviaPronostico(username, password, idGiocatore, tmp);
+    	pronostico = salvaRisultato.inviaPronostico(username, password, idGiocatore, tmp, linkPronostico);
     	giocatore = pronostico.getGiocatore();
   	}catch (Exception e){
   		errore = e.getMessage();

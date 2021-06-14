@@ -1,6 +1,5 @@
 package worldcup.core;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,15 +44,5 @@ public class ClassificaGenerale {
 		}
 
 		return new ArrayList<Pronostico>();
-	}
-	
-	public File getPronostico(String idGiocatore) throws Exception {
-		try {
-			return this.torneoApi.getPronosticoRaw(this.idTorneo, idGiocatore);
-		} catch (Exception e) {
-			System.err.println("Errore getPronostici torneo["+this.idTorneo+"]: "+ e.getMessage());
-			e.printStackTrace(System.err);
-			throw e;
-		}
 	}
 }

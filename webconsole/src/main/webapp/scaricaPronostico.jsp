@@ -20,11 +20,11 @@
     
     File pronostico = null;
     String errore = null;
-    try{
-      pronostico = classificaGenerale.getPronostico(idGiocatore);
-    }catch (Exception e){
-  		errore = e.getMessage();
-  	}
+//     try{
+//       pronostico = classificaGenerale.getPronostico(idGiocatore);
+//     }catch (Exception e){
+//   		errore = e.getMessage();
+//   	}
     
     
     if(pronostico != null){
@@ -35,13 +35,13 @@
     	
     	FileInputStream fis = new FileInputStream(pronostico);
     	
-    	byte[] b = fis.readAllBytes();
-    	fis.close();
+//     	byte[] b = fis.readAllBytes();
+//     	fis.close();
     	
-    	response.getOutputStream().write(b);
+//     	response.getOutputStream().write(b);
 
-    	response.getOutputStream().flush();
-    	response.getOutputStream().close();
+//     	response.getOutputStream().flush();
+//     	response.getOutputStream().close();
     	
     	
     } else {
@@ -50,7 +50,7 @@
 		<html lang="en">
 
 		<jsp:include page="includes/header.jsp" flush="true">
-			<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Scarica Pronostico" />
+			<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Dettaglio Pronostico" />
 		</jsp:include>
     	
     	<body>
