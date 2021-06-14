@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 	@Autowired
 	private Formatter<DateTime> formatter;
-	
+
 
 	public TorneiApiServiceImpl() {
 		this.categorieAutorizzate = new ArrayList<>();
@@ -183,17 +184,17 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		try {
 			return this.torneoBD.runTransaction(() -> {
 
-			TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
-			List<PronosticoPartita> lst = new ArrayList<>();
-			for(PronosticoVO p : torneo.getPronostici()) {
+				List<PronosticoPartita> lst = new ArrayList<>();
+				for(PronosticoVO p : torneo.getPronostici()) {
 
-				DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
-				PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
-				lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
-			}
+					DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
+					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
+					lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
+				}
 
-			return ResponseEntity.ok(lst);
+				return ResponseEntity.ok(lst);
 			});
 		} catch(RuntimeException e) {
 			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
@@ -219,10 +220,10 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, DateTime dataDa, DateTime dataA, Boolean daGiocare) {
-		try {
+	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, String dataDa, String dataA, Boolean daGiocare) {
+		return this.torneoBD.runTransaction(() -> {
+			try {
 
-			return this.torneoBD.runTransaction(() -> {
 				final Date datada;
 				final Date dataa;
 				if(dataDa == null) {
@@ -231,7 +232,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					nowCal.set(Calendar.MINUTE, 0);
 					datada = new DateTime(nowCal.getTime()).toDate();
 				} else {
-					datada = dataDa.toDate();
+					datada = formatter.parse(dataDa, Locale.getDefault()).toDate();
 				}
 
 				if(dataA == null) {
@@ -242,7 +243,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					Date tomorrow= nowCal.getTime();
 					dataa = new DateTime(tomorrow.getTime()).toDate();
 				} else {
-					dataa = dataA.toDate();
+					dataa = formatter.parse(dataA, Locale.getDefault()).toDate();
 				}
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 				List<PartitaVO> matchPerData = new ArrayList<>();
@@ -252,7 +253,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 							.filter(p -> p.getData().after(datada) && p.getData().before(dataa) 
 									&& (daGiocare == null || TorneoUtils.daGiocare(torneo, p.getCodicePartita()) == daGiocare))
 							.collect(Collectors.toList()));
-					
+
 				}
 
 				matchPerData = matchPerData.stream().sorted(new Comparator<PartitaVO>() {
@@ -278,15 +279,15 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				}
 
 				return ResponseEntity.ok(lst);
-			});
-		} catch(RuntimeException e) {
-			this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
-			throw e;
-		}
-		catch(Throwable e) {
-			this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
-			throw new InternalException(e);
-		}
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
 	}
 
 	public ResponseEntity<List<Torneo>> listTornei(Integer offset) {
@@ -370,29 +371,29 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		});
 	}
 
-//	@Override
-//	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
-//		return this.torneoBD.runTransaction(() -> {
-//			try {
-//				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-//
-//				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
-//					return pr.getGiocatore().getNome().equals(idGiocatore);
-//				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
-//				
-//
-//				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
-//			} catch(RuntimeException e) {
-//				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
-//				throw e;
-//			}
-//			catch(Throwable e) {
-//				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
-//				throw new InternalException(e);
-//			}
-//		});
-//	}
-//
+	//	@Override
+	//	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
+	//		return this.torneoBD.runTransaction(() -> {
+	//			try {
+	//				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+	//
+	//				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
+	//					return pr.getGiocatore().getNome().equals(idGiocatore);
+	//				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
+	//				
+	//
+	//				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
+	//			} catch(RuntimeException e) {
+	//				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+	//				throw e;
+	//			}
+	//			catch(Throwable e) {
+	//				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+	//				throw new InternalException(e);
+	//			}
+	//		});
+	//	}
+	//
 	@Override
 	public ResponseEntity<Pronostico> getPronostico(String idTorneo, String idGiocatore) {
 		return this.torneoBD.runTransaction(() -> {
@@ -402,7 +403,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {return pr.getGiocatore().getNome().equals(idGiocatore);}).findAny()
 						.orElseThrow(() -> new BadRequestException("Richiesta non valida"));
-				
+
 				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p, torneo.getPronosticoUfficiale()));
 
 				return ResponseEntity.ok(rsModel);

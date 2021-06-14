@@ -1,11 +1,10 @@
 package worldcup.clients.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import org.joda.time.format.DateTimeFormatter;
 
 import worldcup.clients.api.TorneoApi;
 import worldcup.clients.model.Partita;
@@ -30,7 +29,9 @@ public class PatchedApiClient extends ApiClient {
 //			}
 			
 		
-			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, null, null, null);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true);
 			
 			for(Partita partita: lst) {
 				System.out.println(partita.getIdPartita() + " " + partita.getData());

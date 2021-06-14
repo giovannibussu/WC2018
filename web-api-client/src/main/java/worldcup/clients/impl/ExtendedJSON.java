@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -23,7 +24,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import io.gsonfire.GsonFireBuilder;
-import worldcup.clients.impl.JSON;
 
 public class ExtendedJSON extends JSON {
     private Gson gson;
@@ -45,7 +45,7 @@ public class ExtendedJSON extends JSON {
     
     public ExtendedJSON() {
 		gson = createGson()
-//				.setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+				.setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
   		  .registerTypeAdapterFactory(enumAdapterFactory)
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
@@ -118,15 +118,12 @@ public class ExtendedJSON extends JSON {
         }
     }
 
-    /**
-     * Gson TypeAdapter for JSR310 OffsetDateTime type
-     */
-    public static class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
+    public static class OffsetDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
 
         private DateTimeFormatter formatter;
 
         public OffsetDateTimeTypeAdapter() {
-            this(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            this(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
 
         public OffsetDateTimeTypeAdapter(DateTimeFormatter formatter) {
@@ -138,7 +135,7 @@ public class ExtendedJSON extends JSON {
         }
 
         @Override
-        public void write(JsonWriter out, OffsetDateTime date) throws IOException {
+        public void write(JsonWriter out, LocalDateTime date) throws IOException {
             if (date == null) {
                 out.nullValue();
             } else {
@@ -147,7 +144,7 @@ public class ExtendedJSON extends JSON {
         }
 
         @Override
-        public OffsetDateTime read(JsonReader in) throws IOException {
+        public LocalDateTime read(JsonReader in) throws IOException {
             switch (in.peek()) {
                 case NULL:
                     in.nextNull();
@@ -157,7 +154,7 @@ public class ExtendedJSON extends JSON {
                     if (date.endsWith("+0000")) {
                         date = date.substring(0, date.length()-5) + "Z";
                     }
-                    return OffsetDateTime.parse(date, formatter);
+                    return LocalDateTime.parse(date, formatter);
             }
         }
     }

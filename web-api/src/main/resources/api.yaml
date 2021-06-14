@@ -243,14 +243,14 @@ paths:
           required: false
           schema:
             type: string
-            format: date-time
+            # format: date-time
         - name: data_a
           in: query
           description: data finale
           required: false
           schema:
             type: string
-            format: date-time
+            # format: date-time
         - name: da_giocare
           in: query
           description: se true restituisce solo partite da giocare, se false solo gia giocate
