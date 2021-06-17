@@ -342,6 +342,37 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		});
 	}
 
+	public ResponseEntity<Partita> deleteRisultatoPartita(final String idTorneo, final String idPartita) {
+		return this.torneoBD.runTransaction(() -> {
+			try {
+				this.torneoAuthorizationManager.autorizza(this.logger, this.request);
+
+				return this.torneoBD.runTransaction(() -> {
+					TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+
+					Optional<DatiPartitaVO> dpVO = TorneoUtils.getOptDatiPartita(idPartita, torneo.getPronosticoUfficiale()); 
+
+					if(dpVO.isPresent()) {
+						this.torneoBD.delete(dpVO.get());
+					}
+
+					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
+
+					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.empty(), formatter);
+
+					return ResponseEntity.ok(rsModel);
+				});
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
+	}
+
 	@Override
 	public ResponseEntity<Pronostico> postPronostico(final String idTorneo, final String idGiocatore, String link, Resource body) {
 		return this.torneoBD.runTransaction(() -> {
