@@ -14,6 +14,7 @@ public class SubdivisionVO {
 	private TIPO tipo;
 	private String nome;
 	private TorneoVO torneo;
+	private PunteggiVO punteggi;
 	
 	public Set<PartitaVO> getPartite() {
 		return partite;
@@ -61,5 +62,13 @@ public class SubdivisionVO {
 
 	public void setTorneo(TorneoVO torneo) {
 		this.torneo = torneo;
+	}
+
+	public PunteggiVO getPunteggi() {
+		return punteggi;
+	}
+
+	public void setPunteggi(PunteggiVO punteggi) {
+		this.punteggi = punteggi;
 	}
 }

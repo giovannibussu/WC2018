@@ -51,6 +51,10 @@ public class TorneoBD extends AbstractBD {
 		this.datiPartitaRepository.save(dpVO);
 	}
 
+	public void delete(DatiPartitaVO dpVO) {
+		this.datiPartitaRepository.delete(dpVO);
+	}
+
 	public void create(StadioVO stadio1) {
 		this.stadioRepository.save(stadio1);
 	}

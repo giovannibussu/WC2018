@@ -329,6 +329,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    delete:
+      summary: cancella il risultato della partita
+      operationId: deleteRisultatoPartita
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: la partita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Partita"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /tornei/{id_torneo}/partite/{id_partita}/pronostici:
     get:
       parameters:

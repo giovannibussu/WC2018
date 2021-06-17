@@ -9,6 +9,7 @@ import java.util.Optional;
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
+import worldcup.orm.vo.SquadraVO;
 import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
 
@@ -37,6 +38,40 @@ public class TorneoUtils {
 	public static Optional<DatiPartitaVO> getOptDatiPartita(String idPartita, PronosticoVO p) {
 		return p.getDatiPartite().stream().filter(pa -> pa.getCodicePartita().equals(idPartita)).findAny();
 	}
+
+	public static Optional<DatiPartitaVO> getDatiPartitaEqui(PartitaVO partita, TorneoVO torneoPronosticato) {
+		
+		SubdivisionVO s = torneoPronosticato.getSubdivisions().stream().filter(su -> partita.getSubdivision().getNome().equals(su.getNome()))
+				.findAny().orElseThrow(() -> new RuntimeException("Subdivision ["+partita.getSubdivision().getNome()+"] non trovata nel pronostico ["+torneoPronosticato.getPronosticoUfficiale().getGiocatore()+"]"));
+
+		for(PartitaVO p: s.getPartite()) {
+			if(isEqui(p, partita) || isReverse(p, partita)) {
+				return Optional.of(getDatiPartita(p.getCodicePartita(), torneoPronosticato.getPronosticoUfficiale()));
+			}
+		}
+		
+		return Optional.empty();
+	}
+
+	private static boolean isEqui(PartitaVO p, PartitaVO partita) {
+		return isStessaSquadra(p.getCasa(), partita.getCasa()) &&
+				isStessaSquadra(p.getTrasferta(), partita.getTrasferta());
+	}
+
+
+
+	private static boolean isStessaSquadra(SquadraVO casa, SquadraVO trasferta) {
+		return casa.getNome().equals(trasferta.getNome());
+	}
+
+
+
+	private static boolean isReverse(PartitaVO p, PartitaVO partita) {
+		return isStessaSquadra(p.getTrasferta(), partita.getCasa()) &&
+				isStessaSquadra(p.getCasa(), partita.getTrasferta());
+	}
+
+
 
 	public static boolean isCasa(CasaTrasfertaEnum casaTrasferta) {
 		return casaTrasferta.equals(CasaTrasfertaEnum.CASA);
@@ -81,16 +116,20 @@ public class TorneoUtils {
 		}
 	}
 
-	public static String getRisultatoEsatto(DatiPartitaVO dati) {
-		return dati.getGoalCasa() + "-" + dati.getGoalTrasferta();
+	public static String getRisultatoEsatto(DatiPartitaVO dati, boolean reverse) {
+		if(reverse) {
+			return dati.getGoalTrasferta() + "-" + dati.getGoalCasa();
+		} else {
+			return dati.getGoalCasa() + "-" + dati.getGoalTrasferta();
+		}
 	}
 
-	public static String getRisultato1x2(DatiPartitaVO dati) {
+	public static String getRisultato1x2(DatiPartitaVO dati, boolean reverse) {
 
 		if(dati.getGoalCasa() > dati.getGoalTrasferta()) {
-			return "1";
+			return reverse ? "2" : "1";
 		} else if(dati.getGoalTrasferta() > dati.getGoalCasa()) {
-			return "2";
+			return reverse ? "1" : "2";
 		} else {
 			return "X";
 		}
@@ -102,26 +141,42 @@ public class TorneoUtils {
 		return 0;
 	}
 
+	public static TorneoVO getTorneoPronosticato(PronosticoVO pronostico) {
+		return pronostico.getTorneo(); // TODO
+	}
+	
 	public static List<Distribuzione> getDistribuzione(TorneoVO torneo, String idPartita, boolean distr1x2) {
 		List<Distribuzione> distr = new ArrayList<>();
 		
 		Map<String, List<String>> mappaNomi = new HashMap<>();
 		for(PronosticoVO p: torneo.getPronostici()) {
 			
-			String key = null;
-			if(distr1x2) {
-				key = getRisultato1x2(getDatiPartita(idPartita, p));
-			} else {
-				key = getRisultatoEsatto(getDatiPartita(idPartita, p));
-			}
-			if(!mappaNomi.containsKey(key)) {
-				List<String> lst = new ArrayList<>();
-				lst.add(p.getGiocatore().getNome());
-				mappaNomi.put(key, lst);
-			} else {
-				List<String> lst = mappaNomi.get(key);
-				lst.add(p.getGiocatore().getNome());
-				mappaNomi.put(key, lst);
+			TorneoVO torneoPronosticato = getTorneoPronosticato(p);
+			
+			PartitaVO partitaUfficiale = findPartita(idPartita, torneo);
+			Optional<DatiPartitaVO> optPartita = getDatiPartitaEqui(partitaUfficiale, torneoPronosticato);
+			
+			if(optPartita.isPresent()) {
+				
+				String idPartitaPronostico = optPartita.get().getCodicePartita();
+				PartitaVO partitaPronostico = findPartita(idPartitaPronostico, torneo);
+				boolean reverse = isReverse(partitaUfficiale, partitaPronostico);
+
+				String key = null;
+				if(distr1x2) {
+					key = getRisultato1x2(getDatiPartita(idPartitaPronostico, p), reverse);
+				} else {
+					key = getRisultatoEsatto(getDatiPartita(idPartitaPronostico, p), reverse);
+				}
+				if(!mappaNomi.containsKey(key)) {
+					List<String> lst = new ArrayList<>();
+					lst.add(p.getGiocatore().getNome());
+					mappaNomi.put(key, lst);
+				} else {
+					List<String> lst = mappaNomi.get(key);
+					lst.add(p.getGiocatore().getNome());
+					mappaNomi.put(key, lst);
+				}
 			}
 		}
 		
@@ -139,6 +194,24 @@ public class TorneoUtils {
 
 	public static boolean daGiocare(TorneoVO torneo, String codicePartita) {
 		return !torneo.getPronosticoUfficiale().getDatiPartite().stream().anyMatch(dp -> dp.getCodicePartita().equals(codicePartita));
+	}
+
+	public static boolean isRisultatoEsatto(PartitaVO partitaUfficiale, DatiPartitaVO datiPartitaUfficiale,
+			PartitaVO partitaPronostico, DatiPartitaVO datiPartitaPronostico) {
+		if(isEqui(partitaUfficiale, partitaPronostico)) {
+			return getRisultatoEsatto(datiPartitaUfficiale, true).equals(getRisultatoEsatto(datiPartitaPronostico, isReverse(partitaUfficiale, partitaPronostico)));
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean isRisultato1x2(PartitaVO partitaUfficiale, DatiPartitaVO datiPartitaUfficiale,
+			PartitaVO partitaPronostico, DatiPartitaVO datiPartitaPronostico) {
+		if(isEqui(partitaUfficiale, partitaPronostico)) {
+			return getRisultato1x2(datiPartitaUfficiale, true).equals(getRisultato1x2(datiPartitaPronostico, isReverse(partitaUfficiale, partitaPronostico)));
+		} else {
+			return false;
+		}
 	}
 	
 	

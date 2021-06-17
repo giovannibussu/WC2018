@@ -15,7 +15,7 @@ public class XlsxReader {
 	public static void main(String[] args) throws Exception {
 
 //		System.out.println(new Date());
-		File myFile = new File("/home/bussu/Downloads/tabellone-euro2020_Porta.xlsx");
+		File myFile = new File("/home/giovanni/Scaricati/pronostico_Porta.xlsx");
 		Workbook myWorkBook = WorkbookFactory.create(myFile);
 
 		Sheet mySheet = myWorkBook.getSheet("Matches");
