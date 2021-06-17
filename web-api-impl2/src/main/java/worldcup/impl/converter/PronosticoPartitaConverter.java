@@ -2,6 +2,8 @@ package worldcup.impl.converter;
 
 import org.springframework.format.Formatter;
 
+import java.util.Optional;
+
 import org.joda.time.DateTime;
 
 import worldcup.model.PronosticoPartita;
@@ -15,7 +17,7 @@ public class PronosticoPartitaConverter {
 		PronosticoPartita rsModel = new PronosticoPartita();
 		
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(playerDto));
-		rsModel.setPartita(PartitaConverter.toRsModel(partita, dp, formatter));
+		rsModel.setPartita(PartitaConverter.toRsModel(partita, Optional.of(dp), formatter));
 		rsModel.setPronostico(PronosticoConverter.toRsModel(dp));
 
 		return rsModel;
