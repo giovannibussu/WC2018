@@ -139,7 +139,7 @@
 		                	<form action="<%= context %>/inviaRisultato.jsp" method="get"> 
 		                		<input type="hidden" name="username" value="<%=username%>" >
 		                		<input type="hidden" name="password" value="<%=password%>">
-		                		<input type="hidden" name="azione" value="delete">
+		                		<input type="hidden" name="azione" value="cancella">
 		                		<div class="form-group">
 								    <label for="listaMatch">Match</label>
 								    <select class="form-control" id="listaMatch" name="matchSelezionato">
@@ -150,18 +150,6 @@
 								    	<% }%>
 								    </select>
 							  </div>
-							  <div class="form-group">
-							  	<div class="form-row">
-   									<div class="col-md-6">
-							    		<label for="inputCasa">Punteggio Casa</label>
-							    		<input type="number" class="form-control" id="inputCasa" aria-describedby="Punteggio Casa" placeholder="Inserire Punteggio Squadra in casa" min="0" name="inputCasa" >
-							  		</div>
-							  		<div class="col-md-6">
-							    		<label for="inputTrasferta">Punteggio Trasferta</label>
-							    		<input type="number" class="form-control" id="inputTrasferta" aria-describedby="Punteggio Trasferta" placeholder="Inserire Punteggio Squadra in trasferta" min="0" name="inputTrasferta">
-							  		</div>
-						  		</div>
-					  		</div>
 					  		<div class="form-group">
 						  		<div class="form-row" style="margin: auto;">
 							  	<button type="submit" class="btn btn-backtotop">Salva</button>
