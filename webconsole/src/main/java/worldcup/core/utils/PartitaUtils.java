@@ -3,6 +3,7 @@ package worldcup.core.utils;
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.PronosticoRisultato;
 import worldcup.clients.model.Risultato;
+import worldcup.clients.model.RisultatoPartita;
 
 public class PartitaUtils {
 
@@ -52,11 +53,24 @@ public class PartitaUtils {
 	}
 	
 	public static String getRisultatoEsattoReversed(PronosticoRisultato risultato) {
-		return risultato.getGoalHome() + "-" + risultato.getGoalAway();
+		return risultato.getGoalAway() + "-" + risultato.getGoalHome();
 	}
 	
 	public static Risultato getRisultato(PronosticoRisultato risultato) {
 		return (risultato.getGoalHome().intValue()==risultato.getGoalAway().intValue()) ? Risultato.X 
 				: (risultato.getGoalHome().intValue()>risultato.getGoalAway().intValue())? Risultato._1 : Risultato._2;
+	}
+	
+	public static String getRisultatoEsatto(RisultatoPartita risultato) {
+		return risultato.getGoalCasa() + "-" + risultato.getGoalTrasferta();
+	}
+	
+	public static String getRisultatoEsattoReversed(RisultatoPartita risultato) {
+		return risultato.getGoalTrasferta() + "-" + risultato.getGoalCasa();
+	}
+	
+	public static Risultato getRisultato(RisultatoPartita risultato) {
+		return (risultato.getGoalCasa().intValue()==risultato.getGoalTrasferta().intValue()) ? Risultato.X 
+				: (risultato.getGoalCasa().intValue()>risultato.getGoalTrasferta().intValue())? Risultato._1 : Risultato._2;
 	}
 }

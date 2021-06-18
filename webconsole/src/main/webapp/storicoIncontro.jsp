@@ -1,3 +1,5 @@
+<%@page import="worldcup.clients.model.Risultato"%>
+<%@page import="worldcup.clients.model.RisultatoPartita"%>
 <%@page import="worldcup.core.utils.PartitaUtils"%>
 <%@page import="worldcup.clients.model.PronosticoRisultato"%>
 <%@page import="worldcup.clients.model.Giocatore"%>
@@ -15,7 +17,7 @@
 <html lang="en">
 
 	<jsp:include page="includes/header.jsp" flush="true">
-		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Incontro" />
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Storico Incontro" />
 	</jsp:include>
     <%
     String context = request.getContextPath();
@@ -23,7 +25,7 @@
     ProssimiIncontri pi = new ProssimiIncontri();
     Partita match = pi.getMatch(idMatch);
     List<PronosticoPartita> listaPronosticiMatch = pi.getPronosticiPerMatch(idMatch);
-    boolean visualizzaGrafici = true;
+    boolean visualizzaGrafici = false;
     %>
   <body>
   
@@ -32,7 +34,7 @@
     </script>
 
 	<jsp:include page="includes/navbar.jsp" flush="true">
-		<jsp:param name="idPagina" value="1" />
+		<jsp:param name="idPagina" value="3" />
 	</jsp:include>
 
     <main role="main" class="container">
@@ -50,6 +52,9 @@
 	          		Squadra s1 = match.getCasa();
 	          		Squadra s2 = match.getTrasferta();
 	          		String descrizioneMatch = match.getDescrizione();
+	          		RisultatoPartita risultatoMatch = match.getRisultato();
+	          		String risultatoUfficiale = PartitaUtils.getRisultatoEsatto(risultatoMatch);
+	          		Risultato risultatoUfficialeEnum = PartitaUtils.getRisultato(risultatoMatch);
 	          	%>
                        <li>
 						<div class="imspo_mt__mtc-no" id="div_match_<%=match.getIdPartita() %>">
@@ -94,7 +99,7 @@
 												src="<%=s1.getBandiera() %>"
 												alt=""></jsl></td>
 										<td class="tns-c imspo_mt__dt-t">
-											<div style="display: none;"></div>
+											<div class="imspo_mt__t-sc"><div class="imspo_mt__tt-w"><%=risultatoMatch.getGoalCasa() %></div></div>
 											<div class="imspo_mt__tt-w">
 												<div class="ellipsisize">
 													<span class="qRHjyd" style="display: none"></span>
@@ -109,7 +114,8 @@
 											<img style="width: 48px; height: 48px;"
 												src="<%=s2.getBandiera() %>"
 												alt=""></jsl></td>
-										<td class="tns-c imspo_mt__dt-t"><div style="display: none;"></div>
+										<td class="tns-c imspo_mt__dt-t">
+											<div class="imspo_mt__t-sc"><div class="imspo_mt__tt-w"><%=risultatoMatch.getGoalTrasferta() %></div></div>
 											<div class="imspo_mt__tt-w">
 												<div class="ellipsisize">
 													<span class="qRHjyd" style="display: none" ></span>
@@ -148,6 +154,61 @@
 			</div>
 			
 			<% } %>
+			
+			<div class="row">
+				<%
+				int sommaOk = 0;
+				int sommaEsatti = 0;
+				int numeroPronostici = listaPronosticiMatch.size();
+				
+                for(PronosticoPartita pronostico: listaPronosticiMatch){
+	               	 Giocatore p = pronostico.getGiocatore();
+	               	PronosticoRisultato pronosticoRisultato = pronostico.getPronostico();
+	                Partita m = pronostico.getPartita();
+	                String risultato = (m.getRisultato() != null && PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) != null) ? PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) : ""; //TODO bussu ribaltare risultati
+	                Risultato risultatoEnum = PartitaUtils.getRisultato(pronosticoRisultato);
+	                
+	                if(risultatoUfficiale.equals(risultato)){
+	               	 sommaEsatti ++;
+	                } else {
+	               	 if(risultatoUfficialeEnum.equals(risultatoEnum)){
+	               		sommaOk ++;
+	               	 }
+	                }
+                }
+                
+                int numeroErrati = numeroPronostici - (sommaEsatti + sommaOk);
+                
+                int percOk = numeroPronostici != 0 ? ((int) sommaOk * 100 / numeroPronostici) : 0;
+                int percEsatti = numeroPronostici != 0 ? ((int) sommaEsatti * 100 / numeroPronostici) : 0;
+                int percErrati = numeroPronostici != 0 ? ((int) numeroErrati * 100 / numeroPronostici) : 0;
+				%>
+	         	<div class="col-md-12">
+	            <div class="ec-fancy-title">
+	               <h3>Statistiche Incontro</h3>
+	               </div>
+	               <div class="ec-fixture-list">
+	                   <ul>
+	                   		<li class="">
+	                   			<div class="ec-cell"><span>Totale giocate:</span></div>
+	                           <div class="ec-cell"><span><%=listaPronosticiMatch.size() %></span></div>
+	              			</li>
+	              			<li class="">
+	                   			<div class="ec-cell"><span>Risultato:</span></div>
+	                           <div class="ec-cell"><span><%=sommaOk %> (<%=percOk %>%)</span></div>
+	              			</li>
+	              			<li class="">
+	                   			<div class="ec-cell"><span>Risultato esatto:</span></div>
+	                           <div class="ec-cell"><span><%=sommaEsatti %> (<%=percEsatti %>%)</span></div>
+	              			</li>
+	              			<li class="">
+	                   			<div class="ec-cell"><span>Errato:</span></div>
+	                           <div class="ec-cell"><span><%=numeroErrati %> (<%=percErrati %>%)</span></div>
+	              			</li>
+	           			</ul>
+	       			</div>
+	   			</div>
+			</div>
 	
 	         <div class="row">
 	         	<div class="col-md-12">
@@ -166,10 +227,23 @@
 			                 PronosticoRisultato pronosticoRisultato = pronostico.getPronostico();
 			                 Partita m = pronostico.getPartita();
 			                 String risultato = (m.getRisultato() != null && PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) != null) ? PartitaUtils.getRisultatoEsatto(pronosticoRisultato, m, match) : ""; //TODO bussu ribaltare risultati
+			                 Risultato risultatoEnum = PartitaUtils.getRisultato(pronosticoRisultato);
+			                 
+			                 String classRisultato = "";
+			                 
+			                 if(risultatoUfficiale.equals(risultato)){
+			                	 classRisultato = "ec-cell-risultato-esatto";
+			                 } else {
+			                	 if(risultatoUfficialeEnum.equals(risultatoEnum)){
+			                		 classRisultato = "ec-cell-ok";
+			                	 }
+			                 }
+				          	
+				          	
 				          	%>
 	                       <li class="<%=liStyleClass %>">
 	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
-	                           <div class="ec-cell"><span><%=risultato %></span></div>
+	                           <div class="ec-cell <%=classRisultato %>"><span><%=risultato %></span></div>
 	                       </li>
 	                   <% } %>       
 	                     </ul>

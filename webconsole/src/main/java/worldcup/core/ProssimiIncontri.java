@@ -1,10 +1,12 @@
 package worldcup.core;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
-
-import org.joda.time.DateTime;
 
 import worldcup.clients.api.TorneoApi;
 import worldcup.clients.impl.ApiClient;
@@ -37,8 +39,8 @@ public class ProssimiIncontri {
 //		nowCal.add(Calendar.DATE, 6);
 //		Date tomorrow= nowCal.getTime();
 //
-		DateTime start = null;//new DateTime(now);
-		DateTime end = null; //new DateTime(tomorrow);
+		String start = null;//new DateTime(now);
+		String end = null; //new DateTime(tomorrow);
 		try {
 			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true);
 //			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
@@ -75,21 +77,30 @@ public class ProssimiIncontri {
 	}
 
 	public List<Partita> getListaMatch(){   
-//		Calendar nowCal = new GregorianCalendar();
-//		nowCal.set(Calendar.HOUR_OF_DAY, 0);
-//		nowCal.set(Calendar.MINUTE, 0);
-//		Date now = nowCal.getTime();
-//		nowCal.add(Calendar.DATE, 6);
-//		Date tomorrow= nowCal.getTime();
-//
-		DateTime start = null;//new DateTime(now);
-		DateTime end = null; //new DateTime(tomorrow);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		
+		Calendar startCal = new GregorianCalendar();
+		startCal.set(Calendar.HOUR_OF_DAY, 0);
+		startCal.set(Calendar.MINUTE, 0);
+		startCal.set(Calendar.YEAR, 2021);
+		startCal.set(Calendar.MONTH, 5);
+		startCal.set(Calendar.DATE, 10);
+		Date now = startCal.getTime();
+		
+		String start = formatter.format(now);
+		
+		Calendar endCal = new GregorianCalendar();
+		endCal.set(Calendar.HOUR_OF_DAY, 0);
+		endCal.set(Calendar.MINUTE, 0);
+		endCal.set(Calendar.YEAR, 2021);
+		endCal.set(Calendar.MONTH, 6);
+		endCal.set(Calendar.DATE, 15);
+		Date tomorrow = endCal.getTime();
+		
+		String end = formatter.format(tomorrow);
+
 		try {
 			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true);
-//			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
-//			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
-//						
-//			return maxPartite < matchPerData.size() ? matchPerData.subList(0, maxPartite) : matchPerData;
 			return matchPerData;
 		} catch (Exception e) {
 			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
@@ -120,5 +131,38 @@ public class ProssimiIncontri {
 		return null;
 		
 //		return this.gioco.distribuzionePronosticiPerMatchRisultato(match);
+	}
+	
+	public List<Partita> getListaMatchStorico(){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		
+		Calendar startCal = new GregorianCalendar();
+		startCal.set(Calendar.HOUR_OF_DAY, 0);
+		startCal.set(Calendar.MINUTE, 0);
+		startCal.set(Calendar.YEAR, 2021);
+		startCal.set(Calendar.MONTH, 5);
+		startCal.set(Calendar.DATE, 10);
+		Date now = startCal.getTime();
+		
+		String start = formatter.format(now);
+		
+		Calendar endCal = new GregorianCalendar();
+		endCal.set(Calendar.HOUR_OF_DAY, 0);
+		endCal.set(Calendar.MINUTE, 0);
+		endCal.set(Calendar.YEAR, 2021);
+		endCal.set(Calendar.MONTH, 6);
+		endCal.set(Calendar.DATE, 15);
+		Date tomorrow = endCal.getTime();
+		
+		String end = formatter.format(tomorrow);
+		
+		try {
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, Integer.MAX_VALUE, 0l, start, end, false);
+			return matchPerData;
+		} catch (Exception e) {
+			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
+			e.printStackTrace(System.err);
+		}
+		return new ArrayList<>();
 	}
 }

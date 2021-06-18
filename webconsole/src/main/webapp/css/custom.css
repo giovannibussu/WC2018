@@ -128,6 +128,20 @@ ul {margin-bottom: 0px;}
 	display: inline;
 }
 
+.ec-cell-ko {
+	
+}
+
+.ec-cell-ok {
+	background-color: #65a620;
+    color: white;
+}
+
+.ec-cell-risultato-esatto {
+	background-color: #2484c1;
+    color: white;
+}
+
 @media (max-width: 399px) {
 	 .ec-cell-bandiera {
 		display: none;

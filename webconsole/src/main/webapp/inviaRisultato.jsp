@@ -1,3 +1,4 @@
+<%@page import="worldcup.clients.model.RisultatoPartita"%>
 <%@page import="worldcup.clients.model.Squadra"%>
 <%@page import="worldcup.clients.model.Partita"%>
 <%@page import="worldcup.core.SalvaRisultato"%>
@@ -16,16 +17,25 @@
     String idMatch = request.getParameter("matchSelezionato");
 	String inputCasa = request.getParameter("inputCasa");
     String inputTrasferta = request.getParameter("inputTrasferta");
+    String azione = request.getParameter("azione");
     String context = request.getContextPath();
     SalvaRisultato salvaRisultato = new SalvaRisultato();
     
     Partita partita = null;
     String errore = null;
-  	try{
-    	partita = salvaRisultato.setResult(username, password, idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
-	}catch (Exception e){
-  		errore = e.getMessage();
-  	}
+    if(azione != null && azione.equals("cancella")){
+    	try{
+	    	partita = salvaRisultato.cancellaRisultato(username, password, idMatch);
+		}catch (Exception e){
+	  		errore = e.getMessage();
+	  	}
+    } else {
+	  	try{
+	    	partita = salvaRisultato.setResult(username, password, idMatch, Integer.parseInt(inputCasa), Integer.parseInt(inputTrasferta)); 
+		}catch (Exception e){
+	  		errore = e.getMessage();
+	  	}
+    }
     %>
 
   <body>
@@ -43,7 +53,7 @@
 				Squadra s1 = partita.getCasa();
           		Squadra s2 = partita.getTrasferta();
           		String descrizioneMatch = partita.getDescrizione();
-			
+				RisultatoPartita risultato = partita.getRisultato();
 			%>
           <div class="row">
           	<div class="col-md-12">
@@ -54,7 +64,18 @@
                 	 <ul>
                 	 	<li>
                 	 		<div class="ec-cell">
-	                			<span><%=descrizioneMatch %>: Risultato Registrato</span>
+	                			<span>
+	                			
+	                			<p><%=descrizioneMatch %></p>
+	                			
+	                			<p><%=s1.getNome() %> - <%=s2.getNome() %></p>
+	                			<% if(azione != null && azione.equals("cancella")){ %>
+	                				<p>Risultato Cancellato</p>
+	                			<% } else { %>
+	                				<p>Risultato Registrato: <%=risultato.getGoalCasa() %>-<%=risultato.getGoalTrasferta() %></p>
+	                			<% } %>
+	                			</span>
+	                			
                 			</div>
                 		</li>
                		</ul>
