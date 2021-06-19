@@ -11,19 +11,19 @@ create sequence seq_punteggi start 1 increment 1;
     );
 
 insert into punteggi(id, identificativo, punti_risultato, punti_risultato_esatto, punti_posizione, punti_passaggi)
- values(nextval('seq_punteggi'), 'gironi', 1, 3, 5,0);
+ values(nextval('seq_punteggi'), 'gironi', 1, 3, 3,0);
 
 insert into punteggi(id, identificativo, punti_risultato, punti_risultato_esatto, punti_posizione, punti_passaggi)
- values(nextval('seq_punteggi'), 'ottavi', 1, 3, 5,7);
+ values(nextval('seq_punteggi'), 'ottavi', 3, 7, 0,5);
 
 insert into punteggi(id, identificativo, punti_risultato, punti_risultato_esatto, punti_posizione, punti_passaggi)
- values(nextval('seq_punteggi'), 'quarti', 1, 3, 5,7);
+ values(nextval('seq_punteggi'), 'quarti', 5, 11, 4,6);
 
 insert into punteggi(id, identificativo, punti_risultato, punti_risultato_esatto, punti_posizione, punti_passaggi)
- values(nextval('seq_punteggi'), 'semifinali', 1, 3, 5,7);
+ values(nextval('seq_punteggi'), 'semifinali', 6, 15, 7,7);
 
 insert into punteggi(id, identificativo, punti_risultato, punti_risultato_esatto, punti_posizione, punti_passaggi)
- values(nextval('seq_punteggi'), 'finale', 1, 3, 5,7);
+ values(nextval('seq_punteggi'), 'finale', 7, 21, 8,8);
 
 alter table subdivisions add column id_punteggi int8;
 
