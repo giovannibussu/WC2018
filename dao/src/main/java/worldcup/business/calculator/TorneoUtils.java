@@ -2,9 +2,11 @@ package worldcup.business.calculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.PartitaVO;
@@ -12,6 +14,7 @@ import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SquadraVO;
 import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
+import worldcup.orm.vo.SubdivisionVO.TIPO;
 
 public class TorneoUtils {
 
@@ -142,9 +145,39 @@ public class TorneoUtils {
 	}
 
 	public static TorneoVO getTorneoPronosticato(PronosticoVO pronostico) {
-		return pronostico.getTorneo(); // TODO
+		TorneoVO torneo = new TorneoVO();
+		torneo.setNome(pronostico.getTorneo().getNome());
+		torneo.setPronosticoUfficiale(pronostico);
+		Set<SubdivisionVO> subs = new HashSet<>();
+		for(SubdivisionVO s: pronostico.getTorneo().getSubdivisions()) {
+			
+			if(s.getTipo().equals(TIPO.GIRONE)) {
+				subs.add(s);				
+			} else {
+				SubdivisionVO s2 = new SubdivisionVO();
+				s2.setNome(s.getNome());
+				s2.setTipo(s.getTipo());
+				Set<PartitaVO> partite = new HashSet<PartitaVO>();
+				for(PartitaVO p: s.getPartite()) {
+					PartitaVO p2 = merge(p, pronostico);
+					partite.add(p2);
+				}
+				s2.setPartite(partite);
+				subs.add(s2);
+			}
+		}
+		torneo.setSubdivisions(subs);
+				
+		return torneo; // TODO
 	}
 	
+	private static PartitaVO merge(PartitaVO p, PronosticoVO pronostico) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	public static List<Distribuzione> getDistribuzione(TorneoVO torneo, String idPartita, boolean distr1x2) {
 		List<Distribuzione> distr = new ArrayList<>();
 		
