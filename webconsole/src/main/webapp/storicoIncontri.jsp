@@ -1,3 +1,4 @@
+<%@page import="worldcup.clients.model.RisultatoPartita"%>
 <%@page import="worldcup.core.utils.Utilities"%>
 <%@page import="worldcup.clients.model.Squadra"%>
 <%@page import="worldcup.clients.model.Stadio"%>
@@ -9,17 +10,17 @@
 <html lang="en">
 
 	<jsp:include page="includes/header.jsp" flush="true">
-		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Prossimi Incontri" />
+		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Storico Incontri" />
 	</jsp:include>
 	<%
     String context = request.getContextPath();
     ProssimiIncontri pi = new ProssimiIncontri();
-    List<Partita> listaPartite = pi.getListProssimiIncontri(); 
+    List<Partita> listaPartite = pi.getListaMatchStorico(); 
     %>
   <body>
 
 	<jsp:include page="includes/navbar.jsp" flush="true">
-		<jsp:param name="idPagina" value="1" />
+		<jsp:param name="idPagina" value="3" />
 	</jsp:include>
 
     <main role="main" class="container">
@@ -31,7 +32,7 @@
           <div class="row">
           	<div class="col-md-12">
 	            <div class="ec-fancy-title">
-	               <h3>Prossimi incontri</h3>
+	               <h3>Storico incontri</h3>
                 </div>
                 <div class="ec-fixture-list">
                     <ul>
@@ -44,10 +45,11 @@
 		          		Squadra s1 = match.getCasa();
 		          		Squadra s2 = match.getTrasferta();
 		          		String descrizioneMatch = match.getDescrizione();
+		          		RisultatoPartita risultato = match.getRisultato();
 		          	%>
                         <li class="<%=liStyleClass %>">
                         	<div class="imspo_mt__mtc-no scheda_match" id="div_match_<%=match.getIdPartita() %>">
-                        		<input type="hidden" value="<%=context %>/incontro.jsp?idMatch=<%=match.getIdPartita() %>" id="<%=match.getIdPartita() %>"/>
+                        		<input type="hidden" value="<%=context %>/storicoIncontro.jsp?idMatch=<%=match.getIdPartita() %>" id="<%=match.getIdPartita() %>"/>
 								<table class="imspo_mt__mit">
 									<tbody>
 										<tr class="imspo_mt__tr-s">
@@ -87,14 +89,16 @@
 													src="<%=s1.getBandiera() %>"
 													alt=""></jsl></td>
 											<td class="tns-c imspo_mt__dt-t">
-												<div style="display: none;"></div>
+												<div class="imspo_mt__t-sc"><div class="imspo_mt__tt-w"><%=risultato.getGoalCasa() %></div></div>
 												<div class="imspo_mt__tt-w">
 													<div class="ellipsisize">
 														<span class="qRHjyd" style="display: none"></span>
 															<span><%=s1.getNome() %></span>
 														</div>
 												</div></td>
-											<td class="imspo_mt__rg"><svg style="display: none;" ></svg></td>
+											<td class="imspo_mt__rg">
+											<svg style="display: none;"></svg>
+											</td>
 										</tr>
 										<tr class="imspo_mt__bt-s"></tr>
 										<tr class="imspo_mt__tr">
@@ -102,14 +106,17 @@
 												<img style="width: 48px; height: 48px;"
 													src="<%=s2.getBandiera() %>"
 													alt=""></jsl></td>
-											<td class="tns-c imspo_mt__dt-t"><div style="display: none;"></div>
+											<td class="tns-c imspo_mt__dt-t">
+												<div class="imspo_mt__t-sc"><div class="imspo_mt__tt-w"><%=risultato.getGoalTrasferta() %></div></div>
 												<div class="imspo_mt__tt-w">
 													<div class="ellipsisize">
 														<span class="qRHjyd" style="display: none" ></span>
 														<span><%=s2.getNome() %></span>
 													</div>
 												</div></td>
-											<td class="imspo_mt__rg"><svg style="display: none;"></svg></td>
+											<td class="imspo_mt__rg">
+											<svg style="display: none;"></svg>
+											</td>
 										</tr>
 										<tr style="display: none;" ></tr>
 										<tr style="display: none;" ></tr>

@@ -12,7 +12,7 @@ import worldcup.clients.model.Partita;
 public class PatchedApiClient extends ApiClient {
 
 	public static void main(String[] args) {
-		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
+		ApiClient client = new PatchedApiClient(Optional.of("EURO2021"), Optional.of("EURO2021"));
 		client.setBasePath("http://127.0.0.1:8081/api-worldcup/api/v1");
 
 		TorneoApi torneoApi = new TorneoApi(client);
@@ -29,13 +29,14 @@ public class PatchedApiClient extends ApiClient {
 //			}
 			
 		
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true);
+//			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true);
 			
-			for(Partita partita: lst) {
-				System.out.println(partita.getIdPartita() + " " + partita.getData());
-			}
+			torneoApi.deleteRisultatoPartita("EURO2021", "1");
+//			for(Partita partita: lst) {
+//				System.out.println(partita.getIdPartita() + " " + partita.getData());
+//			}
 			
 		} catch(Exception e) {
 			e.printStackTrace(System.err);

@@ -18,7 +18,9 @@
     %>
   <body>
 
-	<jsp:include page="includes/navbar.jsp" flush="true"></jsp:include>
+	<jsp:include page="includes/navbar.jsp" flush="true">
+		<jsp:param name="idPagina" value="2" />
+	</jsp:include>
 
     <main role="main" class="container">
     	

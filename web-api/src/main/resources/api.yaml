@@ -181,6 +181,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /tornei/{id_torneo}/pronostici/ufficiale:
+    parameters:
+    - name: id_torneo
+      in: path
+      description: limit
+      required: true
+      schema:
+        type: string
+    get:
+      summary: restituisce un pronostico per un giocatore
+      operationId: getPronosticoUfficiale
+      tags:
+        - Torneo
+      responses:
+        '200':
+          description: pronostico
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pronostico"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   # /tornei/{id_torneo}/pronostici/{id_giocatore}/raw:
   #   get:
   #     parameters:
@@ -257,6 +283,12 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: order_type
+          in: query
+          description: ordinamento ASC o DESC, per data
+          required: false
+          schema:
+            $ref: "#/components/schemas/OrderType"
       summary: restituisce la lista delle partite filtrate
       operationId: listPartite
       tags:
@@ -419,6 +451,11 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    OrderType:
+      type: string
+      enum:
+        - ASC
+        - DESC
     Classifica:
       type: array
       items:
@@ -435,6 +472,8 @@ components:
           $ref: "#/components/schemas/Squadra"
         link:
           type: string
+        partite:
+          $ref: "#/components/schemas/ListaPartite"
     ListaPartite:
       type: array
       items:
