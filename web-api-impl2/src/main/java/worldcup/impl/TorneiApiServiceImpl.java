@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.format.Formatter;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import worldcup.BadRequestException;
 import worldcup.InternalException;
-import worldcup.NotFoundException;
 import worldcup.api.TorneiApi;
 import worldcup.business.TorneoBD;
 import worldcup.business.calculator.ClassificaGiocone;
@@ -38,6 +36,7 @@ import worldcup.impl.converter.PronosticoPartitaConverter;
 import worldcup.impl.converter.TorneoConverter;
 import worldcup.impl.utils.TorneoAuthorizationManager;
 import worldcup.model.Grafico;
+import worldcup.model.OrderType;
 import worldcup.model.Partita;
 import worldcup.model.Pronostico;
 import worldcup.model.PronosticoPartita;
@@ -221,7 +220,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		}
 	}
 
-	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, String dataDa, String dataA, Boolean daGiocare) {
+	public ResponseEntity<List<Partita>> listPartite(final String idTorneo, Integer limit, Long offset, String dataDa, String dataA, Boolean daGiocare, OrderType orderType) {
 		return this.torneoBD.runTransaction(() -> {
 			try {
 
@@ -261,7 +260,11 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					@Override
 					public int compare(PartitaVO o1, PartitaVO o2) {
-						return o1.getData().compareTo(o2.getData());
+						if(orderType == null || orderType.equals(OrderType.ASC)) {
+							return o1.getData().compareTo(o2.getData());
+						} else {
+							return o2.getData().compareTo(o1.getData());
+						}
 					}}).collect(Collectors.toList());
 
 
@@ -403,29 +406,6 @@ public class TorneiApiServiceImpl implements TorneiApi {
 		});
 	}
 
-	//	@Override
-	//	public ResponseEntity<Resource> getPronosticoRaw(String idTorneo, String idGiocatore) {
-	//		return this.torneoBD.runTransaction(() -> {
-	//			try {
-	//				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
-	//
-	//				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {
-	//					return pr.getGiocatore().getNome().equals(idGiocatore);
-	//				}).findFirst().orElseThrow(() -> new NotFoundException("Pronostico per giocatore ["+idGiocatore+"] e torneo ["+idTorneo+"] non trovato"));
-	//				
-	//
-	//				return ResponseEntity.ok().header("Content-Disposition", "attachment; filename=tabellone-euro2020_"+idGiocatore+".xlsx").body(new ByteArrayResource(p.getPronosticoOriginale()));
-	//			} catch(RuntimeException e) {
-	//				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
-	//				throw e;
-	//			}
-	//			catch(Throwable e) {
-	//				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
-	//				throw new InternalException(e);
-	//			}
-	//		});
-	//	}
-	//
 	@Override
 	public ResponseEntity<Pronostico> getPronostico(String idTorneo, String idGiocatore) {
 		return this.torneoBD.runTransaction(() -> {
@@ -435,6 +415,29 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {return pr.getGiocatore().getNome().equals(idGiocatore);}).findAny()
 						.orElseThrow(() -> new BadRequestException("Richiesta non valida"));
+
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p));
+
+				return ResponseEntity.ok(rsModel);
+			} catch(RuntimeException e) {
+				this.logger.error("Invocazione terminata con errore '4xx': " +e.getMessage(),e);
+				throw e;
+			}
+			catch(Throwable e) {
+				this.logger.error("Invocazione terminata con errore: " +e.getMessage(),e);
+				throw new InternalException(e);
+			}
+		});
+	}
+
+	@Override
+	public ResponseEntity<Pronostico> getPronosticoUfficiale(String idTorneo) {
+		return this.torneoBD.runTransaction(() -> {
+			try {
+
+				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
+
+				PronosticoVO p = torneo.getPronosticoUfficiale();
 
 				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p));
 

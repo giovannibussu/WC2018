@@ -61,4 +61,22 @@ public class SalvaRisultato {
 			throw e;
 		}
 	}
+	
+	public Partita cancellaRisultato(String username, String password, String idPartita) throws Exception {
+		try {
+			this.username = username;
+			this.password = password;
+			this.idTorneo =  TorneoConfig.getInstance().getIdTorneo();
+			
+			ApiClient client = new PatchedApiClient(Optional.of(this.username), Optional.of(this.password));
+			client.setBasePath(TorneoConfig.getInstance().getApiBaseUrl());
+			this.torneoApi = new TorneoApi(client);
+			
+			return this.torneoApi.deleteRisultatoPartita(this.idTorneo, idPartita);
+		} catch (Exception e) {
+			System.err.println("Errore setResult torneo["+this.idTorneo+"] partita["+idPartita+"]: "+ e.getMessage());
+			e.printStackTrace(System.err);
+			throw e;
+		}
+	}
 }
