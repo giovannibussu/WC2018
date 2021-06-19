@@ -52,7 +52,7 @@ public class GironeCalculator implements IGironeCalculator {
 	}
 
 	private void record(PartitaVO partita, PronosticoVO pronostico, Map<String, GironePerformance> map, String girone) {
-		DatiPartitaVO dp = TorneoUtils.getDatiPartita(partita, pronostico);
+		DatiPartitaVO dp = TorneoUtils.getDatiPartita(partita.getCodicePartita(), pronostico);
 	
 		if(TorneoUtils.isGiocata(dp)) {
 			

@@ -13,8 +13,8 @@ import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SquadraVO;
 import worldcup.orm.vo.SubdivisionVO;
-import worldcup.orm.vo.TorneoVO;
 import worldcup.orm.vo.SubdivisionVO.TIPO;
+import worldcup.orm.vo.TorneoVO;
 
 public class TorneoUtils {
 
@@ -32,8 +32,15 @@ public class TorneoUtils {
 		throw new RuntimeException("Partita ["+idPartita+"] non trovata nel torneo ["+torneo.getNome()+"]");
 	}
 
+	public static SquadraVO getSquadra(PartitaVO partita, DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
+		if(!isGiocabile(dati)) return null;
+		if(isCasa(casaTrasferta)) {
+			return partita.getCasa();
+		} else {
+			return partita	.getTrasferta();
+		}
+	}
 
-	
 	public static DatiPartitaVO getDatiPartita(String idPartita, PronosticoVO p) {
 		return getOptDatiPartita(idPartita, p).orElseThrow(() -> new RuntimeException("Partita non trovata"));
 	}
