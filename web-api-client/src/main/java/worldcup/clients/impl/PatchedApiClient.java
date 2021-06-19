@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
+import worldcup.clients.model.OrderType;
 import worldcup.clients.model.Partita;
 
 public class PatchedApiClient extends ApiClient {
@@ -31,7 +32,7 @@ public class PatchedApiClient extends ApiClient {
 		
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true);
+			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true, OrderType.ASC);
 			
 			for(Partita partita: lst) {
 				System.out.println(partita.getIdPartita() + " " + partita.getData());

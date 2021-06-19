@@ -12,6 +12,7 @@ import worldcup.clients.api.TorneoApi;
 import worldcup.clients.impl.ApiClient;
 import worldcup.clients.impl.PatchedApiClient;
 import worldcup.clients.model.Grafico;
+import worldcup.clients.model.OrderType;
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.PronosticoPartita;
 import worldcup.clients.model.TipoDistribuzione;
@@ -42,7 +43,7 @@ public class ProssimiIncontri {
 		String start = null;//new DateTime(now);
 		String end = null; //new DateTime(tomorrow);
 		try {
-			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true);
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true, OrderType.ASC);
 //			// visualizzo un numero di partite uguali al minimo tra quelle trovate e il max visualizzabile in pagina
 //			int maxPartite = Math.min(matchPerData.size(), NUMERO_PARTITE_HOME);
 //						
@@ -100,7 +101,7 @@ public class ProssimiIncontri {
 		String end = formatter.format(tomorrow);
 
 		try {
-			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true);
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, NUMERO_PARTITE_HOME, 0l, start, end, true, OrderType.ASC);
 			return matchPerData;
 		} catch (Exception e) {
 			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
@@ -157,7 +158,7 @@ public class ProssimiIncontri {
 		String end = formatter.format(tomorrow);
 		
 		try {
-			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, Integer.MAX_VALUE, 0l, start, end, false);
+			List<Partita> matchPerData =  this.torneoApi.listPartite(this.idTorneo, Integer.MAX_VALUE, 0l, start, end, false, OrderType.DESC);
 			return matchPerData;
 		} catch (Exception e) {
 			System.err.println("Errore getListProssimiIncontri torneo["+this.idTorneo+"]: "+ e.getMessage());
