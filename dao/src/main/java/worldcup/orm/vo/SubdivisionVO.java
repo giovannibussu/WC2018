@@ -14,6 +14,8 @@ public class SubdivisionVO {
 	private TIPO tipo;
 	private String nome;
 	private TorneoVO torneo;
+	private Set<PropertyVO> algoritmoTerze = new HashSet<>();
+	private Set<PropertyVO> opponentsTerze = new HashSet<>();
 	private PunteggiVO punteggi;
 	
 	public Set<PartitaVO> getPartite() {
@@ -70,5 +72,21 @@ public class SubdivisionVO {
 
 	public void setPunteggi(PunteggiVO punteggi) {
 		this.punteggi = punteggi;
+	}
+
+	public Set<PropertyVO> getOpponentsTerze() {
+		return opponentsTerze;
+	}
+
+	public void setOpponentsTerze(Set<PropertyVO> opponentsTerze) {
+		this.opponentsTerze = opponentsTerze;
+	}
+
+	public Set<PropertyVO> getAlgoritmoTerze() {
+		return algoritmoTerze;
+	}
+
+	public void setAlgoritmoTerze(Set<PropertyVO> algoritmoTerze) {
+		this.algoritmoTerze = algoritmoTerze;
 	}
 }
