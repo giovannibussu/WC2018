@@ -1,7 +1,10 @@
 package worldcup.orm.vo;
 
 public class PropertyVO {
-
+	public PropertyVO(String name, String value) {
+		this.nome = name;
+		this.valore= value;
+	}
 	public Long getId() {
 		return id;
 	}

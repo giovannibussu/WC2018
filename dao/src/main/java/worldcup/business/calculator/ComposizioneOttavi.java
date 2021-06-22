@@ -11,11 +11,12 @@ import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PropertyVO;
 import worldcup.orm.vo.SquadraVO;
 import worldcup.orm.vo.SubdivisionVO;
+import worldcup.orm.vo.TorneoVO;
 
 
 public class ComposizioneOttavi {
 
-	public SubdivisionVO getPartite(GironeResult girone, List<SubdivisionVO> subdivisionsInput, SubdivisionVO subdivisionInput) {
+	public SubdivisionVO getPartite(GironeResult girone, TorneoVO torneo, SubdivisionVO subdivisionInput) {
 		
 		Map<String, String> resultMap = getTerze(girone, subdivisionInput);
 
@@ -24,8 +25,8 @@ public class ComposizioneOttavi {
 		SubdivisionVO subdivision = new SubdivisionVO();
 		subdivision.setNome(subdivisionInput.getNome());
 		subdivision.setTipo(subdivisionInput.getTipo());
-		for(PartitaVO p : subdivision.getPartite()) {
-			PartitaVO partita = getPartita(resultMap, girone, p.getCodiceCalcoloCasa(), p.getCodiceCalcoloTrasferta());
+		for(PartitaVO p : subdivisionInput.getPartite()) {
+			PartitaVO partita = getPartita(resultMap, girone, p);
 			partita.setCodicePartita(p.getCodicePartita());
 			partite.add(partita);
 		}
@@ -66,29 +67,36 @@ public class ComposizioneOttavi {
 		}
 	}
 	
-	private PartitaVO getPartita(Map<String, String> mapTerze, GironeResult girone, String codCasa, String codTrasferta) {
-		PartitaVO datiPartita = new PartitaVO();
-		int posizioneCasa = Integer.parseInt(codCasa.charAt(0) + "");
-		String gironeCasa = codCasa.charAt(1) + "";
+	private PartitaVO getPartita(Map<String, String> mapTerze, GironeResult girone, PartitaVO partitaInput) {
+		PartitaVO partita = new PartitaVO();
+		
+		partita.setData(partitaInput.getData());
+		partita.setDescrizione(partitaInput.getDescrizione());
+		partita.setId(partitaInput.getId());
+		partita.setStadio(partitaInput.getStadio());
+		partita.setSubdivision(partitaInput.getSubdivision());
+
+		int posizioneCasa = Integer.parseInt(partitaInput.getCodiceCalcoloCasa().charAt(0) + "");
+		String gironeCasa = partitaInput.getCodiceCalcoloCasa().charAt(1) + "";
 		
 		SquadraVO squadraCasa = girone.getClassificaVerticale(gironeCasa).getSquadre().get(posizioneCasa).getSquadra();
 		
-		datiPartita.setCasa(squadraCasa);
+		partita.setCasa(squadraCasa);
 
 		String gironeTrasferta = null;
 		int posizioneTrasferta = -1;
-		if(codTrasferta.equals("3")) {
+		if(partitaInput.getCodiceCalcoloTrasferta().equals("3")) {
 			posizioneTrasferta = 3;
 			gironeTrasferta = mapTerze.get(gironeCasa);
 		} else {
-			posizioneTrasferta = Integer.parseInt(codTrasferta.charAt(0) + "");
-			gironeTrasferta = codTrasferta.charAt(1) + "";
+			posizioneTrasferta = Integer.parseInt(partitaInput.getCodiceCalcoloTrasferta().charAt(0) + "");
+			gironeTrasferta = partitaInput.getCodiceCalcoloTrasferta().charAt(1) + "";
 		}
 		
 		SquadraVO squadraTrasferta = girone.getClassificaVerticale(gironeTrasferta).getSquadre().get(posizioneTrasferta).getSquadra();
-		datiPartita.setTrasferta(squadraTrasferta);
+		partita.setTrasferta(squadraTrasferta);
 		
-		return datiPartita;
+		return partita;
 		
 	}
 }

@@ -25,16 +25,22 @@ public class RisultatoPronostico {
 	public Map<SubdivisionVO, Integer> getPosizioni() {
 		return this.posizioni;
 	}
+	
+	private static void add(Map<SubdivisionVO, Integer> map, SubdivisionVO subdivisionVO) {
+		int res = map.containsKey(subdivisionVO) ? map.get(subdivisionVO): 0;
+		map.put(subdivisionVO, res + 1);
+	}
+
 	public void addRisultati(SubdivisionVO subdivisionVO) {
-		this.risultati.put(subdivisionVO, this.risultati.get(subdivisionVO) + 1);
+		add(this.risultati, subdivisionVO);
 	}
 	public void addRisultatiEsatti(SubdivisionVO subdivisionVO) {
-		this.risultatiEsatti.put(subdivisionVO, this.risultatiEsatti.get(subdivisionVO) + 1);
+		add(this.risultatiEsatti, subdivisionVO);
 	}
 	public void addPassaggi(SubdivisionVO subdivisionVO) {
-		this.passaggi.put(subdivisionVO, this.passaggi.get(subdivisionVO) + 1);
+		add(this.passaggi, subdivisionVO);
 	}
 	public void addPosizioni(SubdivisionVO subdivisionVO) {
-		this.posizioni.put(subdivisionVO, this.posizioni.get(subdivisionVO) + 1);
+		add(this.posizioni, subdivisionVO);
 	}
 }

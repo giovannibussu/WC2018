@@ -2,6 +2,9 @@ package worldcup.impl.converter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,26 +12,46 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.joda.time.DateTime;
 import org.springframework.core.io.Resource;
+import org.springframework.format.Formatter;
 
 import worldcup.BadRequestException;
 import worldcup.business.TorneoBD;
+import worldcup.business.calculator.TorneoUtils;
+import worldcup.model.Partita;
 import worldcup.model.Pronostico;
 import worldcup.model.PronosticoRisultato;
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.GiocatoreVO;
+import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
+import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
 
 public class PronosticoConverter {
 
-	public static Pronostico toRsModel(PronosticoVO dto, Integer punti) {
+	public static Pronostico toRsModel(PronosticoVO dto, Integer punti, Formatter<DateTime> formatter, boolean partiteOn) {
 		Pronostico rsModel = new Pronostico();
 		
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(dto.getGiocatore()));
 		rsModel.setPunti(punti);
 		rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getVincente()));
 		rsModel.setLink(dto.getLink());
+		if(partiteOn) {
+			
+			TorneoVO t = TorneoUtils.getTorneoPronosticato(dto);
+			List<Partita> partite = new ArrayList<>();
+			
+			for(SubdivisionVO s: t.getSubdivisions()) {
+				for(PartitaVO p: s.getPartite()) {
+					Optional<DatiPartitaVO> datiPartitaEqui = TorneoUtils.getDatiPartitaEqui(p, t);
+					partite.add(PartitaConverter.toRsModel(p, datiPartitaEqui, formatter));
+				}
+			}
+			
+			rsModel.setPartite(partite);
+		}
 		return rsModel;
 	}
 	

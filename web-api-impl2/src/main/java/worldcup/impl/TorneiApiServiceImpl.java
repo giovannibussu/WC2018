@@ -92,7 +92,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				.filter(e -> categoria == null || categoria.equals(e.getKey().getGiocatore().getTags()))
 				.forEach( k -> {
 
-					lst.add(PronosticoConverter.toRsModel(k.getKey(), k.getValue()));
+					lst.add(PronosticoConverter.toRsModel(k.getKey(), k.getValue(), formatter, false));
 
 				});
 
@@ -164,7 +164,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				List<Pronostico> lst = new ArrayList<>();
 				for(PronosticoVO p : torneo.getPronostici()) {
-					lst.add(PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p)));
+					lst.add(PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p), formatter, true));
 				}
 
 				return ResponseEntity.ok(lst);
@@ -278,7 +278,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 						Optional<DatiPartitaVO> dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
 								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()))
 								.findAny();
-						lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
+						if(TorneoUtils.isGiocabile(torneo, partitaVO.getCodicePartita())) {
+							lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
+						}
 					}
 				}
 
@@ -392,7 +394,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					this.torneoBD.save(dp);
 				}
 				this.torneoBD.create(p);
-				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p));
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p), formatter, true);
 
 				return ResponseEntity.ok(rsModel);
 			} catch(RuntimeException e) {
@@ -416,7 +418,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				PronosticoVO p = torneo.getPronostici().stream().filter(pr -> {return pr.getGiocatore().getNome().equals(idGiocatore);}).findAny()
 						.orElseThrow(() -> new BadRequestException("Richiesta non valida"));
 
-				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p));
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p), formatter, true);
 
 				return ResponseEntity.ok(rsModel);
 			} catch(RuntimeException e) {
@@ -439,7 +441,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				PronosticoVO p = torneo.getPronosticoUfficiale();
 
-				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p));
+				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p), formatter, true);
 
 				return ResponseEntity.ok(rsModel);
 			} catch(RuntimeException e) {

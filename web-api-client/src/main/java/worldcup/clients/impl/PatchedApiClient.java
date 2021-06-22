@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
+import worldcup.clients.model.OrderType;
 import worldcup.clients.model.Partita;
+import worldcup.clients.model.Pronostico;
 
 public class PatchedApiClient extends ApiClient {
 
 	public static void main(String[] args) {
-		ApiClient client = new PatchedApiClient(Optional.of("EURO2021"), Optional.of("EURO2021"));
+		ApiClient client = new PatchedApiClient(Optional.empty(), Optional.empty());
 		client.setBasePath("http://127.0.0.1:8081/api-worldcup/api/v1");
 
 		TorneoApi torneoApi = new TorneoApi(client);
@@ -29,11 +31,19 @@ public class PatchedApiClient extends ApiClient {
 //			}
 			
 		
-//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-//			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true);
+//			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true, OrderType.ASC);
 			
-			torneoApi.deleteRisultatoPartita("EURO2021", "1");
+			List<Pronostico> clas = torneoApi.getClassifica("EURO2021", null);
+			
+//			for(Pronostico p: clas) {
+//				try {
+//					torneoApi.getPronostico("EURO2021", p.getGiocatore().getIdGiocatore());
+//				} catch(Exception e) {
+//					System.err.println("Pronostico "+p.getGiocatore().getIdGiocatore()+" errato");
+//				}
+//			}
 //			for(Partita partita: lst) {
 //				System.out.println(partita.getIdPartita() + " " + partita.getData());
 //			}
