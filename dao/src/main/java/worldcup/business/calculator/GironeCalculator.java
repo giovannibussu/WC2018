@@ -58,6 +58,7 @@ public class GironeCalculator implements IGironeCalculator {
 			
 			for(CasaTrasfertaEnum cte:CasaTrasfertaEnum.values()) {
 				SquadraVO squadra = TorneoUtils.getSquadra(partita, dp, cte);
+				SquadraVO squadraContro = TorneoUtils.getSquadraContro(partita, dp, cte);
 				GironePerformance performance = null;
 				if(!map.containsKey(squadra.getNome())) {
 					performance = new GironePerformance();
@@ -68,9 +69,13 @@ public class GironeCalculator implements IGironeCalculator {
 					performance = map.get(squadra.getNome());
 				}
 				
-				performance.addPunti(TorneoUtils.getPunti(dp, cte));
-				performance.addGoalFatti(TorneoUtils.getGoalFatti(dp, cte));
-				performance.addGoalSubiti(TorneoUtils.getGoalSubiti(dp, cte));
+				GironeSingleMatchPerformance singlep = new GironeSingleMatchPerformance();
+				singlep.setPunti(TorneoUtils.getPunti(dp, cte));
+				singlep.setVittorie(TorneoUtils.getVittoria(dp, cte));
+				singlep.setGoalFatti(TorneoUtils.getGoalFatti(dp, cte));
+				singlep.setGoalSubiti(TorneoUtils.getGoalSubiti(dp, cte));
+
+				performance.getPerformances().put(squadraContro.getNome(), singlep);
 			}
 		}
 	}

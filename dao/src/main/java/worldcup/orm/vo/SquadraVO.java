@@ -6,6 +6,7 @@ public class SquadraVO {
 	private String bandiera;
 	private String nome;
 	private Integer rankingFifa;
+//	private Integer fairPlay;
 	
 	
 	public String getNome() {
@@ -32,6 +33,12 @@ public class SquadraVO {
 	public void setBandiera(String bandiera) {
 		this.bandiera = bandiera;
 	}
+	public Integer getFairPlay() {
+		return 0;
+	}
+//	public void setFairPlay(Integer fairPlay) {
+//		this.fairPlay = fairPlay;
+//	}
 	
 	
 }

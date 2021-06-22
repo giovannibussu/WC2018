@@ -1,14 +1,15 @@
 package worldcup.business.calculator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import worldcup.orm.vo.SquadraVO;
 
 public class GironePerformance {
 
 	private SquadraVO squadra;
-	private int punti = 0;
-	private int goalFatti = 0;
-	private int goalSubiti = 0;
-	private int fairPlay = 0;
+	private Map<String, GironeSingleMatchPerformance> performances = new HashMap<String, GironeSingleMatchPerformance>();
+	
 	private String girone;
 
 	public SquadraVO getSquadra() {
@@ -18,48 +19,33 @@ public class GironePerformance {
 		this.squadra = squadra;
 	}
 	public int getPunti() {
-		return punti;
-	}
-	public void setPunti(int punti) {
-		this.punti = punti;
+		return this.performances.values().stream().mapToInt(a-> a.getPunti()).sum();
 	}
 	public int getGoalFatti() {
-		return goalFatti;
-	}
-	public void setGoalFatti(int goalFatti) {
-		this.goalFatti = goalFatti;
+		return this.performances.values().stream().mapToInt(a-> a.getGoalFatti()).sum();
 	}
 	public int getGoalSubiti() {
-		return goalSubiti;
+		return this.performances.values().stream().mapToInt(a-> a.getGoalSubiti()).sum();
 	}
 	public int getDifferenzaReti() {
-		return goalFatti - goalSubiti;
-	}
-	public void setGoalSubiti(int goalSubiti) {
-		this.goalSubiti = goalSubiti;
+		return getGoalFatti() - getGoalSubiti();
 	}
 	public int getFairPlay() {
-		return fairPlay;
+		return squadra.getFairPlay();
 	}
-	public void setFairPlay(int fairPlay) {
-		this.fairPlay = fairPlay;
-	}
-	
-	public void addPunti(int punti) {
-		this.punti += punti;
-	}
-	
-	public void addGoalFatti(int goalFatti) {
-		this.goalFatti += goalFatti;
-	}
-	
-	public void addGoalSubiti(int goalSubiti) {
-		this.goalSubiti += goalSubiti;
+	public int getRankingFifa() {
+		return squadra.getRankingFifa();
 	}
 	public String getGirone() {
 		return girone;
 	}
 	public void setGirone(String girone) {
 		this.girone = girone;
+	}
+	public int getVittorie() {
+		return this.performances.values().stream().mapToInt(a-> a.getVittorie()).sum();
+	}
+	public Map<String, GironeSingleMatchPerformance> getPerformances() {
+		return performances;
 	}
 }

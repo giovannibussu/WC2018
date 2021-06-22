@@ -42,6 +42,15 @@ public class TorneoUtils {
 		}
 	}
 
+	public static SquadraVO getSquadraContro(PartitaVO partita, DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
+		if(!isGiocabile(dati)) return null;
+		if(isCasa(casaTrasferta)) {
+			return partita	.getTrasferta();
+		} else {
+			return partita.getCasa();
+		}
+	}
+
 	public static DatiPartitaVO getDatiPartita(String idPartita, PronosticoVO p) {
 		return getOptDatiPartita(idPartita, p).orElseThrow(() -> new RuntimeException("Partita non trovata"));
 	}
@@ -127,6 +136,15 @@ public class TorneoUtils {
 		}
 	}
 
+	public static Integer getVittoria(DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
+		if(!isGiocata(dati)) return null;
+		if(isCasa(casaTrasferta)) {
+			return getVittoria(dati.getGoalCasa(),dati.getGoalTrasferta());
+		} else {
+			return getVittoria(dati.getGoalTrasferta(),dati.getGoalCasa());
+		}
+	}
+
 	public static String getRisultatoEsatto(DatiPartitaVO dati, boolean reverse) {
 		if(reverse) {
 			return dati.getGoalTrasferta() + "-" + dati.getGoalCasa();
@@ -152,6 +170,11 @@ public class TorneoUtils {
 		return 0;
 	}
 
+	private static int getVittoria(int goal1, int goal2) {
+		if(goal1 > goal2) return 1;
+		return 0;
+	}
+
 	public static TorneoVO getTorneoPronosticato(PronosticoVO pronostico) {
 		TorneoVO torneo = new TorneoVO();
 		torneo.setNome(pronostico.getTorneo().getNome());
@@ -160,23 +183,39 @@ public class TorneoUtils {
 		GironeCalculator cal = new GironeCalculator();
 		
 		RegoleGirone conf = new RegoleGirone();
+		
+		Regole regoleClassificaAvulsa = new Regole();
+		List<IPerformanceEvaluator<GironePerformance>> regoleClassificaAvulsaLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
+		
+		regoleClassificaAvulsaLst.add(new PuntiGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new GoalsDoneGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new NumeroVittorieGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new RandomPerformanceEvaluator());
+		
+		regoleClassificaAvulsa.setRegole(regoleClassificaAvulsaLst);
+		
+
 		Regole regoleVerticali = new Regole();
 		List<IPerformanceEvaluator<GironePerformance>> regoleVerticaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
 		
 		regoleVerticaliLst.add(new PuntiGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator());
+		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator(regoleClassificaAvulsa));
 		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new RandomPerformanceEvaluator());
 		regoleVerticali.setRegole(regoleVerticaliLst);
 		conf.setRegoleVerticali(regoleVerticali );
-		
+
+
 		Regole regoleOrizzontali = new Regole();
 		List<IPerformanceEvaluator<GironePerformance>> regoleOrizzontaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
 		
 		regoleOrizzontaliLst.add(new PuntiGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new RandomPerformanceEvaluator());
 		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
 

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class RegoleGirone {
 	private Regole regoleVerticali;
-	private Regole regoleClassificaAvulsa;
 	private Regole regoleOrizzontali;
 	
 	public Classifica getClassificaVerticale(Collection<GironePerformance> classificheVerticali) {
@@ -13,7 +12,6 @@ public class RegoleGirone {
 
 		GironePerformanceComparator gpc = new GironePerformanceComparator();
 		gpc.setRegole(this.regoleVerticali);
-		gpc.setRegoleClassificaAvulsa(this.regoleClassificaAvulsa);
 		Map<Integer, GironePerformance> squadre = gpc.sort(classificheVerticali);
 
 		classifica.setSquadre(squadre);
@@ -45,14 +43,6 @@ public class RegoleGirone {
 
 	public void setRegoleOrizzontali(Regole regoleOrizzontali) {
 		this.regoleOrizzontali = regoleOrizzontali;
-	}
-
-	public Regole getRegoleClassificaAvulsa() {
-		return regoleClassificaAvulsa;
-	}
-
-	public void setRegoleClassificaAvulsa(Regole regoleClassificaAvulsa) {
-		this.regoleClassificaAvulsa = regoleClassificaAvulsa;
 	}
 	
 }
