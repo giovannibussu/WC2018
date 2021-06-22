@@ -167,6 +167,7 @@ public class TorneoUtils {
 		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new RandomPerformanceEvaluator());
 		regoleVerticali.setRegole(regoleVerticaliLst);
 		conf.setRegoleVerticali(regoleVerticali );
 		

@@ -3,6 +3,7 @@ package worldcup.clients.impl;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
@@ -38,11 +39,11 @@ public class PatchedApiClient extends ApiClient {
 //			}
 //			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true, OrderType.ASC);
 			
-//			List<Pronostico> clas = torneoApi.getClassifica("EURO2021", null);
+			List<Pronostico> clas = torneoApi.getClassifica("EURO2021", null);
 			
-//			for(Pronostico p: clas) {
+			for(Pronostico p: clas) {
 				try {
-					Pronostico pr = torneoApi.getPronostico("EURO2021", "bussu");//p.getGiocatore().getIdGiocatore());
+					Pronostico pr = torneoApi.getPronostico("EURO2021", p.getGiocatore().getIdGiocatore());
 //					for(Partita p2: pr.getPartite()) {
 					pr.getPartite().stream().sorted(new Comparator<Partita>() {
 
@@ -55,7 +56,7 @@ public class PatchedApiClient extends ApiClient {
 				} catch(Exception e) {
 //					System.err.println("Pronostico "+p.getGiocatore().getIdGiocatore()+" errato");
 				}
-//			}
+			}
 //			for(Partita partita: lst) {
 //				System.out.println(partita.getIdPartita() + " " + partita.getData());
 //			}

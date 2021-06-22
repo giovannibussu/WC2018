@@ -2,6 +2,7 @@ package worldcup.business.calculator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,6 @@ public abstract class AbstractPerformanceEvaluator implements IPerformanceEvalua
 				out.addAll(_reduce(performanceList));
 			}
 		}
-		
-//        Collections.reverse(out);
-
 		
 		return out;
 	}
@@ -42,7 +40,7 @@ public abstract class AbstractPerformanceEvaluator implements IPerformanceEvalua
 			}
 		}
 		
-		return performancesMap.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(e -> e.getValue()).collect(Collectors.toList());
+		return performancesMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())).map(e -> e.getValue()).collect(Collectors.toList());
 	}
 	
 	protected abstract Integer calculatePerformance(GironePerformance performance);
