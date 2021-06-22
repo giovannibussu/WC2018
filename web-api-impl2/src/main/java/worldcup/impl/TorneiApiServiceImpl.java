@@ -278,7 +278,9 @@ public class TorneiApiServiceImpl implements TorneiApi {
 						Optional<DatiPartitaVO> dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
 								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()))
 								.findAny();
-						lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
+						if(TorneoUtils.isGiocabile(torneo, partitaVO.getCodicePartita())) {
+							lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
+						}
 					}
 				}
 
