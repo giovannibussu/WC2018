@@ -1,6 +1,7 @@
 package worldcup.business.calculator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class TorneoUtils {
 
 		for(PartitaVO p: s.getPartite()) {
 			if(isEqui(p, partita) || isReverse(p, partita)) {
-				return Optional.of(getDatiPartita(p.getCodicePartita(), torneoPronosticato.getPronosticoUfficiale()));
+				return getOptDatiPartita(partita.getCodicePartita(), torneoPronosticato.getPronosticoUfficiale());
 			}
 		}
 		
@@ -163,14 +164,30 @@ public class TorneoUtils {
 		List<IPerformanceEvaluator<GironePerformance>> regoleVerticaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
 		
 		regoleVerticaliLst.add(new PuntiGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleVerticali.setRegole(regoleVerticaliLst);
 		conf.setRegoleVerticali(regoleVerticali );
-		conf.setRegoleOrizzontali(regoleVerticali );
+		
+		Regole regoleOrizzontali = new Regole();
+		List<IPerformanceEvaluator<GironePerformance>> regoleOrizzontaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
+		
+		regoleOrizzontaliLst.add(new PuntiGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new GoalsDoneGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new RandomPerformanceEvaluator());
+		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
+
+		conf.setRegoleOrizzontali(regoleOrizzontali);
 
 		
-		Collection<SubdivisionVO> gironi = pronostico.getTorneo().getSubdivisions().stream().filter(s -> s.getTipo().equals(TIPO.GIRONE)).collect(Collectors.toList());
+		Collection<SubdivisionVO> gironi = getSubdivisions(pronostico.getTorneo(), TIPO.GIRONE);
+		torneo.getSubdivisions().addAll(gironi);
+		
+		if(!isDone(pronostico.getTorneo(), TIPO.GIRONE, pronostico)) {
+			return torneo;
+		}
 		
 		GironeResult result = cal.getResult(gironi, pronostico, conf);
 		
@@ -179,20 +196,48 @@ public class TorneoUtils {
 
 		KnockoutCalculator kcal = new KnockoutCalculator();
 
-		SubdivisionVO ottavi = pronostico.getTorneo().getSubdivisions().stream().filter(s -> s.getTipo().equals(TIPO.OTTAVI)).findAny().orElseThrow();
+		SubdivisionVO ottavi = getSubdivision(pronostico.getTorneo(), TIPO.OTTAVI);
+
 		SubdivisionVO ottaviS = ott.getPartite(result, null, ottavi);
+		torneo.getSubdivisions().add(ottaviS);
+
+		if(!isDone(pronostico.getTorneo(), TIPO.OTTAVI, pronostico)) {
+			return torneo;
+		}
+		
 		KnockoutResult ottaviResult = kcal.getResult(ottaviS, pronostico);
 
-		SubdivisionVO quarti = pronostico.getTorneo().getSubdivisions().stream().filter(s -> s.getTipo().equals(TIPO.QUARTI)).findAny().orElseThrow();
+		SubdivisionVO quarti = getSubdivision(pronostico.getTorneo(), TIPO.QUARTI);
 		SubdivisionVO quartiS = cko.getPartite(ottaviResult, quarti);
+		
+		torneo.getSubdivisions().add(quartiS);
+
+		if(!isDone(pronostico.getTorneo(), TIPO.QUARTI, pronostico)) {
+			return torneo;
+		}
+
 		KnockoutResult quartiResult = kcal.getResult(quartiS, pronostico);
 
-		SubdivisionVO semifinali = pronostico.getTorneo().getSubdivisions().stream().filter(s -> s.getTipo().equals(TIPO.SEMIFINALE)).findAny().orElseThrow();
+		SubdivisionVO semifinali = getSubdivision(pronostico.getTorneo(), TIPO.SEMIFINALE);
 		SubdivisionVO semifinaliS = cko.getPartite(quartiResult, semifinali);
+
+		torneo.getSubdivisions().add(semifinaliS);
+
+		if(!isDone(pronostico.getTorneo(), TIPO.SEMIFINALE, pronostico)) {
+			return torneo;
+		}
+		
 		KnockoutResult semifinaliResult = kcal.getResult(semifinaliS, pronostico);
 		
-		SubdivisionVO finale = pronostico.getTorneo().getSubdivisions().stream().filter(s -> s.getTipo().equals(TIPO.FINALE)).findAny().orElseThrow();
+		SubdivisionVO finale = getSubdivision(pronostico.getTorneo(), TIPO.FINALE);
 		SubdivisionVO finaleS = cko.getPartite(semifinaliResult, finale);
+		
+		torneo.getSubdivisions().add(finaleS);
+
+		if(!isDone(pronostico.getTorneo(), TIPO.FINALE, pronostico)) {
+			return torneo;
+		}
+		
 		KnockoutResult finaleResult = kcal.getResult(finaleS, pronostico);
 
 		SquadraVO winner = finaleResult.getWinners().get(finale.getPartite().stream().findAny().orElseThrow().getCodicePartita());
@@ -202,16 +247,47 @@ public class TorneoUtils {
 			System.err.println("Giocatore ["+pronostico.getGiocatore().getNome()+"] Pronosticato vincente ["+pronostico.getVincente().getNome()+"] calcolato ["+winner.getNome()+"]");
 		}
 
-		torneo.getSubdivisions().addAll(gironi);
-		torneo.getSubdivisions().add(ottaviS);
-		torneo.getSubdivisions().add(quartiS);
-		torneo.getSubdivisions().add(semifinaliS);
-		torneo.getSubdivisions().add(finaleS);
 		
 		return torneo;
 	}
+	
+	private static SubdivisionVO getSubdivision(TorneoVO torneo, TIPO tipo) {
+		return torneo.getSubdivisions().stream().filter(s -> s.getTipo().equals(tipo)).findAny().orElseThrow();
+	}
+	
+	private static Collection<SubdivisionVO> getSubdivisions(TorneoVO torneo, TIPO tipo) {
+		return torneo.getSubdivisions().stream().filter(s -> s.getTipo().equals(tipo)).collect(Collectors.toList());
+	}
+	
+	private static boolean isDone(TorneoVO torneo, TIPO tipo, PronosticoVO pronostico) {
+		switch(tipo) {
+		case FINALE: 
+		case OTTAVI:
+		case QUARTI:
+		case SEMIFINALE: return allPlayed(Arrays.asList(getSubdivision(torneo, tipo)), torneo, pronostico);
+		case GIRONE: return allPlayed(getSubdivisions(torneo, tipo), torneo, pronostico);
+		default:
+			break;}
+		
+		return false;
+	}
 
-
+	private static boolean allPlayed(Collection<SubdivisionVO> asList, TorneoVO torneo, PronosticoVO pronostico) {
+		
+		for(SubdivisionVO s: asList) {
+			for(PartitaVO p: s.getPartite()) {
+				Optional<DatiPartitaVO> datiPartita = getOptDatiPartita(p.getCodicePartita(), pronostico);//torneo.getPronosticoUfficiale());
+				if(!datiPartita.isPresent()) {
+					return false;
+				}
+				if(!isGiocata(datiPartita.get())) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 
 	public static List<Distribuzione> getDistribuzione(TorneoVO torneo, String idPartita, boolean distr1x2) {
 		List<Distribuzione> distr = new ArrayList<>();

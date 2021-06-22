@@ -36,7 +36,9 @@ public class PronosticoConverter {
 		
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(dto.getGiocatore()));
 		rsModel.setPunti(punti);
-		rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getVincente()));
+		if(dto.getVincente()!=null) {
+			rsModel.setSquadraVincente(SquadraConverter.toRsModel(dto.getVincente()));
+		}
 		rsModel.setLink(dto.getLink());
 		if(partiteOn) {
 			
@@ -46,7 +48,9 @@ public class PronosticoConverter {
 			for(SubdivisionVO s: t.getSubdivisions()) {
 				for(PartitaVO p: s.getPartite()) {
 					Optional<DatiPartitaVO> datiPartitaEqui = TorneoUtils.getDatiPartitaEqui(p, t);
-					partite.add(PartitaConverter.toRsModel(p, datiPartitaEqui, formatter));
+					if(datiPartitaEqui.isPresent()) {
+						partite.add(PartitaConverter.toRsModel(p, datiPartitaEqui, formatter));
+					}
 				}
 			}
 			

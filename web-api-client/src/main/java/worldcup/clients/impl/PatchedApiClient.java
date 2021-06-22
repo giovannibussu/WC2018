@@ -2,12 +2,10 @@ package worldcup.clients.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Optional;
 
 import worldcup.clients.api.TorneoApi;
-import worldcup.clients.model.OrderType;
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.Pronostico;
 
@@ -33,16 +31,30 @@ public class PatchedApiClient extends ApiClient {
 		
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+//			Pronostico uff = torneoApi.getPronosticoUfficiale("EURO2021");
+//			
+//			for(Partita p: uff.getPartite()) {
+//				System.out.println(p.getIdPartita());
+//			}
 //			List<Partita> lst = torneoApi.listPartite("EURO2021", null, null, formatter.format(new Date()), null, true, OrderType.ASC);
 			
-			List<Pronostico> clas = torneoApi.getClassifica("EURO2021", null);
+//			List<Pronostico> clas = torneoApi.getClassifica("EURO2021", null);
 			
 //			for(Pronostico p: clas) {
-//				try {
-//					torneoApi.getPronostico("EURO2021", p.getGiocatore().getIdGiocatore());
-//				} catch(Exception e) {
+				try {
+					Pronostico pr = torneoApi.getPronostico("EURO2021", "bussu");//p.getGiocatore().getIdGiocatore());
+//					for(Partita p2: pr.getPartite()) {
+					pr.getPartite().stream().sorted(new Comparator<Partita>() {
+
+						@Override
+						public int compare(Partita o1, Partita o2) {
+							return Integer.parseInt(o1.getIdPartita()) - Integer.parseInt(o2.getIdPartita());
+						}}).forEach(p2 -> {
+						System.out.println(p2.getIdPartita() + "-" + p2.getCasa().getNome() + " - " + p2.getTrasferta().getNome() + " - " +p2.getRisultato().getGoalCasa() + " - " +p2.getRisultato().getGoalTrasferta() );
+					});
+				} catch(Exception e) {
 //					System.err.println("Pronostico "+p.getGiocatore().getIdGiocatore()+" errato");
-//				}
+				}
 //			}
 //			for(Partita partita: lst) {
 //				System.out.println(partita.getIdPartita() + " " + partita.getData());

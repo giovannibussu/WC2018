@@ -441,6 +441,8 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				PronosticoVO p = torneo.getPronosticoUfficiale();
 
+				p.setTorneo(torneo);
+				
 				Pronostico rsModel = PronosticoConverter.toRsModel(p, ClassificaGiocone.getPuntiPronostico(p), formatter, true);
 
 				return ResponseEntity.ok(rsModel);

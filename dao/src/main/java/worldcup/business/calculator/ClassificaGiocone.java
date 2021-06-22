@@ -18,9 +18,11 @@ public class ClassificaGiocone {
 		Map<PronosticoVO, Integer> map = new HashMap<>();
 		for(PronosticoVO pronostico: torneo.getPronostici()) {
 
-			int punti = getPuntiPronostico(pronostico);
-			
-			map.put(pronostico, punti);
+			if(!pronostico.getId().equals(torneo.getPronosticoUfficiale().getId())) {
+				int punti = getPuntiPronostico(pronostico);
+				
+				map.put(pronostico, punti);
+			}
 		}
 		
 		return map;

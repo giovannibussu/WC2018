@@ -1,10 +1,9 @@
 package worldcup.business.calculator;
 
-public class GoalsDoneGironePerformanceEvaluator implements IPerformanceEvaluator<GironePerformance> {
+public class GoalsDoneGironePerformanceEvaluator extends AbstractPerformanceEvaluator {
 
-	@Override
-	public int evaluate(GironePerformance performance1, GironePerformance performance2) {
-		return performance1.getGoalFatti()-performance2.getGoalFatti();
+	protected Integer calculatePerformance(GironePerformance performance) {
+		return performance.getGoalFatti();
 	}
 
 }

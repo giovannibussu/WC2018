@@ -1,9 +1,10 @@
 package worldcup.business.calculator;
 
-public class PuntiGironePerformanceEvaluator extends AbstractPerformanceEvaluator {
+public class ClassificaAvulsaPerformanceEvaluator extends AbstractPerformanceEvaluator {
 
 	protected Integer calculatePerformance(GironePerformance performance) {
-		return performance.getPunti();
+		return -1;
 	}
+
 
 }
