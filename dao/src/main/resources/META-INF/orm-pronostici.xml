@@ -118,12 +118,55 @@
 				<join-column name="id_subdivision"/>
 			</one-to-many>			
 			
+			<one-to-one name="punteggi" fetch="LAZY">
+				<join-column name="id_punteggi"/>
+			</one-to-one>			
+			
 			<many-to-many name="squadre" fetch="LAZY">
 				<join-table name="squadre_subdivisions">
 					<join-column name="id_subdivision"/>
 					<inverse-join-column name="id_squadra"/>
 				</join-table>
 			</many-to-many>			
+		</attributes>
+	</entity>
+
+	<entity class="PunteggiVO" access="FIELD">
+		<table name="punteggi">
+		</table>
+		<attributes>
+			<id name="id">
+				<column name="id" />
+				<generated-value generator="generator_punteggi"
+					strategy="SEQUENCE" />
+				<sequence-generator allocation-size="1"
+					name="generator_punteggi" sequence-name="seq_punteggi" />
+			</id>
+			
+			<basic name="identificativo">
+				<column name="identificativo" nullable="false"
+					length="35" />
+			</basic>
+
+			<basic name="puntiPerRisultato">
+				<column name="punti_risultato" nullable="false" />
+			</basic>
+
+			<basic name="puntiPerRisultatoEsatto">
+				<column name="punti_risultato_esatto" nullable="false" />
+			</basic>
+
+			<basic name="puntiPerPassaggi">
+				<column name="punti_passaggi" nullable="false" />
+			</basic>
+
+			<basic name="puntiPerPosizione">
+				<column name="punti_posizione" nullable="false" />
+			</basic>
+
+<!-- 			<many-to-one name="subdivision" fetch="LAZY"> -->
+<!-- 				<join-column name="id_subdivision"/> -->
+<!-- 			</many-to-one> -->
 		</attributes>
 	</entity>
 

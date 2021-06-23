@@ -1,27 +1,46 @@
 package worldcup.business.calculator;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import worldcup.orm.vo.SubdivisionVO;
+
 public class RisultatoPronostico {
 
-	private int risultatiEsatti=0;
-	private int risultati1x2=0;
-	public int getRisultatiEsatti() {
-		return risultatiEsatti;
+	
+	private Map<SubdivisionVO, Integer> risultatiEsatti = new HashMap<>();
+	private Map<SubdivisionVO, Integer> risultati = new HashMap<>();
+	private Map<SubdivisionVO, Integer> posizioni = new HashMap<>();
+	private Map<SubdivisionVO, Integer> passaggi = new HashMap<>();
+	
+	public Map<SubdivisionVO, Integer> getRisultatiEsatti() {
+		return this.risultatiEsatti;
 	}
-	public void setRisultatiEsatti(int risultatiEsatti) {
-		this.risultatiEsatti = risultatiEsatti;
+	public Map<SubdivisionVO, Integer> getRisultati() {
+		return this.risultati;
 	}
-	public int getRisultati1x2() {
-		return risultati1x2;
+	public Map<SubdivisionVO, Integer> getPassaggi() {
+		return this.passaggi;
 	}
-	public void setRisultati1x2(int risultati1x2) {
-		this.risultati1x2 = risultati1x2;
+	public Map<SubdivisionVO, Integer> getPosizioni() {
+		return this.posizioni;
+	}
+	
+	private static void add(Map<SubdivisionVO, Integer> map, SubdivisionVO subdivisionVO) {
+		int res = map.containsKey(subdivisionVO) ? map.get(subdivisionVO): 0;
+		map.put(subdivisionVO, res + 1);
 	}
 
-	public void addRisultati1x2() {
-		this.risultati1x2++;
+	public void addRisultati(SubdivisionVO subdivisionVO) {
+		add(this.risultati, subdivisionVO);
 	}
-
-	public void addRisultatiEsatti() {
-		this.risultatiEsatti++;
+	public void addRisultatiEsatti(SubdivisionVO subdivisionVO) {
+		add(this.risultatiEsatti, subdivisionVO);
+	}
+	public void addPassaggi(SubdivisionVO subdivisionVO) {
+		add(this.passaggi, subdivisionVO);
+	}
+	public void addPosizioni(SubdivisionVO subdivisionVO) {
+		add(this.posizioni, subdivisionVO);
 	}
 }

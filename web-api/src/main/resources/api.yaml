@@ -472,6 +472,8 @@ components:
           $ref: "#/components/schemas/Squadra"
         link:
           type: string
+        partite:
+          $ref: "#/components/schemas/ListaPartite"
     ListaPartite:
       type: array
       items:

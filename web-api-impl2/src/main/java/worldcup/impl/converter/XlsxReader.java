@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,7 +16,7 @@ public class XlsxReader {
 	public static void main(String[] args) throws Exception {
 
 //		System.out.println(new Date());
-		File myFile = new File("/home/bussu/Downloads/tabellone-euro2020_Porta.xlsx");
+		File myFile = new File("/home/bussu/NO_BACKUP/git/giovannibussu/WC2018/Europei 2020/tabellone-euro2020-valter.mosti.xlsx");
 		Workbook myWorkBook = WorkbookFactory.create(myFile);
 
 		Sheet mySheet = myWorkBook.getSheet("Matches");
@@ -57,24 +58,20 @@ public class XlsxReader {
 //
 //		}
 //		}
-		for(int i = 6; i < 42; i++) {
-
-			printStadio(mySheet, i);
-		}
-		System.out.println("------------------------");
+//		for(int i = 6; i < 42; i++) {
+//
+//			printStadio(mySheet, i);
+//		}
+//		System.out.println("------------------------");
 		
-		for(int i = 43; i < 58; i++) {
-			printStadio(mySheet, i);
+		for(int i = 43; i < 52; i++) {
+			printCasaTrasferta(mySheet, i);
 		}
 //		System.out.println(new Date());
 		
 
 	}
 
-	/**
-	 * @param mySheet
-	 * @param i
-	 */
 	private static void printStadio(Sheet mySheet, int i) {
 
 		Row row = mySheet.getRow(i);
@@ -83,6 +80,49 @@ public class XlsxReader {
 		
 		System.out.println("Stadio " + stadio);
 	}
+
+	private static void printCasaTrasferta(Sheet sheet, int rowNum) {
+
+		Row row = sheet.getRow(rowNum);
+		
+//		for(int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+		String id = getStringValue(row.getCell(1));
+		String casa = getStringValue(row.getCell(6));
+		String trasferta = getStringValue(row.getCell(11));
+//			if(stadio.equals("Turchia")) {
+			System.out.println(id +","+casa+","+trasferta);
+//				System.out.println("Squadra " + casa + " cella " + i);
+//			}
+//		}
+	}
+	
+	private static String getStringValue(Cell cell) {
+		if(cell == null) return null;
+		switch(cell.getCellType()) {
+		case BLANK:
+		case BOOLEAN:
+		case ERROR:
+		case _NONE:
+			break;
+		case FORMULA:
+			try {
+				return cell.getStringCellValue();
+			} catch(IllegalStateException e) {
+				return "" + cell.getNumericCellValue();
+			}
+		case NUMERIC:
+			return (int) (cell.getNumericCellValue()) + "";
+		case STRING:
+			return cell.getStringCellValue();
+		default:
+			break;
+		
+		}
+
+		return "";
+//		throw new RuntimeException("Cell type: " + cell.getCellType());
+	}
+
 
 	private static void printIncontro(Sheet sheet, int rowNum) {
 
