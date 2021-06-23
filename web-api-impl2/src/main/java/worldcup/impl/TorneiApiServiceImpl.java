@@ -329,7 +329,28 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					dpVO.setGoalTrasferta(risultatoPartita.getGoalTrasferta());
 
 					this.torneoBD.save(dpVO);
+					TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(torneo.getPronosticoUfficiale());
+					
+					for(SubdivisionVO s: torneoPronosticato.getSubdivisions()) {
+						for(PartitaVO p: s.getPartite()) {
+							PartitaVO partita = TorneoUtils.findPartita(p.getCodicePartita(), torneo);
 
+							if(p.getCasa() != null) {
+								if(partita.getCasa() == null) {
+									partita.setCasa(p.getCasa());
+								}
+							}
+							if(p.getTrasferta() != null) {
+								if(partita.getTrasferta() == null) {
+									partita.setTrasferta(p.getTrasferta());
+								}
+							}
+
+							this.torneoBD.create(partita);
+						}
+						
+					}
+					
 					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 
 					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.of(dpVO), formatter);

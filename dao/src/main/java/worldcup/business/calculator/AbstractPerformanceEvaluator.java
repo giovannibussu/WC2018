@@ -9,19 +9,21 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractPerformanceEvaluator implements IPerformanceEvaluator<GironePerformance> {
 
+	private static boolean debug = false;
 	@Override
 	public List<List<GironePerformance>> reduce(List<List<GironePerformance>> performanceListList) {
 		
-//		System.out.println("Evaluator " + this.getClass().getName());
-//		System.out.println("input " + performanceListList.size());
-//		performanceListList.stream().forEach(p -> {
-//			System.out.println("----------------------------");
-//			p.stream().forEach(p2 -> {
-//				System.out.println("Performances: " + p2.getPerformances().size());
-//				System.out.println("Squadra: " + p2.getSquadra().getNome() + " performance: " + calculatePerformance(p2));
-//			});
-//			System.out.println("----------------------------");
-//		});
+		if(debug) {
+			System.out.println("Evaluator " + this.getClass().getName());
+			System.out.println("input " + performanceListList.size());
+			performanceListList.stream().forEach(p -> {
+				System.out.println("----------------------------");
+				p.stream().forEach(p2 -> {
+					System.out.println("Squadra: " + p2.getSquadra().getNome() + " performance: " + calculatePerformance(p2));
+				});
+				System.out.println("----------------------------");
+			});
+		}
 		
 		
 		
@@ -39,20 +41,17 @@ public abstract class AbstractPerformanceEvaluator implements IPerformanceEvalua
 			}
 		}
 		
-		
-		
-		
-		
-		
-//		
-//		System.out.println("output " + out.size());
-//		out.stream().forEach(p -> {
-//			System.out.println("----------------------------");
-//			p.stream().forEach(p2 -> {
-//				System.out.println("Squadra: " + p2.getSquadra().getNome());
-//			});
-//			System.out.println("----------------------------");
-//		});
+
+		if(debug) {
+			System.out.println("output " + out.size());
+			out.stream().forEach(p -> {
+				System.out.println("----------------------------");
+				p.stream().forEach(p2 -> {
+					System.out.println("Squadra: " + p2.getSquadra().getNome());
+				});
+				System.out.println("----------------------------");
+			});
+		}
 		
 		return out;
 	}

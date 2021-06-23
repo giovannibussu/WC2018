@@ -98,10 +98,9 @@ public class TorneoUtils {
 	}
 
 	public static boolean isGiocata(DatiPartitaVO dati) {
-//		return isGiocabile(dati) &&
-//				dati.getGoalCasa()!= null && 
-//						dati.getGoalTrasferta()!= null;
-		return true;
+		return isGiocabile(dati) &&
+				dati.getGoalCasa()!= null && 
+						dati.getGoalTrasferta()!= null;
 	}
 
 	public static boolean isGiocabile(DatiPartitaVO dati) {
@@ -180,47 +179,6 @@ public class TorneoUtils {
 		torneo.setNome(pronostico.getTorneo().getNome());
 		torneo.setPronosticoUfficiale(pronostico);
 
-		GironeCalculator cal = new GironeCalculator();
-		
-		RegoleGirone conf = new RegoleGirone();
-		
-		Regole regoleClassificaAvulsa = new Regole();
-		List<IPerformanceEvaluator<GironePerformance>> regoleClassificaAvulsaLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
-		
-		regoleClassificaAvulsaLst.add(new PuntiGironePerformanceEvaluator());
-		regoleClassificaAvulsaLst.add(new GoalsDoneGironePerformanceEvaluator());
-		regoleClassificaAvulsaLst.add(new GoalDifferenceGironePerformanceEvaluator());
-		regoleClassificaAvulsaLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		
-		regoleClassificaAvulsa.setRegole(regoleClassificaAvulsaLst);
-		
-
-		Regole regoleVerticali = new Regole();
-		List<IPerformanceEvaluator<GironePerformance>> regoleVerticaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
-		
-		regoleVerticaliLst.add(new PuntiGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator(regoleClassificaAvulsa));
-		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new RankingPerformanceEvaluator());
-		regoleVerticaliLst.add(new AlfabeticoPerformanceEvaluator());
-		regoleVerticali.setRegole(regoleVerticaliLst);
-		conf.setRegoleVerticali(regoleVerticali );
-
-
-		Regole regoleOrizzontali = new Regole();
-		List<IPerformanceEvaluator<GironePerformance>> regoleOrizzontaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
-		
-		regoleOrizzontaliLst.add(new PuntiGironePerformanceEvaluator());
-		regoleOrizzontaliLst.add(new GoalsDoneGironePerformanceEvaluator());
-		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
-		regoleOrizzontaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		regoleOrizzontaliLst.add(new RankingPerformanceEvaluator());
-		regoleOrizzontaliLst.add(new AlfabeticoPerformanceEvaluator());
-		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
-
-		conf.setRegoleOrizzontali(regoleOrizzontali);
 
 		
 		Collection<SubdivisionVO> gironi = getSubdivisions(pronostico.getTorneo(), TIPO.GIRONE);
@@ -230,7 +188,7 @@ public class TorneoUtils {
 			return torneo;
 		}
 		
-		GironeResult result = cal.getResult(gironi, pronostico, conf);
+		GironeResult result = getGironeResult(pronostico, gironi);
 		
 //		System.out.println(result);
 		ComposizioneOttavi ott = new ComposizioneOttavi();
@@ -292,16 +250,62 @@ public class TorneoUtils {
 		
 		return torneo;
 	}
+
+	public static GironeResult getGironeResult(PronosticoVO pronostico, Collection<SubdivisionVO> gironi) {
+		GironeCalculator cal = new GironeCalculator();
+		
+		RegoleGirone conf = new RegoleGirone();
+		
+		Regole regoleClassificaAvulsa = new Regole();
+		List<IPerformanceEvaluator<GironePerformance>> regoleClassificaAvulsaLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
+		
+		regoleClassificaAvulsaLst.add(new PuntiGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new GoalsDoneGironePerformanceEvaluator());
+		regoleClassificaAvulsaLst.add(new NumeroVittorieGironePerformanceEvaluator());
+		
+		regoleClassificaAvulsa.setRegole(regoleClassificaAvulsaLst);
+		
+
+		Regole regoleVerticali = new Regole();
+		List<IPerformanceEvaluator<GironePerformance>> regoleVerticaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
+		
+		regoleVerticaliLst.add(new PuntiGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new ClassificaAvulsaPerformanceEvaluator(regoleClassificaAvulsa));
+		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
+		regoleVerticaliLst.add(new RankingPerformanceEvaluator());
+//		regoleVerticaliLst.add(new AlfabeticoPerformanceEvaluator());
+		regoleVerticali.setRegole(regoleVerticaliLst);
+		conf.setRegoleVerticali(regoleVerticali );
+
+
+		Regole regoleOrizzontali = new Regole();
+		List<IPerformanceEvaluator<GironePerformance>> regoleOrizzontaliLst = new ArrayList<IPerformanceEvaluator<GironePerformance>>();
+		
+		regoleOrizzontaliLst.add(new PuntiGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new GoalsDoneGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
+		regoleOrizzontaliLst.add(new RankingPerformanceEvaluator());
+//		regoleOrizzontaliLst.add(new AlfabeticoPerformanceEvaluator());
+		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
+
+		conf.setRegoleOrizzontali(regoleOrizzontali);
+		GironeResult result = cal.getResult(gironi, pronostico, conf);
+		return result;
+	}
 	
-	private static SubdivisionVO getSubdivision(TorneoVO torneo, TIPO tipo) {
+	public static SubdivisionVO getSubdivision(TorneoVO torneo, TIPO tipo) {
 		return torneo.getSubdivisions().stream().filter(s -> s.getTipo().equals(tipo)).findAny().orElseThrow();
 	}
 	
-	private static Collection<SubdivisionVO> getSubdivisions(TorneoVO torneo, TIPO tipo) {
+	public static Collection<SubdivisionVO> getSubdivisions(TorneoVO torneo, TIPO tipo) {
 		return torneo.getSubdivisions().stream().filter(s -> s.getTipo().equals(tipo)).collect(Collectors.toList());
 	}
 	
-	private static boolean isDone(TorneoVO torneo, TIPO tipo, PronosticoVO pronostico) {
+	public static boolean isDone(TorneoVO torneo, TIPO tipo, PronosticoVO pronostico) {
 		switch(tipo) {
 		case FINALE: 
 		case OTTAVI:

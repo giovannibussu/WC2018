@@ -1,14 +1,19 @@
 package worldcup.business.calculator;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import worldcup.orm.vo.DatiPartitaVO;
 import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SubdivisionVO;
+import worldcup.orm.vo.SubdivisionVO.TIPO;
 import worldcup.orm.vo.TorneoVO;
 
 public class ClassificaGiocone {
@@ -72,7 +77,125 @@ public class ClassificaGiocone {
 			}
 		}
 
-		//TODO passaggi turno e posizioni
+		// solo esercizio di stile, passaggi al girone non contano niente
+		if(TorneoUtils.isDone(torneoUfficiale, TIPO.GIRONE, torneoUfficiale.getPronosticoUfficiale())) {
+			Set<String> squadreUff = new HashSet<>();
+			Set<String> squadrePron = new HashSet<>();
+			
+			Collection<SubdivisionVO> subdivisionUff = TorneoUtils.getSubdivisions(torneoUfficiale, TIPO.GIRONE);
+			Collection<SubdivisionVO> subdivisionPron = TorneoUtils.getSubdivisions(torneoPronostico, TIPO.GIRONE);
+			
+			SubdivisionVO ex = null;
+			for(SubdivisionVO s: subdivisionUff) {
+				squadreUff.addAll(s.getPartite().stream().map(p -> p.getCasa().getNome()).collect(Collectors.toSet()));
+				squadreUff.addAll(s.getPartite().stream().map(p -> p.getTrasferta().getNome()).collect(Collectors.toSet()));
+				if(ex == null) {
+					ex = s;
+				}
+			}
+
+			for(SubdivisionVO s: subdivisionPron) {
+				squadrePron.addAll(s.getPartite().stream().map(p -> p.getCasa().getNome()).collect(Collectors.toSet()));
+				squadrePron.addAll(s.getPartite().stream().map(p -> p.getTrasferta().getNome()).collect(Collectors.toSet()));
+			}
+
+			
+			for(String squadraUff: squadreUff) {
+				if(squadrePron.contains(squadraUff)) {
+					rp.addPassaggi(ex);
+				}
+			}
+			
+		}
+
+//		List<TIPO> tipiKO = Arrays.asList(TIPO.OTTAVI, TIPO.QUARTI, TIPO.SEMIFINALE, TIPO.FINALE);
+		
+		Map<TIPO, TIPO> successivo = new HashMap<>();
+		
+		successivo.put(TIPO.GIRONE, TIPO.OTTAVI);
+		successivo.put(TIPO.OTTAVI, TIPO.QUARTI);
+		successivo.put(TIPO.QUARTI, TIPO.SEMIFINALE);
+		successivo.put(TIPO.SEMIFINALE, TIPO.FINALE);
+
+		for(Entry<TIPO,TIPO> e: successivo.entrySet()) {
+			if(TorneoUtils.isDone(torneoUfficiale, e.getKey(), torneoUfficiale.getPronosticoUfficiale())) {
+				Set<String> squadreUff = new HashSet<>();
+				Set<String> squadrePron = new HashSet<>();
+				
+				SubdivisionVO subdivisionUff = TorneoUtils.getSubdivision(torneoUfficiale, e.getValue());
+				SubdivisionVO subdivisionPron = TorneoUtils.getSubdivision(torneoPronostico, e.getValue());
+				
+				squadreUff.addAll(subdivisionUff.getPartite().stream().map(p -> p.getCasa().getNome()).collect(Collectors.toSet()));
+				squadreUff.addAll(subdivisionUff.getPartite().stream().map(p -> p.getTrasferta().getNome()).collect(Collectors.toSet()));
+	
+				squadrePron.addAll(subdivisionPron.getPartite().stream().map(p -> p.getCasa().getNome()).collect(Collectors.toSet()));
+				squadrePron.addAll(subdivisionPron.getPartite().stream().map(p -> p.getTrasferta().getNome()).collect(Collectors.toSet()));
+				
+				for(String squadraUff: squadreUff) {
+					if(squadrePron.contains(squadraUff)) {
+						rp.addPassaggi(subdivisionUff);
+					}
+				}
+			}
+		}
+		
+//		Map<TIPO, TIPO> successivo = new HashMap<>();
+//		
+//		successivo.put(TIPO.GIRONE, TIPO.OTTAVI);
+//		successivo.put(TIPO.OTTAVI, TIPO.QUARTI);
+//		successivo.put(TIPO.QUARTI, TIPO.SEMIFINALE);
+//		successivo.put(TIPO.SEMIFINALE, TIPO.FINALE);
+//		
+//		
+//		for(Entry<TIPO,TIPO> e: successivo.entrySet()) {
+//			if(TorneoUtils.isDone(torneoUfficiale, e.getKey(), torneoUfficiale.getPronosticoUfficiale())) {
+//	
+//				SubdivisionVO subdivisionBefore = TorneoUtils.getSubdivision(torneoUfficiale, e.getKey());
+//				SubdivisionVO subdivisionUff = TorneoUtils.getSubdivision(torneoUfficiale, e.getValue());
+//							
+//				for(PartitaVO p: subdivisionUff.getPartite()) {
+//					PartitaVO p2 = TorneoUtils.findPartita(p.getCodicePartita(), torneoPronostico);
+//					
+//					if(p.getCasa().getNome().equals(p2.getCasa().getNome())) {
+//						rp.addPosizioni(subdivisionBefore);
+//					}
+//					if(p.getTrasferta().getNome().equals(p2.getTrasferta().getNome())) {
+//						rp.addPosizioni(subdivisionBefore);
+//					}
+//				}
+//				
+//			}
+//		}
+
+		if(TorneoUtils.isDone(torneoUfficiale, TIPO.GIRONE, torneoUfficiale.getPronosticoUfficiale())) {
+
+//			System.out.println("Pronostico " + torneoPronostico.getPronosticoUfficiale().getGiocatore().getNome());
+			Collection<SubdivisionVO> subdivisions = TorneoUtils.getSubdivisions(torneoUfficiale, TIPO.GIRONE);
+			GironeResult result = TorneoUtils.getGironeResult(torneoUfficiale.getPronosticoUfficiale(), subdivisions);
+			
+			Collection<SubdivisionVO> subdivisionsPron = TorneoUtils.getSubdivisions(torneoPronostico, TIPO.GIRONE);
+			GironeResult resultPron = TorneoUtils.getGironeResult(torneoPronostico.getPronosticoUfficiale(), subdivisionsPron);
+			
+			for(SubdivisionVO s: subdivisions) {
+				Classifica c = result.getClassificaVerticale(s.getNome());
+				Classifica cPron = resultPron.getClassificaVerticale(s.getNome());
+				
+				for(Entry<Integer, GironePerformance> e : c.getSquadre().entrySet()) {
+					GironePerformance perfProm = cPron.getSquadre().get(e.getKey());
+					
+					if(perfProm.getSquadra().getNome().equals(e.getValue().getSquadra().getNome())) {
+//						System.out.println("SI " + s.getNome() + " " + e.getValue().getSquadra().getNome() + " " + e.getKey());
+						rp.addPosizioni(s);
+					} else {
+						
+//						System.out.println("NO " + s.getNome() + " " + e.getValue().getSquadra().getNome() + " " + e.getKey() + " aveva messo " + perfProm.getSquadra().getNome());
+					}
+				}
+				
+			}
+
+	}
+
 		return rp;
 	}
 }
