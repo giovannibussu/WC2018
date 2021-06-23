@@ -188,10 +188,12 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				List<PronosticoPartita> lst = new ArrayList<>();
 				for(PronosticoVO p : torneo.getPronostici()) {
-
-					DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
-					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
-					lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
+					
+					Optional<DatiPartitaVO> dp = TorneoUtils.getOptDatiPartita(idPartita, p);
+					if(dp.isPresent()) {
+						PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
+						lst.add(PronosticoPartitaConverter.toRsModel(partita, dp.get(), p.getGiocatore(), formatter));
+					}
 				}
 
 				return ResponseEntity.ok(lst);
