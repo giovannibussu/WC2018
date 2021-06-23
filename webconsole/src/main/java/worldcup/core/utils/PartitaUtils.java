@@ -1,11 +1,39 @@
 package worldcup.core.utils;
 
+import java.util.List;
+
 import worldcup.clients.model.Partita;
 import worldcup.clients.model.PronosticoRisultato;
 import worldcup.clients.model.Risultato;
 import worldcup.clients.model.RisultatoPartita;
 
 public class PartitaUtils {
+	
+	public static Partita getPartitaFromPronostico(List<Partita> partitaGiocatore, Partita partitaCheck) {
+
+		Partita p = null;
+		for (Partita partita : partitaGiocatore) {
+			if(equi(partitaCheck, partita)) {
+				p = partita;
+				break;
+			}
+		}
+		
+		return p;
+	}
+	
+	public static String getRisultatoEsatto(RisultatoPartita risultato, Partita partita, Partita other) {
+
+		if(!equi(partita, other))
+			return null;
+
+		if(other.getCasa().equals(partita.getCasa()) && other.getTrasferta().equals(partita.getTrasferta())) {
+			return getRisultatoEsatto(risultato);
+		} else {
+			return getRisultatoEsattoReversed(risultato);
+		}
+	}
+	
 
 	public static String getRisultatoEsatto(PronosticoRisultato risultato, Partita partita, Partita other) {
 
@@ -72,5 +100,31 @@ public class PartitaUtils {
 	public static Risultato getRisultato(RisultatoPartita risultato) {
 		return (risultato.getGoalCasa().intValue()==risultato.getGoalTrasferta().intValue()) ? Risultato.X 
 				: (risultato.getGoalCasa().intValue()>risultato.getGoalTrasferta().intValue())? Risultato._1 : Risultato._2;
+	}
+	
+	public static int getPunti(Partita partita, Partita other) {
+		if(equi(partita, other)) {
+			RisultatoPartita risultato = other.getRisultato();
+			String risultatoOtherString;
+			if(other.getCasa().equals(partita.getCasa()) && other.getTrasferta().equals(partita.getTrasferta())) {
+				risultatoOtherString = getRisultatoEsatto(risultato);
+			} else {
+				risultatoOtherString = getRisultatoEsattoReversed(risultato);
+			}
+			
+			String risultatoString = getRisultatoEsatto(partita.getRisultato());
+			if(risultatoString.equals(risultatoOtherString)) {
+				return 3;
+			} else {
+				Risultato risultatoEnum = getRisultato(partita.getRisultato());
+				Risultato risultatoOtherEnum = getRisultato(other.getRisultato());
+				if(risultatoEnum.equals(risultatoOtherEnum)) {
+					return 1;
+				}
+			}
+		}
+		
+		
+		return 0;
 	}
 }

@@ -60,7 +60,7 @@ ul {margin-bottom: 0px;}
 .ec-fixture-list ul {
 	display: table;
 	width: 100%;
-	border-right: 1px solid #f3f3f3;
+/* 	border-right: 1px solid #f3f3f3; */
 }
 .ec-fixture-list ul li {
 	list-style: none;
@@ -85,6 +85,32 @@ ul {margin-bottom: 0px;}
 	.ec-fixture-list ul li .ec-cell {
 		border-bottom: 1px solid #e4e3e2;
 		padding: 12px 12px;
+	}
+}
+
+.ec-fixture-list ul li .ec-cell.ec-cell-info-match-th {
+	color: #70757a;
+	border: none;
+    font-size: 12px;
+    padding: 8px 0px 0px 20px;
+}
+
+.ec-fixture-list ul li .ec-cell.ec-cell-info-match {
+    padding: 8px 0px 8px 20px;
+}
+
+.ec-fixture-list ul li .ec-cell-player {
+	display: flex;
+	vertical-align: middle;
+	padding: 12px 0px 0px 0px;
+/* 	border-left: 1px solid #f3f3f3; */
+/* 	border-bottom: 3px solid #e4e3e2; */
+	text-align: left;
+}
+@media (max-width: 500px) {
+	.ec-fixture-list ul li .ec-cell-player {
+/* 		border-bottom: 1px solid #e4e3e2; */
+		padding: 8px 0px 0px 0px;
 	}
 }
 
@@ -123,6 +149,14 @@ ul {margin-bottom: 0px;}
 	text-align: left;
 }
 .ec-fixture-list.ec-matches-list { margin-bottom: 40px; }
+
+.ec-cell-partita {
+	
+}
+
+.ec-cell-risultato {
+	padding: 0px 0px 0px 8px;
+}
 
 .ec-cell-bandiera {
 	display: inline;
