@@ -186,12 +186,18 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
+				PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
+				System.out.println("Partita " + partita.getCodicePartita() + " casa " + partita.getCasa().getNome() + " trasferta " + partita.getTrasferta().getNome());
+
 				List<PronosticoPartita> lst = new ArrayList<>();
 				for(PronosticoVO p : torneo.getPronostici()) {
-
-					DatiPartitaVO dp = TorneoUtils.getDatiPartita(idPartita, p);
-					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
-					lst.add(PronosticoPartitaConverter.toRsModel(partita, dp, p.getGiocatore(), formatter));
+					System.out.println("Pronostico " + p.getGiocatore().getNome());
+					
+					TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(p);
+					Optional<DatiPartitaVO> dp = TorneoUtils.getDatiPartitaEqui(partita, torneoPronosticato);
+					if(dp.isPresent()) {
+						lst.add(PronosticoPartitaConverter.toRsModel(partita, dp.get(), p.getGiocatore(), formatter));
+					}
 				}
 
 				return ResponseEntity.ok(lst);
@@ -276,7 +282,8 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					for(int i = rOffset; i < rLimit && i < matchPerData.size(); i++){
 						PartitaVO partitaVO = matchPerData.get(i);
 						Optional<DatiPartitaVO> dp = torneo.getPronosticoUfficiale().getDatiPartite().stream()
-								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()))
+								.filter(p -> p.getCodicePartita().equals(partitaVO.getCodicePartita()) &&
+										!p.getId().equals(torneo.getPronosticoUfficiale().getId()))
 								.findAny();
 						if(TorneoUtils.isGiocabile(torneo, partitaVO.getCodicePartita())) {
 							lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));

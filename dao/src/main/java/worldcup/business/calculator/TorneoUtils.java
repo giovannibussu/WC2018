@@ -66,6 +66,7 @@ public class TorneoUtils {
 
 		for(PartitaVO p: s.getPartite()) {
 			if(isEqui(p, partita) || isReverse(p, partita)) {
+//				System.out.println("TROVATA " + p.getCasa().getNome() + " " + p.getTrasferta().getNome());
 				return getOptDatiPartita(partita.getCodicePartita(), torneoPronosticato.getPronosticoUfficiale());
 			}
 		}
