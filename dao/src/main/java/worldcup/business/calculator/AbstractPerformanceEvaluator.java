@@ -11,6 +11,25 @@ public abstract class AbstractPerformanceEvaluator implements IPerformanceEvalua
 
 	@Override
 	public List<List<GironePerformance>> reduce(List<List<GironePerformance>> performanceListList) {
+		
+		System.out.println("Evaluator " + this.getClass().getName());
+		System.out.println("input " + performanceListList.size());
+		performanceListList.stream().forEach(p -> {
+			System.out.println("----------------------------");
+			p.stream().forEach(p2 -> {
+				System.out.println("Performances: " + p2.getPerformances().size());
+				System.out.println("Squadra: " + p2.getSquadra().getNome() + " performance: " + calculatePerformance(p2));
+			});
+			System.out.println("----------------------------");
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 		List<List<GironePerformance>> out = new ArrayList<List<GironePerformance>>();
 		for(List<GironePerformance> performanceList: performanceListList) {
 			if(performanceList.size() == 1) {
@@ -19,6 +38,21 @@ public abstract class AbstractPerformanceEvaluator implements IPerformanceEvalua
 				out.addAll(_reduce(performanceList));
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
+		System.out.println("output " + out.size());
+		out.stream().forEach(p -> {
+			System.out.println("----------------------------");
+			p.stream().forEach(p2 -> {
+				System.out.println("Squadra: " + p2.getSquadra().getNome());
+			});
+			System.out.println("----------------------------");
+		});
 		
 		return out;
 	}

@@ -111,9 +111,9 @@ public class TorneoUtils {
 	public static Integer getGoalFatti(DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
 		if(!isGiocata(dati)) return null;
 		if(isCasa(casaTrasferta)) {
-			return dati.getGoalTrasferta();
-		} else {
 			return dati.getGoalCasa();
+		} else {
+			return dati.getGoalTrasferta();
 		}
 	}
 
@@ -121,9 +121,9 @@ public class TorneoUtils {
 	public static Integer getGoalSubiti(DatiPartitaVO dati, CasaTrasfertaEnum casaTrasferta) {
 		if(!isGiocata(dati)) return null;
 		if(isCasa(casaTrasferta)) {
-			return dati.getGoalCasa();
-		} else {
 			return dati.getGoalTrasferta();
+		} else {
+			return dati.getGoalCasa();
 		}
 	}
 
@@ -191,7 +191,6 @@ public class TorneoUtils {
 		regoleClassificaAvulsaLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleClassificaAvulsaLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleClassificaAvulsaLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		regoleClassificaAvulsaLst.add(new RandomPerformanceEvaluator());
 		
 		regoleClassificaAvulsa.setRegole(regoleClassificaAvulsaLst);
 		
@@ -204,7 +203,7 @@ public class TorneoUtils {
 		regoleVerticaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		regoleVerticaliLst.add(new RandomPerformanceEvaluator());
+		regoleVerticaliLst.add(new RankingPerformanceEvaluator());
 		regoleVerticali.setRegole(regoleVerticaliLst);
 		conf.setRegoleVerticali(regoleVerticali );
 
@@ -216,7 +215,7 @@ public class TorneoUtils {
 		regoleOrizzontaliLst.add(new GoalsDoneGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
-		regoleOrizzontaliLst.add(new RandomPerformanceEvaluator());
+		regoleOrizzontaliLst.add(new RankingPerformanceEvaluator());
 		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
 
 		conf.setRegoleOrizzontali(regoleOrizzontali);
@@ -231,6 +230,7 @@ public class TorneoUtils {
 		
 		GironeResult result = cal.getResult(gironi, pronostico, conf);
 		
+		System.out.println(result);
 		ComposizioneOttavi ott = new ComposizioneOttavi();
 		ComposizioneKnockout cko = new ComposizioneKnockout();
 

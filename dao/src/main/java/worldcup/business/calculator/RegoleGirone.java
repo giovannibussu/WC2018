@@ -18,12 +18,12 @@ public class RegoleGirone {
 		return classifica;
 	}
 
-	public Classifica getClassificaOrizzontale(Collection<GironePerformance> classificheVerticali) {
+	public Classifica getClassificaOrizzontale(Collection<GironePerformance> classificheOrizzontali) {
 		Classifica classifica = new Classifica();
 		
 		GironePerformanceComparator gpc = new GironePerformanceComparator();
 		gpc.setRegole(this.regoleOrizzontali);
-		Map<Integer, GironePerformance> squadre = gpc.sort(classificheVerticali);
+		Map<Integer, GironePerformance> squadre = gpc.sort(classificheOrizzontali);
 
 		classifica.setSquadre(squadre);
 		return classifica;

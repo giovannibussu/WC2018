@@ -2,6 +2,7 @@ package worldcup.business.calculator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class GironeResult {
 
@@ -28,5 +29,23 @@ public class GironeResult {
 	public Classifica getClassificaOrizzontale(int posizione) {
 		return this.classificheOrizzontali.get(posizione);
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		for(Entry<String, Classifica> e: classificheVerticali.entrySet()) {
+			sb.append("Girone " + e.getKey() + "\n");
+			e.getValue().getSquadre().keySet().stream().sorted().forEach(k -> {
+				sb.append("["+k+"] " + e.getValue().getSquadre().get(k).getSquadra().getNome() + "\n");
+			});
+		}
+		
+		sb.append("Migliori terze\n");
+		classificheOrizzontali.get(3).getSquadre().keySet().stream().sorted().forEach(k -> {
+			sb.append("["+k+"] " + classificheOrizzontali.get(3).getSquadre().get(k).getSquadra().getNome() + "\n");
+		});
+
+		return sb.toString();
+	}
 }

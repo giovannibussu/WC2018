@@ -2,6 +2,8 @@ package worldcup.business.calculator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import worldcup.orm.vo.SquadraVO;
 
@@ -47,5 +49,19 @@ public class GironePerformance {
 	}
 	public Map<String, GironeSingleMatchPerformance> getPerformances() {
 		return performances;
+	}
+	
+	public GironePerformance getAvulsa(Set<String> squadre) {
+		GironePerformance p2 = new GironePerformance();
+		p2.setGirone(this.getGirone());
+		p2.setSquadra(this.getSquadra());
+
+		for(Entry<String, GironeSingleMatchPerformance> e: this.getPerformances().entrySet()) {
+			if(squadre.contains(e.getKey())) {
+				p2.getPerformances().put(e.getKey(), e.getValue());
+			}
+		}
+
+		return p2;
 	}
 }

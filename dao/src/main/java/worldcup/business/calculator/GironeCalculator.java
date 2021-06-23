@@ -45,7 +45,8 @@ public class GironeCalculator implements IGironeCalculator {
 		
 
 		for(Entry<Integer, Collection<GironePerformance>> e: map.entrySet()) {
-			result.setClassificaOrizzontale(e.getKey(), conf.getClassificaOrizzontale(e.getValue()));
+			if(e.getKey().equals(3))
+				result.setClassificaOrizzontale(e.getKey(), conf.getClassificaOrizzontale(e.getValue()));
 		}
 
 		return result;

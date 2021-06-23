@@ -3,7 +3,6 @@ package worldcup.business.calculator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,9 +22,35 @@ public class ClassificaAvulsaPerformanceEvaluator implements IPerformanceEvaluat
 			lstLst = this.regole.getRegole().get(i).reduce(lstLst);
 		}
 
-		
-		return lstLst;
+		return merge(lstLst, lstPerformances);
 
+	}
+
+	private List<List<GironePerformance>> merge(List<List<GironePerformance>> lstLst,
+			List<List<GironePerformance>> lstPerformances) {
+
+		List<List<GironePerformance>> out = new ArrayList<>();
+		for(List<GironePerformance> lst: lstLst) {
+			List<GironePerformance> lst2 = new ArrayList<>();
+			for(GironePerformance p: lst) {
+				lst2.add(find(p.getSquadra().getNome(), lstPerformances));
+			}
+			out.add(lst2);
+		}
+		
+		return out;
+	}
+
+	private GironePerformance find(String nome, List<List<GironePerformance>> lstLst) {
+		for(List<GironePerformance> lst: lstLst) {
+			for(GironePerformance p: lst) {
+				if(p.getSquadra().getNome().equals(nome)) {
+					return p;
+				}
+			}
+		}
+		
+		throw new RuntimeException("Squadra ["+nome+"] non trovata");
 	}
 
 	private List<List<GironePerformance>> filter(List<List<GironePerformance>> lstPerformances) {
@@ -46,15 +71,7 @@ public class ClassificaAvulsaPerformanceEvaluator implements IPerformanceEvaluat
 		
 		for(GironePerformance p: lst) {
 			
-			GironePerformance p2 = new GironePerformance();
-			p2.setGirone(p.getGirone());
-			p2.setSquadra(p.getSquadra());
-			
-			for(Entry<String, GironeSingleMatchPerformance> e: p.getPerformances().entrySet()) {
-				if(squadre.contains(e.getKey())) {
-					p2.getPerformances().put(e.getKey(), e.getValue());
-				}
-			}
+			GironePerformance p2 =  p.getAvulsa(squadre);
 			out.add(p2);
 			
 		}
