@@ -204,6 +204,7 @@ public class TorneoUtils {
 		regoleVerticaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
 		regoleVerticaliLst.add(new RankingPerformanceEvaluator());
+		regoleVerticaliLst.add(new AlfabeticoPerformanceEvaluator());
 		regoleVerticali.setRegole(regoleVerticaliLst);
 		conf.setRegoleVerticali(regoleVerticali );
 
@@ -216,6 +217,7 @@ public class TorneoUtils {
 		regoleOrizzontaliLst.add(new GoalDifferenceGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new NumeroVittorieGironePerformanceEvaluator());
 		regoleOrizzontaliLst.add(new RankingPerformanceEvaluator());
+		regoleOrizzontaliLst.add(new AlfabeticoPerformanceEvaluator());
 		regoleOrizzontali.setRegole(regoleOrizzontaliLst);
 
 		conf.setRegoleOrizzontali(regoleOrizzontali);
@@ -230,7 +232,7 @@ public class TorneoUtils {
 		
 		GironeResult result = cal.getResult(gironi, pronostico, conf);
 		
-		System.out.println(result);
+//		System.out.println(result);
 		ComposizioneOttavi ott = new ComposizioneOttavi();
 		ComposizioneKnockout cko = new ComposizioneKnockout();
 
