@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="worldcup.clients.model.Risultato"%>
 <%@page import="worldcup.clients.model.RisultatoPartita"%>
 <%@page import="worldcup.core.utils.PartitaUtils"%>
@@ -20,6 +21,7 @@
 		<jsp:param name="titoloPagina" value="UEFA EURO 2020 | Storico Incontro" />
 	</jsp:include>
     <%
+    DecimalFormat dec = new DecimalFormat("#0.00");
     String context = request.getContextPath();
     String idMatch = request.getParameter("idMatch");
     ProssimiIncontri pi = new ProssimiIncontri();
@@ -179,9 +181,9 @@
                 
                 int numeroErrati = numeroPronostici - (sommaEsatti + sommaOk);
                 
-                int percOk = numeroPronostici != 0 ? ((int) sommaOk * 100 / numeroPronostici) : 0;
-                int percEsatti = numeroPronostici != 0 ? ((int) sommaEsatti * 100 / numeroPronostici) : 0;
-                int percErrati = numeroPronostici != 0 ? ((int) numeroErrati * 100 / numeroPronostici) : 0;
+                String percOk = numeroPronostici != 0 ?  dec.format(((double) sommaOk * 100 / numeroPronostici)) : "0";
+                String percEsatti = numeroPronostici != 0 ? dec.format(((double) sommaEsatti * 100 / numeroPronostici)) : "0";
+                String percErrati = numeroPronostici != 0 ? dec.format(((double) numeroErrati * 100 / numeroPronostici)) : "0";
 				%>
 	         	<div class="col-md-12">
 	            <div class="ec-fancy-title">
@@ -232,18 +234,18 @@
 			                 String classRisultato = "";
 			                 
 			                 if(risultatoUfficiale.equals(risultato)){
-			                	 classRisultato = "ec-cell-risultato-esatto";
+			                	 classRisultato = "giocatore-pronostico-esatto";
 			                 } else {
 			                	 if(risultatoUfficialeEnum.equals(risultatoEnum)){
-			                		 classRisultato = "ec-cell-ok";
+			                		 classRisultato = "giocatore-pronostico-ok";
 			                	 }
 			                 }
 				          	
 				          	
 				          	%>
-	                       <li class="<%=liStyleClass %>">
-	                           <div class="ec-cell"><span><%=p.getNome()%></span></div>
-	                           <div class="ec-cell <%=classRisultato %>"><span><%=risultato %></span></div>
+	                       <li class="<%=liStyleClass %> li-<%=classRisultato %>">
+	                           <div class="ec-cell ec-cell-<%=classRisultato %>"><span><%=p.getNome()%></span></div>
+	                           <div class="ec-cell ec-cell-<%=classRisultato %>"><span><%=risultato %></span></div>
 	                       </li>
 	                   <% } %>       
 	                     </ul>

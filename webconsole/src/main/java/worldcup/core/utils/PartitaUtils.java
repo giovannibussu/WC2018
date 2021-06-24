@@ -114,17 +114,71 @@ public class PartitaUtils {
 			
 			String risultatoString = getRisultatoEsatto(partita.getRisultato());
 			if(risultatoString.equals(risultatoOtherString)) {
+				if(partita.getDescrizione().contains("gironi")) {
+					return 3;
+				}
+				if(partita.getDescrizione().contains("Ottavi")) {
+					return 7;
+				}
+				if(partita.getDescrizione().contains("Quarti")) {
+					return 11;
+				}
+				if(partita.getDescrizione().contains("Semifinale")) {
+					return 15;
+				}
+				if(partita.getDescrizione().contains("Finale")) {
+					return 21;
+				}
 				return 3;
 			} else {
 				Risultato risultatoEnum = getRisultato(partita.getRisultato());
 				Risultato risultatoOtherEnum = getRisultato(other.getRisultato());
 				if(risultatoEnum.equals(risultatoOtherEnum)) {
+					if(partita.getDescrizione().contains("gironi")) {
+						return 1;
+					}
+					if(partita.getDescrizione().contains("Ottavi")) {
+						return 3;
+					}
+					if(partita.getDescrizione().contains("Quarti")) {
+						return 5;
+					}
+					if(partita.getDescrizione().contains("Semifinale")) {
+						return 6;
+					}
+					if(partita.getDescrizione().contains("Finale")) {
+						return 7;
+					}
 					return 1;
 				}
 			}
 		}
 		
-		
 		return 0;
+	}
+	
+	public static String getClasseCSS(Partita partita, Partita other) {
+		if(equi(partita, other)) {
+			RisultatoPartita risultato = other.getRisultato();
+			String risultatoOtherString;
+			if(other.getCasa().equals(partita.getCasa()) && other.getTrasferta().equals(partita.getTrasferta())) {
+				risultatoOtherString = getRisultatoEsatto(risultato);
+			} else {
+				risultatoOtherString = getRisultatoEsattoReversed(risultato);
+			}
+			
+			String risultatoString = getRisultatoEsatto(partita.getRisultato());
+			if(risultatoString.equals(risultatoOtherString)) {
+				return "giocatore-pronostico-esatto";
+			} else {
+				Risultato risultatoEnum = getRisultato(partita.getRisultato());
+				Risultato risultatoOtherEnum = getRisultato(other.getRisultato());
+				if(risultatoEnum.equals(risultatoOtherEnum)) {
+					return "giocatore-pronostico-ok";
+				}
+			}
+		}
+		
+		return "";
 	}
 }

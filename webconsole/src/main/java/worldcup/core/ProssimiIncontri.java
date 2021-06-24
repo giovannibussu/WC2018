@@ -68,13 +68,27 @@ public class ProssimiIncontri {
 
 	public List<PronosticoPartita> getPronosticiPerMatch(String idPartita) {
 		try {
-			return this.torneoApi.getPronosticiPartita(this.idTorneo, idPartita);
+			List<PronosticoPartita>  toRet = this.torneoApi.getPronosticiPartita(this.idTorneo, idPartita);
+			
+			toRet.sort(ProssimiIncontri::compareByNomeGiocatore);
+			
+			return toRet;
 		} catch (Exception e) {
 			System.err.println("Errore getPronosticiPerMatch torneo["+this.idTorneo+"] partita["+idPartita+"]: "+ e.getMessage());
 			e.printStackTrace(System.err);
 		}
 		return null;
 		//		return this.gioco.pronosticiPerMatch(match);
+	}
+	
+	public static int compareByNomeGiocatore(PronosticoPartita lhs, PronosticoPartita rhs) {
+		if(lhs.getGiocatore() == null)
+			return -1;
+		
+		if(rhs.getGiocatore() == null)
+			return 1;
+		
+        return lhs.getGiocatore().getNome().compareTo(rhs.getGiocatore().getNome());
 	}
 
 	public List<Partita> getListaMatch(){   

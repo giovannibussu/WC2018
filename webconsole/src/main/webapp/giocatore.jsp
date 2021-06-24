@@ -49,26 +49,6 @@
      </div>
 	<div class="album">
 		<div class="row">
-         	<div class="col-md-12">
-            	<div class="ec-fancy-title">
-               	<h3><%= giocatore.getNome() %></h3>
-               </div>
-               <div class="ec-fixture-list">
-                   <ul>
-                   		<li class="">
-                   			<div class="ec-cell"><span>Punti:</span></div>
-                           <div class="ec-cell"><span><%=pronosticoGiocatore.getPunti() %></span></div>
-              			</li>
-              			<li class="">
-                   			<div class="ec-cell"><span><a target="_blank" href="<%=pronosticoGiocatore.getLink() %>">Visualizza Excel Pronostico</a></span></div>
-                           <div class="ec-cell"><span></span></div>
-              			</li>
-           			</ul>
-       			</div>
-   			</div>
-		</div>
-       	
-		<div class="row">
 			<%
 			int sommaOk = 0;
 			int sommaEsatti = 0;
@@ -101,15 +81,14 @@
          <div class="row">
          	<div class="col-md-12">
             <div class="ec-fancy-title">
-               <h3>Pronostici Giocatore</h3>
+               <h3><a target="_blank" href="<%=pronosticoGiocatore.getLink() %>" title="Visualizza Excel"><%= giocatore.getNome() %></a></h3>
                </div>
                <div class="ec-fixture-list">
                    <ul>
                    	<li>
-                         <div class="ec-cell ec-cell-th"><span>&nbsp;</span></div>
-                         <div class="ec-cell ec-cell-th"><span>Risultato</span></div>
-                         <div class="ec-cell ec-cell-th"><span>Pronostico</span></div>
-                         <div class="ec-cell ec-cell-th"><span>Pt</span></div>
+                         <div class="ec-cell ec-cell-giocatore-th"><span>&nbsp;</span></div>
+                         <div class="ec-cell ec-cell-giocatore-th"><span>Pronostico (Risultato)</span></div>
+                         <div class="ec-cell ec-cell-giocatore-th"><span>Pt: <%=pronosticoGiocatore.getPunti() %></span></div>
                      </li>
                      <%
                      for(int i = 0; i < pronosticoUfficiale.getPartite().size() ; i++){
@@ -127,7 +106,7 @@
 	    				if(risultatoGiocatoreString == null)
 	    					risultatoGiocatoreString = "";
 		                 
-		                 String classRisultato = "";
+		                String classRisultato = PartitaUtils.getClasseCSS(partita, matchGiocatore);
 		                 
 						int puntiGiocatore = PartitaUtils.getPunti(partita, matchGiocatore);			          	
 			          	
@@ -136,13 +115,11 @@
 	                         <div class="ec-cell ec-cell-info-match-th"><span><%=descrizioneMatch %></span></div>
 	                         <div class="ec-cell ec-cell-info-match-th"><span>&nbsp;</span></div>
 	                         <div class="ec-cell ec-cell-info-match-th"><span>&nbsp;</span></div>
-	                         <div class="ec-cell ec-cell-info-match-th"><span>&nbsp;</span></div>
 	                     </li>
-                       <li class="<%=liStyleClass %>">
-                       		 <div class="ec-cell ec-cell-info-match"><span><%=s1.getNome() %> - <%=s2.getNome() %></span></div>
-                          	<div class="ec-cell ec-cell-info-match"><span><%=risultatoString %></span></div>
-                          	<div class="ec-cell ec-cell-info-match"><span><%=risultatoGiocatoreString %></span></div>
-                          	<div class="ec-cell ec-cell-info-match"><span><%=puntiGiocatore %></span></div>
+                       <li class="<%=liStyleClass %> li-<%=classRisultato %>">
+                       		<div class="ec-cell ec-cell-info-match ec-cell-<%=classRisultato %>"><span><%=s1.getNome() %> - <%=s2.getNome() %></span></div>
+                          	<div class="ec-cell ec-cell-info-match ec-cell-<%=classRisultato %>"><span><%=risultatoGiocatoreString %> <p class="info-match-p">(<%=risultatoString %>)</p></span></div>
+                          	<div class="ec-cell ec-cell-info-match ec-cell-<%=classRisultato %>"><span><%=puntiGiocatore %></span></div>
                        </li>
                    <% } %>       
                      </ul>
