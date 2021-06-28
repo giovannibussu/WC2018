@@ -2,9 +2,12 @@ package worldcup.impl.converter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map.Entry;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,8 +21,14 @@ import org.springframework.format.Formatter;
 
 import worldcup.BadRequestException;
 import worldcup.business.TorneoBD;
+import worldcup.business.calculator.Classifica;
+import worldcup.business.calculator.GironePerformance;
+import worldcup.business.calculator.GironeResult;
 import worldcup.business.calculator.TorneoUtils;
+import worldcup.business.calculator.WrapperDatiPartita;
+import worldcup.model.Girone;
 import worldcup.model.Partita;
+import worldcup.model.Posizione;
 import worldcup.model.Pronostico;
 import worldcup.model.PronosticoRisultato;
 import worldcup.orm.vo.DatiPartitaVO;
@@ -28,6 +37,7 @@ import worldcup.orm.vo.PartitaVO;
 import worldcup.orm.vo.PronosticoVO;
 import worldcup.orm.vo.SubdivisionVO;
 import worldcup.orm.vo.TorneoVO;
+import worldcup.orm.vo.SubdivisionVO.TIPO;
 
 public class PronosticoConverter {
 
@@ -47,23 +57,70 @@ public class PronosticoConverter {
 			
 			for(SubdivisionVO s: t.getSubdivisions()) {
 				for(PartitaVO p: s.getPartite()) {
-					Optional<DatiPartitaVO> datiPartitaEqui = TorneoUtils.getDatiPartitaEqui(p, t);
-					if(datiPartitaEqui.isPresent()) {
-						partite.add(PartitaConverter.toRsModel(p, datiPartitaEqui, formatter));
+					WrapperDatiPartita w = TorneoUtils.getDatiPartitaEqui(p, t);
+					if(w.getDatiPartita().isPresent()) {
+						partite.add(PartitaConverter.toRsModel(p, w.getDatiPartita(), formatter, w.isReverse()));
 					}
 				}
 			}
 			
 			rsModel.setPartite(partite);
+			
+			List<Girone> g = new ArrayList<>();
+
+			Collection<SubdivisionVO> subdivisionsPron = TorneoUtils.getSubdivisions(t, TIPO.GIRONE);
+			GironeResult resultPron = TorneoUtils.getGironeResult(t.getPronosticoUfficiale(), subdivisionsPron);
+			
+			for(SubdivisionVO s: subdivisionsPron) {
+
+				Girone girone = new Girone();
+				girone.setNome(s.getNome());
+				List<Posizione> posizioni = new ArrayList<>();
+
+				Classifica cPron = resultPron.getClassificaVerticale(s.getNome());
+				
+				for(Entry<Integer, GironePerformance> e : cPron.getSquadre().entrySet()) {
+
+					Posizione posizione = new Posizione();
+					posizione.setPosizione(BigDecimal.valueOf(e.getKey()));
+					posizione.setSquadra(e.getValue().getSquadra().getNome());
+					
+					posizioni.add(posizione);
+				}
+
+				girone.setPosizioni(posizioni);
+				g.add(girone);
+
+				Girone miglioriTerze = new Girone();
+				miglioriTerze.setNome("Lucky3");
+				List<Posizione> posizioni3 = new ArrayList<>();
+
+				Classifica cTerze = resultPron.getClassificaOrizzontale(3);
+				for(Entry<Integer, GironePerformance> e : cTerze.getSquadre().entrySet()) {
+	
+					Posizione posizione = new Posizione();
+					posizione.setPosizione(BigDecimal.valueOf(e.getKey()));
+					posizione.setSquadra(e.getValue().getSquadra().getNome());
+					
+					posizioni3.add(posizione);
+				}
+	
+				miglioriTerze.setPosizioni(posizioni3);
+				g.add(miglioriTerze);
+			}
+
+			rsModel.setGironi(g );
+
 		}
+		
 		return rsModel;
 	}
 	
-	public static PronosticoRisultato toRsModel(DatiPartitaVO dto) {
+	public static PronosticoRisultato toRsModel(DatiPartitaVO dto, boolean isReverse) {
 		PronosticoRisultato rsModel = new PronosticoRisultato();
 		
-		rsModel.setGoalAway(dto.getGoalTrasferta());
-		rsModel.setGoalHome(dto.getGoalCasa());
+		rsModel.setGoalHome(TorneoUtils.getGoalCasa(dto, isReverse));
+		rsModel.setGoalAway(TorneoUtils.getGoalTrasferta(dto, isReverse));
 		
 		return rsModel;
 	}

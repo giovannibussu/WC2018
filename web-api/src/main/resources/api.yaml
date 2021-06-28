@@ -474,6 +474,29 @@ components:
           type: string
         partite:
           $ref: "#/components/schemas/ListaPartite"
+        gironi:
+          $ref: "#/components/schemas/Gironi"
+    Girone:
+      type: object
+      properties:
+        nome:
+          type: string
+        posizioni:
+          type: array
+          items:
+            $ref: "#/components/schemas/Posizione"
+    Posizione:
+      type: object
+      properties:
+        posizione:
+          type: number
+          format: int32
+        squadra:
+          type: string
+    Gironi:
+      type: array
+      items:
+        $ref: "#/components/schemas/Girone"
     ListaPartite:
       type: array
       items:

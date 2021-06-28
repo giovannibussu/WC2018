@@ -29,6 +29,7 @@ import worldcup.business.TorneoBD;
 import worldcup.business.calculator.ClassificaGiocone;
 import worldcup.business.calculator.Distribuzione;
 import worldcup.business.calculator.TorneoUtils;
+import worldcup.business.calculator.WrapperDatiPartita;
 import worldcup.impl.converter.GraficoConverter;
 import worldcup.impl.converter.PartitaConverter;
 import worldcup.impl.converter.PronosticoConverter;
@@ -139,7 +140,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					for(PartitaVO p: s.getPartite()) {
 						if(p.getCodicePartita().equals(idPartita)) {
 							Optional<DatiPartitaVO> dp = TorneoUtils.getOptDatiPartita(idPartita, torneo.getPronosticoUfficiale());
-							return ResponseEntity.ok(PartitaConverter.toRsModel(p, dp, formatter));
+							return ResponseEntity.ok(PartitaConverter.toRsModel(p, dp, formatter, false)); //TODO verificare
 						}
 					}
 				}
@@ -187,16 +188,17 @@ public class TorneiApiServiceImpl implements TorneiApi {
 				TorneoVO torneo = this.torneoBD.findByName(idTorneo);
 
 				PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
-				System.out.println("Partita " + partita.getCodicePartita() + " casa " + partita.getCasa().getNome() + " trasferta " + partita.getTrasferta().getNome());
 
 				List<PronosticoPartita> lst = new ArrayList<>();
 				for(PronosticoVO p : torneo.getPronostici()) {
-					System.out.println("Pronostico " + p.getGiocatore().getNome());
 					
-					TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(p);
-					Optional<DatiPartitaVO> dp = TorneoUtils.getDatiPartitaEqui(partita, torneoPronosticato);
-					if(dp.isPresent()) {
-						lst.add(PronosticoPartitaConverter.toRsModel(partita, dp.get(), p.getGiocatore(), formatter));
+					if(!p.getId().equals(torneo.getPronosticoUfficiale().getId())) {
+				
+						TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(p);
+						WrapperDatiPartita w = TorneoUtils.getDatiPartitaEqui(partita, torneoPronosticato);
+						if(w.getDatiPartita().isPresent()) {
+							lst.add(PronosticoPartitaConverter.toRsModel(partita, w.getDatiPartita().get(), p.getGiocatore(), formatter, w.isReverse()));
+						}
 					}
 				}
 
@@ -286,7 +288,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 										!p.getId().equals(torneo.getPronosticoUfficiale().getId()))
 								.findAny();
 						if(TorneoUtils.isGiocabile(torneo, partitaVO.getCodicePartita())) {
-							lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter));
+							lst.add(PartitaConverter.toRsModel(partitaVO, dp, formatter, false));
 						}
 					}
 				}
@@ -335,20 +337,23 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					dpVO.setGoalTrasferta(risultatoPartita.getGoalTrasferta());
 
+					torneo.getPronosticoUfficiale().getDatiPartite().add(dpVO);
 					this.torneoBD.save(dpVO);
+					
 					TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(torneo.getPronosticoUfficiale());
 					
 					for(SubdivisionVO s: torneoPronosticato.getSubdivisions()) {
-						for(PartitaVO p: s.getPartite()) {
-							PartitaVO partita = TorneoUtils.findPartita(p.getCodicePartita(), torneo);
+						for(PartitaVO p2: s.getPartite()) {
+							PartitaVO partita = TorneoUtils.findPartita(p2.getCodicePartita(), torneo);
+							PartitaVO p = TorneoUtils.findPartita(p2.getCodicePartita(), torneoPronosticato);
 
 							if(p.getCasa() != null) {
-								if(partita.getCasa() == null) {
+								if(partita.getCasa() == null || !partita.getCasa().getId().equals(p.getCasa().getId())) {
 									partita.setCasa(p.getCasa());
 								}
 							}
 							if(p.getTrasferta() != null) {
-								if(partita.getTrasferta() == null) {
+								if(partita.getTrasferta() == null || !partita.getTrasferta().getId().equals(p.getTrasferta().getId())) {
 									partita.setTrasferta(p.getTrasferta());
 								}
 							}
@@ -360,7 +365,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 					
 					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 
-					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.of(dpVO), formatter);
+					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.of(dpVO), formatter, false);
 
 					return ResponseEntity.ok(rsModel);
 				});
@@ -391,7 +396,7 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 
-					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.empty(), formatter);
+					Partita rsModel = PartitaConverter.toRsModel(partita,Optional.empty(), formatter, false);
 
 					return ResponseEntity.ok(rsModel);
 				});

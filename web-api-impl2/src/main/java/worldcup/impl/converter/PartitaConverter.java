@@ -15,7 +15,7 @@ import worldcup.orm.vo.PartitaVO;
 
 public class PartitaConverter {
 
-	public static Partita toRsModel(PartitaVO partita, Optional<DatiPartitaVO> dp, Formatter<DateTime> formatter) {
+	public static Partita toRsModel(PartitaVO partita, Optional<DatiPartitaVO> dp, Formatter<DateTime> formatter, boolean isReverse) {
 		Partita rsModel = new Partita();
 
 		rsModel.setCasa(SquadraConverter.toRsModel(partita.getCasa()));
@@ -27,18 +27,18 @@ public class PartitaConverter {
 		rsModel.setTrasferta(SquadraConverter.toRsModel(partita.getTrasferta()));
 
 		if (dp.isPresent()) {
-			rsModel.setRisultato(toRisultatoPartitaRsModel(dp.get()));
+			rsModel.setRisultato(toRisultatoPartitaRsModel(dp.get(), isReverse));
 		}
 		return rsModel;
 	}
 
-	public static RisultatoPartita toRisultatoPartitaRsModel(DatiPartitaVO dp) {
+	public static RisultatoPartita toRisultatoPartitaRsModel(DatiPartitaVO dp, boolean isReverse) {
 		RisultatoPartita rsModel = new RisultatoPartita();
 
-		rsModel.setGoalCasa(dp.getGoalCasa());
-		rsModel.setGoalTrasferta(dp.getGoalTrasferta());
+		rsModel.setGoalCasa(TorneoUtils.getGoalCasa(dp, isReverse));
+		rsModel.setGoalTrasferta(TorneoUtils.getGoalTrasferta(dp, isReverse));
 
-		String risultato1x2 = TorneoUtils.getRisultato1x2(dp, true);
+		String risultato1x2 = TorneoUtils.getRisultato1x2(dp, isReverse);
 
 		if (risultato1x2.equals("1")) {
 			rsModel.setRisultatoFinale(Risultato._1);

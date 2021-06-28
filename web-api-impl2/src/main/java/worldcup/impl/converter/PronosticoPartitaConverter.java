@@ -13,12 +13,12 @@ import worldcup.orm.vo.PartitaVO;
 
 public class PronosticoPartitaConverter {
 
-	public static PronosticoPartita toRsModel(PartitaVO partita, DatiPartitaVO dp, GiocatoreVO playerDto, Formatter<DateTime> formatter) {
+	public static PronosticoPartita toRsModel(PartitaVO partita, DatiPartitaVO dp, GiocatoreVO playerDto, Formatter<DateTime> formatter, boolean isReverse) {
 		PronosticoPartita rsModel = new PronosticoPartita();
 		
 		rsModel.setGiocatore(GiocatoreConverter.toRsModel(playerDto));
-		rsModel.setPartita(PartitaConverter.toRsModel(partita, Optional.of(dp), formatter));
-		rsModel.setPronostico(PronosticoConverter.toRsModel(dp));
+		rsModel.setPartita(PartitaConverter.toRsModel(partita, Optional.of(dp), formatter, isReverse));
+		rsModel.setPronostico(PronosticoConverter.toRsModel(dp, isReverse));
 
 		return rsModel;
 	}

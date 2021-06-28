@@ -5,9 +5,11 @@ target/generated-sources/java/worldcup/impl/RFC3339DateFormat.java
 target/generated-sources/java/worldcup/model/Distribuzione.java
 target/generated-sources/java/worldcup/model/Error.java
 target/generated-sources/java/worldcup/model/Giocatore.java
+target/generated-sources/java/worldcup/model/Girone.java
 target/generated-sources/java/worldcup/model/Grafico.java
 target/generated-sources/java/worldcup/model/OrderType.java
 target/generated-sources/java/worldcup/model/Partita.java
+target/generated-sources/java/worldcup/model/Posizione.java
 target/generated-sources/java/worldcup/model/Pronostico.java
 target/generated-sources/java/worldcup/model/PronosticoPartita.java
 target/generated-sources/java/worldcup/model/PronosticoRisultato.java

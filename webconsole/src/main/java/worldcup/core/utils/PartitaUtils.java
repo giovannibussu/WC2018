@@ -12,11 +12,11 @@ public class PartitaUtils {
 		if(!equi(partita, other))
 			return null;
 
-		if(other.getCasa().equals(partita.getCasa()) && other.getTrasferta().equals(partita.getTrasferta())) {
+//		if(other.getCasa().equals(partita.getCasa()) && other.getTrasferta().equals(partita.getTrasferta())) {
 			return getRisultatoEsatto(risultato);
-		} else {
-			return getRisultatoEsattoReversed(risultato);
-		}
+//		} else {
+//			return getRisultatoEsattoReversed(risultato);
+//		}
 	}
 
 

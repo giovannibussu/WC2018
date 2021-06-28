@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,13 +64,13 @@ public class ClassificaGiocone {
 		RisultatoPronostico rp = new RisultatoPronostico();
 		for(DatiPartitaVO datiPartitaUfficiale: torneoUfficiale.getPronosticoUfficiale().getDatiPartite()) {
 			PartitaVO partitaUfficiale = TorneoUtils.findPartita(datiPartitaUfficiale.getCodicePartita(), torneoUfficiale);
-			Optional<DatiPartitaVO> oDatiPartita = TorneoUtils.getDatiPartitaEqui(partitaUfficiale, torneoPronostico);
-			if(oDatiPartita.isPresent()) {
-				DatiPartitaVO datiPartitaPronostico = oDatiPartita.get();
+			WrapperDatiPartita w = TorneoUtils.getDatiPartitaEqui(partitaUfficiale, torneoPronostico);
+			if(w.getDatiPartita().isPresent()) {
+				DatiPartitaVO datiPartitaPronostico = w.getDatiPartita().get();
 				PartitaVO partitaPronostico = TorneoUtils.findPartita(datiPartitaPronostico.getCodicePartita(), torneoPronostico);
-				if(TorneoUtils.isRisultatoEsatto(partitaUfficiale, datiPartitaUfficiale, partitaPronostico, datiPartitaPronostico)) {
+				if(TorneoUtils.isRisultatoEsatto(partitaUfficiale, datiPartitaUfficiale, partitaPronostico, datiPartitaPronostico, w.isReverse())) {
 					rp.addRisultatiEsatti(partitaUfficiale.getSubdivision());
-				} else if(TorneoUtils.isRisultato1x2(partitaUfficiale, datiPartitaUfficiale, partitaPronostico, datiPartitaPronostico)) {
+				} else if(TorneoUtils.isRisultato1x2(partitaUfficiale, datiPartitaUfficiale, partitaPronostico, datiPartitaPronostico, w.isReverse())) {
 					rp.addRisultati(partitaUfficiale.getSubdivision());
 				}
 			}
