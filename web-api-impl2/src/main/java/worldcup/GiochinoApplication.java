@@ -338,7 +338,7 @@ public class GiochinoApplication {
 					}
 
 					for(PartitaVO p: subdivision.getPartite()) {
-						torneoBD.create(p);
+						torneoBD.save(p);
 					}
 					subdivision.setTorneo(torneo);
 					torneoBD.create(subdivision);

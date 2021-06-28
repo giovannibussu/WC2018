@@ -323,6 +323,19 @@ public class TorneoUtils {
 		return false;
 	}
 
+	public static boolean isGiocabile(TorneoVO torneo, TIPO tipo, PronosticoVO pronostico) {
+		switch(tipo) {
+		case FINALE: 
+		case OTTAVI:
+		case QUARTI:
+		case SEMIFINALE: return allDefined(Arrays.asList(getSubdivision(torneo, tipo)), torneo, pronostico);
+		case GIRONE: return allDefined(getSubdivisions(torneo, tipo), torneo, pronostico);
+		default:
+			break;}
+		
+		return false;
+	}
+
 	private static boolean allPlayed(Collection<SubdivisionVO> asList, TorneoVO torneo, PronosticoVO pronostico) {
 		
 		for(SubdivisionVO s: asList) {
@@ -334,6 +347,22 @@ public class TorneoUtils {
 					return false;
 				}
 				if(!isGiocata(datiPartita.get())) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
+	private static boolean allDefined(Collection<SubdivisionVO> asList, TorneoVO torneo, PronosticoVO pronostico) {
+		
+		for(SubdivisionVO s: asList) {
+			for(PartitaVO p: s.getPartite()) {
+				if(p.getCasa()==null) {
+					return false;
+				}
+				if(p.getTrasferta()==null) {
 					return false;
 				}
 			}

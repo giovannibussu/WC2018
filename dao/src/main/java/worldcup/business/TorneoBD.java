@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import worldcup.business.calculator.TorneoUtils;
 import worldcup.dao.filters.GiocatoreFilter;
 import worldcup.dao.filters.SquadraFilter;
 import worldcup.dao.filters.TorneoFilter;
@@ -43,7 +44,7 @@ public class TorneoBD extends AbstractBD {
 		this.squadraRepository.save(squadra);
 	}
 
-	public void create(PartitaVO partita) {
+	public void save(PartitaVO partita) {
 		this.partitaRepository.save(partita);
 	}
 
@@ -83,5 +84,45 @@ public class TorneoBD extends AbstractBD {
 		SquadraFilter sf = new SquadraFilter();
 		sf.setNomeLike(Optional.of(squadra));
 		return this.squadraRepository.findOne(sf).orElseThrow(() -> new RuntimeException("Squadra ["+squadra+"] non trovata"));
+	}
+
+	public void updatePartite(TorneoVO torneo) {
+		TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(torneo.getPronosticoUfficiale());
+		
+		for(SubdivisionVO s: torneoPronosticato.getSubdivisions()) {
+			for(PartitaVO p2: s.getPartite()) {
+				PartitaVO partita = TorneoUtils.findPartita(p2.getCodicePartita(), torneo);
+				PartitaVO p = TorneoUtils.findPartita(p2.getCodicePartita(), torneoPronosticato);
+
+				boolean update = false;
+				if(p.getCasa() != null) {
+					if(partita.getCasa() == null || !partita.getCasa().getId().equals(p.getCasa().getId())) {
+						partita.setCasa(p.getCasa());
+						update = true;
+					}
+				} else {
+					if(partita.getCasa() != null) {
+						partita.setCasa(null);
+						update = true;
+					}
+				}
+				if(p.getTrasferta() != null) {
+					if(partita.getTrasferta() == null || !partita.getTrasferta().getId().equals(p.getTrasferta().getId())) {
+						partita.setTrasferta(p.getTrasferta());
+						update = true;
+					}
+				} else {
+					if(partita.getTrasferta() != null) {
+						partita.setTrasferta(null);
+						update = true;
+					}
+				}
+
+				if(update) {
+					this.save(partita);
+				}
+			}
+			
+		}
 	}
 }

@@ -339,29 +339,8 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					torneo.getPronosticoUfficiale().getDatiPartite().add(dpVO);
 					this.torneoBD.save(dpVO);
-					
-					TorneoVO torneoPronosticato = TorneoUtils.getTorneoPronosticato(torneo.getPronosticoUfficiale());
-					
-					for(SubdivisionVO s: torneoPronosticato.getSubdivisions()) {
-						for(PartitaVO p2: s.getPartite()) {
-							PartitaVO partita = TorneoUtils.findPartita(p2.getCodicePartita(), torneo);
-							PartitaVO p = TorneoUtils.findPartita(p2.getCodicePartita(), torneoPronosticato);
+					this.torneoBD.updatePartite(torneo);
 
-							if(p.getCasa() != null) {
-								if(partita.getCasa() == null || !partita.getCasa().getId().equals(p.getCasa().getId())) {
-									partita.setCasa(p.getCasa());
-								}
-							}
-							if(p.getTrasferta() != null) {
-								if(partita.getTrasferta() == null || !partita.getTrasferta().getId().equals(p.getTrasferta().getId())) {
-									partita.setTrasferta(p.getTrasferta());
-								}
-							}
-
-							this.torneoBD.create(partita);
-						}
-						
-					}
 					
 					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
 
@@ -392,6 +371,12 @@ public class TorneiApiServiceImpl implements TorneiApi {
 
 					if(dpVO.isPresent()) {
 						this.torneoBD.delete(dpVO.get());
+						Optional<DatiPartitaVO> oDpDaCancellare = torneo.getPronosticoUfficiale().getDatiPartite().stream().filter(dp -> dp.getCodicePartita().equals(dpVO.get().getCodicePartita())).findAny();
+						
+						if(oDpDaCancellare.isPresent()) {
+							torneo.getPronosticoUfficiale().getDatiPartite().remove(oDpDaCancellare.get());
+						}
+						this.torneoBD.updatePartite(torneo);
 					}
 
 					PartitaVO partita = TorneoUtils.findPartita(idPartita, torneo);
