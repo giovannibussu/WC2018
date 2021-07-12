@@ -247,7 +247,7 @@ public class TorneoUtils {
 
 		SquadraVO winner = finaleResult.getWinners().get(finale.getPartite().stream().findAny().orElseThrow().getCodicePartita());
 		
-		if(!pronostico.getVincente().getNome().equals(winner.getNome())) {
+                if(pronostico.getVincente() != null && !pronostico.getVincente().getNome().equals(winner.getNome())) {
 //			throw new RuntimeException("Giocatore ["+pronostico.getGiocatore().getNome()+"] Pronosticato vincente ["+pronostico.getVincente().getNome()+"] calcolato ["+winner.getNome()+"]");
 			System.err.println("Giocatore ["+pronostico.getGiocatore().getNome()+"] Pronosticato vincente ["+pronostico.getVincente().getNome()+"] calcolato ["+winner.getNome()+"]");
 		}
